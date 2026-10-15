@@ -1,0 +1,47 @@
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  height: 42px;
+  padding: 0 16px;
+  flex: none;
+  background: var(--paper);
+  border-bottom: 1.5px solid var(--ink);
+}
+.topbar .logo {
+  font: 600 19px var(--font-head);
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-decoration: none;
+}
+.topbar .logo i {
+  color: var(--accent);
+  font-style: italic;
+  font-weight: 400;
+}
+.topbar nav { display: flex; gap: 16px; }
+.topbar nav a {
+  color: var(--muted);
+  text-decoration: none;
+}
+.topbar nav a.on {
+  color: var(--ink);
+  box-shadow: inset 0 -2px 0 var(--accent);
+  padding-bottom: 2px;
+}
+.rail-toggle {
+  background: none;
+  border: 1px solid var(--rule);
+  color: var(--ink2);
+  cursor: pointer;
+  padding: 1px 7px;
+  margin-right: -8px;
+}
+.rail-toggle:hover { border-color: var(--ink); }
+.save-warn {
+  font: 11px var(--font-mono);
+  color: var(--accent);
+  margin-left: auto;
+  margin-right: -10px;
+}
+.save-warn + .py-status { margin-left: 0; }

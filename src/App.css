@@ -1,0 +1,8 @@
+.app { height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+.shell {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: var(--rail-w) minmax(0, 1.25fr) minmax(0, 1fr);
+}
+.placeholder { padding: 24px; color: var(--ink2); }

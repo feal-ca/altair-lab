@@ -1,0 +1,19 @@
+.py-status {
+  margin-left: auto;
+  font: 12px var(--font-mono);
+  color: var(--muted);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.py-status.ok { color: var(--ok); }
+.py-status.err { color: var(--accent); }
+.py-status button {
+  font: 12px var(--font-mono);
+  background: none;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  padding: 1px 8px;
+  cursor: pointer;
+}
+.py-status button:hover { background: var(--accent); color: var(--paper); }

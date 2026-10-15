@@ -1,0 +1,26 @@
+.data-note { margin: 0 0 6px; font-size: 11px; color: var(--muted); }
+.data-cols { display: flex; flex-wrap: wrap; gap: 6px; }
+.data-col {
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+  background: var(--sheet);
+  border: 1px solid #d4d4cf;
+  box-shadow: 1px 1px 0 var(--grid);
+  padding: 2px 8px;
+  cursor: pointer;
+  font-size: 12px;
+}
+.data-col:hover { border-color: var(--ink); }
+.data-col .nm { font-weight: 500; }
+.data-col .ty { font: 10px var(--font-mono); color: var(--accent); }
+.data-col .st { font: 10px var(--font-mono); color: var(--muted); }
+.data-table-wrap { margin-top: 8px; overflow: auto; }
+.data-table { border-collapse: collapse; font: 11px var(--font-mono); }
+.data-table th, .data-table td {
+  border: 1px solid var(--grid);
+  padding: 2px 8px;
+  text-align: left;
+  white-space: nowrap;
+}
+.data-table th { background: var(--sheet); color: var(--ink2); font-weight: 500; }
