@@ -5,7 +5,7 @@ export function CheckList({ checks = [], solved }) {
   return (
     <section className="check-list">
       <h3 className={solved ? 'check-heading solved' : 'check-heading'}>
-        {solved ? 'Solved' : `${passed} of ${checks.length} checks`}
+        {solved ? `All ${checks.length} checks pass` : `${passed} of ${checks.length} checks`}
       </h3>
       <ul>
         {checks.map((c) => (

@@ -1,7 +1,7 @@
-// The 16 curated exercises. `solution` runs under Pyodide + Altair 6.3 and is used to build target specs.
+// The curated exercises. `solution` runs under Pyodide + Altair 6.3 and is used to build target specs.
 // Plain ESM: importable from Node and from Vite.
 
-export const TOPICS = ['Basics', 'Transforms & scales', 'Layering', 'Advanced'];
+export const TOPICS = ['Basics', 'Transforms & scales', 'Layering', 'Multiple views', 'Advanced', 'Exam-style'];
 
 export const EXERCISES = [
   {
@@ -594,5 +594,400 @@ alt.Chart(cars).mark_line().transform_window(
     alt.Detail('index:N'),
     opacity=alt.value(0.25)
 ).properties(width=500)`
+  },
+  {
+    id: 'mv-heatmap-text',
+    n: 17,
+    title: 'Heatmap with Count Labels',
+    level: 'Intermediate',
+    topic: 'Layering',
+    task: 'Using the Seattle weather data, layer a heatmap and its labels. Both share a base: month(date):O on X and weather:N on Y. The heatmap is mark_rect() coloured by count():Q with the "blues" scheme; the labels are mark_text() showing count():Q. End with heat + labels.',
+    hints: [
+      'Build the shared part once: base = alt.Chart(df).encode(x="month(date):O", y="weather:N").',
+      'heat = base.mark_rect().encode(color=alt.Color("count():Q", scale=alt.Scale(scheme="blues")))',
+      'labels = base.mark_text().encode(text="count():Q"), then heat + labels.'
+    ],
+    concept: 'A base chart holds the encodings every layer shares; each layer adds its own mark and channels, so rect and text line up cell by cell.',
+    docs: 'https://altair-viz.github.io/user_guide/compound_charts.html#layered-charts',
+    datasetId: 'seattle_weather',
+    solution: `import altair as alt
+import pandas as pd
+from vega_datasets import data
+
+df = data.seattle_weather.url
+
+base = alt.Chart(df).encode(
+    x='month(date):O',
+    y='weather:N'
+)
+
+heat = base.mark_rect().encode(
+    color=alt.Color('count():Q', scale=alt.Scale(scheme='blues'))
+)
+
+labels = base.mark_text().encode(
+    text='count():Q'
+)
+
+heat + labels`
+  },
+  {
+    id: 'mv-errorbar-barley',
+    n: 18,
+    title: 'Mean Points with Error Bars (Barley)',
+    level: 'Intermediate',
+    topic: 'Layering',
+    task: 'Using barley, show each variety:N on Y with two layers: mark_errorbar(extent="stdev") over yield:Q, and black filled points at mean(yield):Q. The X scale of the points must not start at zero. End with bars + points.',
+    hints: [
+      'bars = alt.Chart(source).mark_errorbar(extent="stdev").encode(x="yield:Q", y="variety:N")',
+      'points = alt.Chart(source).mark_point(filled=True, color="black").encode(x=alt.X("mean(yield):Q", scale=alt.Scale(zero=False)), y="variety:N")',
+      'Layer them with bars + points.'
+    ],
+    concept: 'mark_errorbar is a composite mark: it aggregates the raw field itself (here mean ± one standard deviation), so it takes yield:Q, not mean(yield).',
+    docs: 'https://altair-viz.github.io/user_guide/marks/errorbar.html',
+    datasetId: 'barley',
+    solution: `import altair as alt
+import pandas as pd
+from vega_datasets import data
+
+source = data.barley()
+
+bars = alt.Chart(source).mark_errorbar(extent='stdev').encode(
+    x='yield:Q',
+    y='variety:N'
+)
+
+points = alt.Chart(source).mark_point(filled=True, color='black').encode(
+    x=alt.X('mean(yield):Q', scale=alt.Scale(zero=False)),
+    y='variety:N'
+)
+
+bars + points`
+  },
+  {
+    id: 'mv-dual-axis',
+    n: 19,
+    title: 'Dual-Axis Bars and Line (Seattle)',
+    level: 'Advanced',
+    topic: 'Layering',
+    task: 'With a base on month(date):O for X, layer light steel blue bars of sum(precipitation):Q and a crimson line with points of mean(temp_max):Q. Give the Y axes the titles "Precipitation (mm)" and "Max temperature (°C)" and make the two Y scales independent.',
+    hints: [
+      'base = alt.Chart(df).encode(x="month(date):O")',
+      'bars = base.mark_bar(color="lightsteelblue").encode(y=alt.Y("sum(precipitation):Q", title="Precipitation (mm)")); the line uses mark_line(color="crimson", point=True).',
+      'Layer and split the axes: (bars + line).resolve_scale(y="independent")'
+    ],
+    concept: 'Layers share scales by default; resolve_scale(y="independent") gives each layer its own Y scale and axis, which a dual-axis chart needs.',
+    docs: 'https://altair-viz.github.io/user_guide/scale_resolve.html',
+    datasetId: 'seattle_weather',
+    solution: `import altair as alt
+import pandas as pd
+from vega_datasets import data
+
+df = data.seattle_weather.url
+
+base = alt.Chart(df).encode(
+    x='month(date):O'
+)
+
+bars = base.mark_bar(color='lightsteelblue').encode(
+    y=alt.Y('sum(precipitation):Q', title='Precipitation (mm)')
+)
+
+line = base.mark_line(color='crimson', point=True).encode(
+    y=alt.Y('mean(temp_max):Q', title='Max temperature (°C)')
+)
+
+(bars + line).resolve_scale(y='independent')`
+  },
+  {
+    id: 'mv-area-normalize',
+    n: 20,
+    title: 'Normalised Stacked Area (Iowa Electricity)',
+    level: 'Intermediate',
+    topic: 'Transforms & scales',
+    task: 'Draw a stacked area chart of the Iowa data: year:T on X, net_generation:Q on Y stacked as "normalize" with a ".0%" axis format, and colour by source:N.',
+    hints: [
+      'Use alt.Chart(df).mark_area().',
+      'Encode y=alt.Y("net_generation:Q", stack="normalize", axis=alt.Axis(format=".0%")).',
+      'Add x="year:T" and color="source:N".'
+    ],
+    concept: 'stack="normalize" rescales each X position to sum to 1, turning absolute amounts into shares of the total.',
+    docs: 'https://altair-viz.github.io/user_guide/marks/area.html',
+    datasetId: 'iowa_electricity',
+    solution: `import altair as alt
+import pandas as pd
+from vega_datasets import data
+
+df = data.iowa_electricity.url
+
+alt.Chart(df).mark_area().encode(
+    x='year:T',
+    y=alt.Y('net_generation:Q', stack='normalize', axis=alt.Axis(format='.0%')),
+    color='source:N'
+)`
+  },
+  {
+    id: 'mv-hconcat-weather',
+    n: 21,
+    title: 'Side-by-Side Views (Weather Counts | Scatter)',
+    level: 'Intermediate',
+    topic: 'Multiple views',
+    task: 'Put two charts side by side. Left: bars with weather:N on X and count():Q on Y, coloured by weather:N. Right: filled points (opacity 0.5) with temp_max:Q on X and precipitation:Q on Y, coloured by weather:N. Store them as bars and points and end with bars | points.',
+    hints: [
+      'bars = alt.Chart(df).mark_bar().encode(x="weather:N", y="count():Q", color="weather:N")',
+      'points = alt.Chart(df).mark_point(filled=True, opacity=0.5).encode(x="temp_max:Q", y="precipitation:Q", color="weather:N")',
+      'The | operator is alt.hconcat: bars | points.'
+    ],
+    concept: 'Juxtaposition (| for side by side, & for stacked) shows different views of the same data next to each other; a shared colour encoding links them.',
+    docs: 'https://altair-viz.github.io/user_guide/compound_charts.html#hconcat',
+    datasetId: 'seattle_weather',
+    solution: `import altair as alt
+import pandas as pd
+from vega_datasets import data
+
+df = data.seattle_weather.url
+
+bars = alt.Chart(df).mark_bar().encode(
+    x='weather:N',
+    y='count():Q',
+    color='weather:N'
+)
+
+points = alt.Chart(df).mark_point(filled=True, opacity=0.5).encode(
+    x='temp_max:Q',
+    y='precipitation:Q',
+    color='weather:N'
+)
+
+bars | points`
+  },
+  {
+    id: 'mv-boxplot-strip',
+    n: 22,
+    title: 'Box Plot | Strip Plot (Cars MPG)',
+    level: 'Intermediate',
+    topic: 'Multiple views',
+    task: 'Compare two views of the MPG distribution per origin, side by side. Left: mark_boxplot(extent="min-max"). Right: mark_tick(opacity=0.6). Both use Origin:N on X, Miles_per_Gallon:Q on Y and colour by Origin:N. End with box | strip.',
+    hints: [
+      'box = alt.Chart(cars).mark_boxplot(extent="min-max").encode(x="Origin:N", y="Miles_per_Gallon:Q", color="Origin:N")',
+      'strip is the same encoding with .mark_tick(opacity=0.6).',
+      'Combine with box | strip.'
+    ],
+    concept: 'A box plot summarises a distribution in five numbers; a strip plot shows every value. Putting them side by side shows what the summary hides.',
+    docs: 'https://altair-viz.github.io/user_guide/marks/boxplot.html',
+    datasetId: 'cars',
+    solution: `import altair as alt
+import pandas as pd
+from vega_datasets import data
+
+cars = data.cars.url
+
+box = alt.Chart(cars).mark_boxplot(extent='min-max').encode(
+    x='Origin:N',
+    y='Miles_per_Gallon:Q',
+    color='Origin:N'
+)
+
+strip = alt.Chart(cars).mark_tick(opacity=0.6).encode(
+    x='Origin:N',
+    y='Miles_per_Gallon:Q',
+    color='Origin:N'
+)
+
+box | strip`
+  },
+  {
+    id: 'mv-vconcat-stocks',
+    n: 23,
+    title: 'Stacked Overview: Lines over Ranked Bars',
+    level: 'Advanced',
+    topic: 'Multiple views',
+    task: 'Stack two views of the stocks data vertically. Top: a line per symbol:N (colour) with date:T on X and price:Q on Y. Bottom: horizontal bars of mean(price):Q on X with symbol:N on Y sorted by descending X, coloured by symbol:N. End with lines & bars.',
+    hints: [
+      'lines = alt.Chart(df).mark_line().encode(x="date:T", y="price:Q", color="symbol:N")',
+      'bars = alt.Chart(df).mark_bar().encode(x="mean(price):Q", y=alt.Y("symbol:N", sort="-x"), color="symbol:N")',
+      'The & operator is alt.vconcat: lines & bars.'
+    ],
+    concept: 'Vertical concatenation stacks views that answer different questions (trend over time vs overall level) about the same entities.',
+    docs: 'https://altair-viz.github.io/user_guide/compound_charts.html#vconcat',
+    datasetId: 'stocks',
+    solution: `import altair as alt
+import pandas as pd
+from vega_datasets import data
+
+df = data.stocks.url
+
+lines = alt.Chart(df).mark_line().encode(
+    x='date:T',
+    y='price:Q',
+    color='symbol:N'
+)
+
+bars = alt.Chart(df).mark_bar().encode(
+    x='mean(price):Q',
+    y=alt.Y('symbol:N', sort='-x'),
+    color='symbol:N'
+)
+
+lines & bars`
+  },
+  {
+    id: 'exam-cars-condition',
+    n: 24,
+    title: 'Conditional Colour and Shapes (exam, Nov 2022)',
+    level: 'Intermediate',
+    topic: 'Exam-style',
+    task: 'Plot cars newer than 1975 (filter "year(datum.Year) > 1975") as filled points with a black stroke and size 200: Horsepower:Q on X, Miles_per_Gallon:Q on Y, shape by Origin:N. Cars with 4 cylinders are red and the rest blue, with alt.condition (so the colour has no legend).',
+    hints: [
+      'mark_point(filled=True, stroke="black", size=200)',
+      'color=alt.condition(alt.datum.Cylinders == 4, alt.value("red"), alt.value("blue")) and shape="Origin:N"',
+      'Filter with .transform_filter("year(datum.Year) > 1975").'
+    ],
+    concept: 'alt.condition picks one of two values per row from a predicate; with constant values (alt.value) it adds no legend, unlike a field encoding.',
+    docs: 'https://altair-viz.github.io/user_guide/interactions/conditions.html',
+    datasetId: 'cars',
+    solution: `import altair as alt
+import pandas as pd
+from vega_datasets import data
+
+cars = data.cars.url
+
+alt.Chart(cars).mark_point(filled=True, stroke='black', size=200).encode(
+    x='Horsepower:Q',
+    y='Miles_per_Gallon:Q',
+    shape='Origin:N',
+    color=alt.condition(alt.datum.Cylinders == 4, alt.value('red'), alt.value('blue'))
+).transform_filter(
+    'year(datum.Year) > 1975'
+)`
+  },
+  {
+    id: 'exam-slope-parliament',
+    n: 25,
+    title: 'Slope Chart with Labels and Squares (exam, Nov 2024)',
+    level: 'Advanced',
+    topic: 'Exam-style',
+    task: 'Build a slope chart of seats per party with three layers sharing Year:O on X and Seats:Q on Y. lines: mark_line coloured by Party:N. labels: gray mark_text(xOffset=15) showing Seats:Q, only for 2023. squares: filled square points (opacity 1) coloured yellow when Governing, else by Party:N, and sized 60 when Governing, else 30. End with (lines + labels + squares).properties(width=300).',
+    hints: [
+      'labels = alt.Chart(data).mark_text(color="gray", xOffset=15).encode(x="Year:O", y="Seats:Q", text="Seats:Q").transform_filter(alt.datum.Year == 2023)',
+      'squares use mark_point(shape="square", filled=True, opacity=1) and color=alt.condition(alt.datum.Governing, alt.value("yellow"), "Party:N").',
+      'size=alt.condition(alt.datum.Governing, alt.value(60), alt.value(30)); then (lines + labels + squares).properties(width=300).'
+    ],
+    concept: 'Exam charts are usually layers of simple marks: each layer adds one element (lines, labels, end markers), and filters or conditions decide which rows a layer draws and how.',
+    docs: 'https://altair-viz.github.io/user_guide/compound_charts.html#layered-charts',
+    datasetId: 'parliament_seats',
+    solution: `import altair as alt
+import pandas as pd
+
+data = pd.DataFrame({
+    'Party': ['Liberals', 'Democrats', 'Conservatives', 'Activists', 'Extreme', 'Liberals', 'Democrats', 'Conservatives', 'Activists', 'Extreme'],
+    'Seats': [81, 92, 61, 10, 21, 89, 70, 75, 21, 10],
+    'Year': [2018, 2018, 2018, 2018, 2018, 2023, 2023, 2023, 2023, 2023],
+    'Governing': [True, False, True, False, False, False, True, False, True, False]
+})
+
+lines = alt.Chart(data).mark_line().encode(
+    x='Year:O',
+    y='Seats:Q',
+    color='Party:N'
+)
+
+labels = alt.Chart(data).mark_text(color='gray', xOffset=15).encode(
+    x='Year:O',
+    y='Seats:Q',
+    text='Seats:Q'
+).transform_filter(
+    alt.datum.Year == 2023
+)
+
+squares = alt.Chart(data).mark_point(shape='square', filled=True, opacity=1).encode(
+    x='Year:O',
+    y='Seats:Q',
+    color=alt.condition(alt.datum.Governing, alt.value('yellow'), 'Party:N'),
+    size=alt.condition(alt.datum.Governing, alt.value(60), alt.value(30))
+)
+
+(lines + labels + squares).properties(width=300)`
+  },
+  {
+    id: 'exam-disasters-timeline',
+    n: 26,
+    title: 'Disaster Timelines: Circles on Lines (exam, Nov 2021)',
+    level: 'Advanced',
+    topic: 'Exam-style',
+    task: 'Draw one horizontal timeline per disaster type: Entity:N on Y, Year:O on X, both coloured by Entity:N. Layer circles (opacity 1) sized by Deaths:Q over plain lines. Keep only years after 1990 and drop the "All natural disasters" rows, with one filter on the layered chart.',
+    hints: [
+      'points = alt.Chart(source).mark_circle(opacity=1).encode(y="Entity:N", x="Year:O", size="Deaths:Q", color="Entity:N")',
+      'lines = alt.Chart(source).mark_line().encode(y="Entity:N", x="Year:O", color="Entity:N")',
+      "(points + lines).transform_filter((alt.datum.Year > 1990) & (alt.datum.Entity != 'All natural disasters'))"
+    ],
+    concept: 'A transform on a layered chart applies to every layer; predicates combine with & (and), | (or) and ~ (not), each side in brackets.',
+    docs: 'https://altair-viz.github.io/user_guide/transform/filter.html',
+    datasetId: 'disasters',
+    solution: `import altair as alt
+import pandas as pd
+from vega_datasets import data
+
+source = data.disasters.url
+
+points = alt.Chart(source).mark_circle(opacity=1).encode(
+    y='Entity:N',
+    x='Year:O',
+    size='Deaths:Q',
+    color='Entity:N'
+)
+
+lines = alt.Chart(source).mark_line().encode(
+    y='Entity:N',
+    x='Year:O',
+    color='Entity:N'
+)
+
+(points + lines).transform_filter(
+    (alt.datum.Year > 1990) & (alt.datum.Entity != 'All natural disasters')
+)`
+  },
+  {
+    id: 'exam-bullet-hospital',
+    n: 27,
+    title: 'Six-Layer Bullet Chart (exam, Jan 2024)',
+    level: 'Advanced',
+    topic: 'Exam-style',
+    task: 'Build a bullet chart per month from a base with month:N on Y (sorted January, February, March, no title). Layer, in order: red, yellow and green bars (opacity 0.5, size 24) at level3, level2 and level1, where only the red layer sets X to alt.X("level3:Q", title=None, scale=alt.Scale(domain=[0, 160])); a black bar (size 4) at value; a yellow-filled point (filled, stroke black, size 70) at value; and a purple tick (thickness 2, size 30) at historic. Combine with alt.layer.',
+    hints: [
+      "base = alt.Chart(df).encode(y=alt.Y('month:N', sort=['January', 'February', 'March'], title=None))",
+      "ch3 = base.mark_bar(color='red', opacity=0.5, size=24).encode(x=alt.X('level3:Q', title=None, scale=alt.Scale(domain=[0, 160]))); ch2 and ch1 are the same with x='level2:Q' / 'level1:Q'.",
+      "ch4 = base.mark_bar(color='black', size=4).encode(x='value:Q'); ch5 = base.mark_point(filled=True, fill='yellow', stroke='black', size=70).encode(x='value:Q'); ch6 = base.mark_tick(color='purple', thickness=2, size=30).encode(x='historic:Q')",
+      'alt.layer(ch3, ch2, ch1, ch4, ch5, ch6): later layers draw on top.'
+    ],
+    concept: 'A bullet chart is built from overlapping bars of different widths: wide translucent bands for the ranges, a thin bar for the measure, and markers for targets.',
+    docs: 'https://altair-viz.github.io/user_guide/compound_charts.html#layered-charts',
+    datasetId: 'hospital_occupancy',
+    solution: `import altair as alt
+import pandas as pd
+
+df = pd.DataFrame({
+    'month': ['January', 'February', 'March'],
+    'level1': [75, 75, 75],
+    'level2': [100, 100, 100],
+    'level3': [150, 150, 150],
+    'value': [115, 120, 80],
+    'historic': [60, 95, 65]
+})
+
+base = alt.Chart(df).encode(
+    y=alt.Y('month:N', sort=['January', 'February', 'March'], title=None)
+)
+
+ch3 = base.mark_bar(color='red', opacity=0.5, size=24).encode(
+    x=alt.X('level3:Q', title=None, scale=alt.Scale(domain=[0, 160]))
+)
+ch2 = base.mark_bar(color='yellow', opacity=0.5, size=24).encode(x='level2:Q')
+ch1 = base.mark_bar(color='green', opacity=0.5, size=24).encode(x='level1:Q')
+ch4 = base.mark_bar(color='black', size=4).encode(x='value:Q')
+ch5 = base.mark_point(filled=True, fill='yellow', stroke='black', size=70).encode(x='value:Q')
+ch6 = base.mark_tick(color='purple', thickness=2, size=30).encode(x='historic:Q')
+
+alt.layer(ch3, ch2, ch1, ch4, ch5, ch6)`
   }
 ];

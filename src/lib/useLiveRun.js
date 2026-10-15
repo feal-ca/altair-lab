@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { ALTAIR_API } from '../content/altairApi.js'
 import { python } from './python/index.js'
 import { resultToOutput } from './formatResult.js'
 
@@ -8,7 +7,7 @@ export const IDLE_MESSAGE = 'Write some Altair code; the chart shows up here.'
 export const PYTHON_DOWN_MESSAGE = "Python isn't running. Press Retry in the top bar."
 
 // The run pipeline shared by the exercise and sandbox pages: editor text, debounced
-// auto-run, seq-guarded execution, re-run after a Python restart, completions.
+// auto-run, seq-guarded execution, re-run after a Python restart, completion columns.
 //
 // Options:
 //   initialCode   starting editor text
@@ -89,14 +88,8 @@ export function useLiveRun({ initialCode, starter, dataset, onCodeChange, before
     }
   }
 
-  const completions = useMemo(
-    () => [
-      ...ALTAIR_API,
-      ...(dataset?.columns ?? []).map((c) => ({ label: c.name, apply: `'${c.name}:${c.type}'`, detail: c.type })),
-    ],
-    [dataset]
-  )
+  const columns = useMemo(() => dataset?.columns ?? [], [dataset])
 
   const shown = phase === 'error' ? { message: PYTHON_DOWN_MESSAGE } : out
-  return { code, out: shown, onChange, runNow, reset, completions }
+  return { code, out: shown, onChange, runNow, reset, columns }
 }

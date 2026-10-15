@@ -50,7 +50,7 @@ export function SandboxPage({ dataset, state, update }) {
   const [csvOpen, setCsvOpen] = useState(false)
   const starter = starterFor(dataset)
   const stored = state.sandboxCode?.[id]
-  const { code, out, onChange, runNow, reset, completions } = useLiveRun({
+  const { code, out, onChange, runNow, reset, columns } = useLiveRun({
     initialCode: typeof stored === 'string' ? stored : starter,
     starter,
     dataset,
@@ -87,7 +87,7 @@ export function SandboxPage({ dataset, state, update }) {
           <button type="button" className="primary" onClick={runNow}>Run</button>
         </div>
         <div className="editor-wrap">
-          <Editor ref={editor} value={code} onChange={onChange} onRun={runNow} completions={completions} />
+          <Editor ref={editor} value={code} onChange={onChange} onRun={runNow} columns={columns} />
         </div>
       </section>
       <section className="pane out">

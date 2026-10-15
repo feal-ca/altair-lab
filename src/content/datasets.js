@@ -515,6 +515,128 @@ airports = data.airports.url
       { iata: '00R', name: 'Livingston Municipal', city: 'Livingston', state: 'TX', country: 'USA', latitude: 30.6858, longitude: -95.0179 },
       { iata: '00V', name: 'Meadow Lake', city: 'Colorado Springs', state: 'CO', country: 'USA', latitude: 38.9457, longitude: -104.5698 }
     ]
+  },
+  parliament_seats: {
+    id: 'parliament_seats',
+    name: 'Parliament Seats 2018 vs 2023 (exam, Nov 2024)',
+    description: 'Seats won by five parties in two elections, and whether each party was governing.',
+    varName: 'data',
+    source: 'inline',
+    setupCode: `import altair as alt
+import pandas as pd
+
+data = pd.DataFrame({
+    'Party': ['Liberals', 'Democrats', 'Conservatives', 'Activists', 'Extreme', 'Liberals', 'Democrats', 'Conservatives', 'Activists', 'Extreme'],
+    'Seats': [81, 92, 61, 10, 21, 89, 70, 75, 21, 10],
+    'Year': [2018, 2018, 2018, 2018, 2018, 2023, 2023, 2023, 2023, 2023],
+    'Governing': [True, False, True, False, False, False, True, False, True, False]
+})
+`,
+    columns: [
+      { name: 'Party', type: 'N', unique: 5, sample: 'Liberals, Democrats, Conservatives' },
+      { name: 'Seats', type: 'Q', min: 10, max: 92, mean: 53 },
+      { name: 'Year', type: 'O', unique: 2, sample: '2018, 2023' },
+      { name: 'Governing', type: 'N', unique: 2, sample: 'True, False' }
+    ],
+    rows: [
+      { Party: 'Liberals', Seats: 81, Year: 2018, Governing: true },
+      { Party: 'Democrats', Seats: 92, Year: 2018, Governing: false },
+      { Party: 'Conservatives', Seats: 61, Year: 2018, Governing: true },
+      { Party: 'Activists', Seats: 10, Year: 2018, Governing: false },
+      { Party: 'Extreme', Seats: 21, Year: 2018, Governing: false },
+      { Party: 'Liberals', Seats: 89, Year: 2023, Governing: false },
+      { Party: 'Democrats', Seats: 70, Year: 2023, Governing: true },
+      { Party: 'Conservatives', Seats: 75, Year: 2023, Governing: false },
+      { Party: 'Activists', Seats: 21, Year: 2023, Governing: true },
+      { Party: 'Extreme', Seats: 10, Year: 2023, Governing: false }
+    ]
+  },
+  hospital_occupancy: {
+    id: 'hospital_occupancy',
+    name: 'Hospital Occupancy vs Capacity Levels (exam, Jan 2024)',
+    description: 'Monthly occupancy against three capacity levels, with the historic mean occupancy.',
+    varName: 'df',
+    source: 'inline',
+    setupCode: `import altair as alt
+import pandas as pd
+
+df = pd.DataFrame({
+    'month': ['January', 'February', 'March'],
+    'level1': [75, 75, 75],
+    'level2': [100, 100, 100],
+    'level3': [150, 150, 150],
+    'value': [115, 120, 80],
+    'historic': [60, 95, 65]
+})
+`,
+    columns: [
+      { name: 'month', type: 'N', unique: 3, sample: 'January, February, March' },
+      { name: 'level1', type: 'Q', min: 75, max: 75, mean: 75 },
+      { name: 'level2', type: 'Q', min: 100, max: 100, mean: 100 },
+      { name: 'level3', type: 'Q', min: 150, max: 150, mean: 150 },
+      { name: 'value', type: 'Q', min: 80, max: 120, mean: 105 },
+      { name: 'historic', type: 'Q', min: 60, max: 95, mean: 73.3 }
+    ],
+    rows: [
+      { month: 'January', level1: 75, level2: 100, level3: 150, value: 115, historic: 60 },
+      { month: 'February', level1: 75, level2: 100, level3: 150, value: 120, historic: 95 },
+      { month: 'March', level1: 75, level2: 100, level3: 150, value: 80, historic: 65 }
+    ]
+  },
+  disasters: {
+    id: 'disasters',
+    name: 'Natural Disasters 1900-2017 (data.disasters)',
+    description: 'Yearly deaths per type of natural disaster, plus an "All natural disasters" total.',
+    varName: 'source',
+    source: 'url',
+    url: 'https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/disasters.csv',
+    setupCode: `import altair as alt
+import pandas as pd
+from vega_datasets import data
+
+source = data.disasters.url
+`,
+    columns: [
+      { name: 'Entity', type: 'N', unique: 11, sample: 'Drought, Earthquake, Flood, Wildfire' },
+      { name: 'Year', type: 'O', unique: 117, sample: '1900 .. 2017' },
+      { name: 'Deaths', type: 'Q', min: 1, max: 3706227, mean: 81213 }
+    ],
+    preview: [
+      { Entity: 'All natural disasters', Year: 1900, Deaths: 1267360 },
+      { Entity: 'All natural disasters', Year: 1901, Deaths: 200018 },
+      { Entity: 'All natural disasters', Year: 1902, Deaths: 46037 },
+      { Entity: 'All natural disasters', Year: 1903, Deaths: 6506 },
+      { Entity: 'All natural disasters', Year: 1905, Deaths: 22758 }
+    ]
+  },
+  seattle_weather: {
+    id: 'seattle_weather',
+    name: 'Seattle Weather 2012-2015 (data.seattle_weather)',
+    description: 'Daily precipitation, temperatures, wind and weather type in Seattle.',
+    varName: 'df',
+    source: 'url',
+    url: 'https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/seattle-weather.csv',
+    setupCode: `import altair as alt
+import pandas as pd
+from vega_datasets import data
+
+df = data.seattle_weather.url
+`,
+    columns: [
+      { name: 'date', type: 'T', unique: 1461, sample: '2012/01/01 .. 2015/12/31' },
+      { name: 'precipitation', type: 'Q', min: 0, max: 55.9, mean: 3 },
+      { name: 'temp_max', type: 'Q', min: -1.6, max: 35.6, mean: 16.4 },
+      { name: 'temp_min', type: 'Q', min: -7.1, max: 18.3, mean: 8.2 },
+      { name: 'wind', type: 'Q', min: 0.4, max: 9.5, mean: 3.2 },
+      { name: 'weather', type: 'N', unique: 5, sample: 'sun, rain, drizzle, fog, snow' }
+    ],
+    preview: [
+      { date: '2012/01/01', precipitation: 0, temp_max: 12.8, temp_min: 5, wind: 4.7, weather: 'drizzle' },
+      { date: '2012/01/02', precipitation: 10.9, temp_max: 10.6, temp_min: 2.8, wind: 4.5, weather: 'rain' },
+      { date: '2012/01/03', precipitation: 0.8, temp_max: 11.7, temp_min: 7.2, wind: 2.3, weather: 'rain' },
+      { date: '2012/01/04', precipitation: 20.3, temp_max: 12.2, temp_min: 5.6, wind: 4.7, weather: 'rain' },
+      { date: '2012/01/05', precipitation: 1.3, temp_max: 8.9, temp_min: 2.8, wind: 6.1, weather: 'rain' }
+    ]
   }
 };
 

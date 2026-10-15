@@ -7,8 +7,7 @@
   font: 600 14px var(--font-head);
 }
 .check-heading.solved {
-  color: var(--accent);
-  font-size: 16px;
+  color: var(--ok);
 }
 .check-list ul {
   list-style: none;
@@ -21,7 +20,7 @@
   padding: 2px 0;
 }
 .check-list .ok .mark {
-  color: var(--accent);
+  color: var(--ok);
   font-weight: 700;
 }
 .check-list .no {

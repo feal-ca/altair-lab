@@ -15,6 +15,8 @@ import {
   closeBrackets,
   closeBracketsKeymap,
   completionKeymap,
+  snippetCompletion,
+  startCompletion,
 } from '@codemirror/autocomplete'
 import {
   HighlightStyle,
@@ -23,6 +25,7 @@ import {
   bracketMatching,
 } from '@codemirror/language'
 import { tags as t } from '@lezer/highlight'
+import { complete } from '../lib/completions.js'
 import './Editor.css'
 
 const theme = EditorView.theme({
@@ -46,7 +49,28 @@ const theme = EditorView.theme({
     backgroundColor: 'var(--ink)',
     color: 'var(--paper)',
   },
+  '.cm-completionDetail': { color: 'var(--muted)', fontStyle: 'normal', marginLeft: '1.2em' },
+  '.cm-tooltip-autocomplete ul li[aria-selected] .cm-completionDetail': { color: 'var(--grid)' },
+  '.cm-snippetField': { backgroundColor: 'transparent' },
 })
+
+// Turns a completions.js option into a CodeMirror completion. Snippets put the cursor
+// inside `()` or `''` (Tab jumps past them); `reopen` shows the next list right away,
+// e.g. the column names after `alt.X('`.
+function toCompletion(o) {
+  const info = { label: o.label, detail: o.detail, type: o.type, boost: o.boost }
+  const c = o.snippet ? snippetCompletion(o.snippet, info) : { ...info, apply: o.apply }
+  if (!o.reopen) return c
+  const insert = c.apply
+  return {
+    ...c,
+    apply: (view, completion, from, to) => {
+      if (typeof insert === 'function') insert(view, completion, from, to)
+      else view.dispatch({ changes: { from, to, insert }, selection: { anchor: from + insert.length } })
+      setTimeout(() => startCompletion(view), 0)
+    },
+  }
+}
 
 const highlight = HighlightStyle.define([
   { tag: [t.keyword, t.controlKeyword, t.definitionKeyword, t.moduleKeyword], color: 'var(--kw)' },
@@ -67,44 +91,20 @@ const setup = [
   bracketMatching(),
   closeBrackets(),
   highlightActiveLine(),
-  keymap.of([...closeBracketsKeymap, ...defaultKeymap, ...historyKeymap, ...completionKeymap]),
+  keymap.of([...closeBracketsKeymap, ...defaultKeymap, ...historyKeymap, ...completionKeymap, indentWithTab]),
 ]
 
-export const Editor = forwardRef(function Editor({ value, onChange, onRun, completions }, ref) {
+export const Editor = forwardRef(function Editor({ value, onChange, onRun, columns }, ref) {
   const host = useRef(null)
   const view = useRef(null)
-  const latest = useRef({ onChange, onRun, completions })
-  latest.current = { onChange, onRun, completions }
+  const latest = useRef({ onChange, onRun, columns })
+  latest.current = { onChange, onRun, columns }
 
   useEffect(() => {
     const source = (context) => {
-      const word = context.matchBefore(/[\w.]+/)
-      if (!word || (word.from === word.to && !context.explicit)) return null
-      // A column completion applies `'name:T'` with its own quotes, so swallow a quote
-      // typed before the word and an auto-closed one right after the cursor.
-      const doc = context.state.doc
-      const quoteBefore = /['"]/.test(doc.sliceString(Math.max(0, word.from - 1), word.from))
-      const quoteAfter = /['"]/.test(doc.sliceString(word.to, word.to + 1))
-      return {
-        from: word.from,
-        options: (latest.current.completions || []).map((c) => {
-          const quoted = typeof c.apply === 'string' && /^'.*'$/.test(c.apply)
-          if (!quoted || !quoteBefore) return { label: c.label, apply: c.apply, detail: c.detail }
-          return {
-            label: c.label,
-            detail: c.detail,
-            apply: (view, _completion, from, to) => {
-              const f = from - 1
-              const t = quoteAfter ? to + 1 : to
-              view.dispatch({
-                changes: { from: f, to: t, insert: c.apply },
-                selection: { anchor: f + c.apply.length },
-              })
-            },
-          }
-        }),
-        validFor: /^[\w.]*$/,
-      }
+      const r = complete(context.state.doc.toString(), context.pos, latest.current.columns, context.explicit)
+      if (!r) return null
+      return { from: r.from, options: r.options.map(toCompletion), validFor: r.validFor }
     }
     const v = new EditorView({
       parent: host.current,
@@ -115,17 +115,17 @@ export const Editor = forwardRef(function Editor({ value, onChange, onRun, compl
           python(),
           theme,
           syntaxHighlighting(highlight),
+          // Tab stays at normal precedence so an active snippet can use it to jump fields.
           Prec.highest(
             keymap.of([
-            indentWithTab,
-            {
-              key: 'Mod-Enter',
-              run: () => {
-                latest.current.onRun?.()
-                return true
+              {
+                key: 'Mod-Enter',
+                run: () => {
+                  latest.current.onRun?.()
+                  return true
+                },
               },
-            },
-          ])
+            ])
           ),
           autocompletion({ override: [source] }),
           EditorView.updateListener.of((u) => {

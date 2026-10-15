@@ -5,6 +5,15 @@
   padding: 8px 12px 10px;
   min-width: 0;
 }
+.chart-card.matched {
+  border-color: var(--ok);
+  box-shadow: 2px 2px 0 rgba(47, 122, 85, 0.25);
+}
+.chart-card-match {
+  font: 600 12px var(--font-ui);
+  font-style: normal;
+  color: var(--ok);
+}
 .chart-card-title {
   margin: 0 0 4px;
   font: italic 400 13px var(--font-head);

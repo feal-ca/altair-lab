@@ -1,4 +1,6 @@
 export const baseConfig = {
+  // Let the card's own paper show through instead of Vega's white box.
+  background: 'transparent',
   font: 'Instrument Sans',
   axis: {
     labelFont: 'JetBrains Mono',

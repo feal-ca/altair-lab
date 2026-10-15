@@ -36,13 +36,23 @@ describe('generateExercise', () => {
       if (ex) expect(ex.solution).not.toContain('iata');
     }
   });
-  it('returns null for a dataset with only N columns', () => {
-    const ds = { id: 'x', varName: 'df', setupCode: '', columns: [
-      { name: 'a', type: 'N', unique: 3 }, { name: 'b', type: 'N', unique: 4 }] };
+  it('returns null for a dataset with a single N column', () => {
+    const ds = { id: 'x', varName: 'df', setupCode: '', columns: [{ name: 'a', type: 'N', unique: 3 }] };
     for (const lv of LEVELS) expect(generateExercise(ds, lv, 1)).toBeNull();
   });
+  it('builds a labelled heatmap from two N columns', () => {
+    const ds = { id: 'x', varName: 'df', setupCode: '', columns: [
+      { name: 'a', type: 'N', unique: 3 }, { name: 'b', type: 'N', unique: 4 }] };
+    expect(generateExercise(ds, 'Advanced', 1).templateId).toBe('heatmap-text');
+    expect(generateExercise(ds, 'Beginner', 1)).toBeNull();
+  });
+  it('offers multi-view and multi-mark templates at every level above Beginner', () => {
+    const ids = (lv) => TEMPLATES.filter((t) => t.level === lv).map((t) => t.id);
+    expect(ids('Intermediate')).toEqual(expect.arrayContaining(['heatmap', 'bar-condition', 'boxplot', 'scatter-shape']));
+    expect(ids('Advanced')).toEqual(expect.arrayContaining(['hconcat-bar-hist', 'vconcat-line-bar', 'range-text', 'dual-axis']));
+  });
   it('respects template needs', () => {
-    expect(TEMPLATES).toHaveLength(9);
+    expect(TEMPLATES).toHaveLength(23);
     for (const ds of Object.values(DATASETS)) {
       const r = columnRoles(ds);
       for (const lv of LEVELS) for (let s = 1; s <= 10; s++) {

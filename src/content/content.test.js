@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { DATASETS } from './datasets.js';
 import { EXERCISES, TOPICS } from './exercises.js';
-import { ALTAIR_API } from './altairApi.js';
+import { CHART_METHODS, KWARGS, MARKS } from './altairApi.js';
 
 const EXPECTED_ROWS = {
   eu_lollipop: 10,
@@ -12,11 +12,13 @@ const EXPECTED_ROWS = {
   country_pop: 10,
   iphone_data: 14,
   fruit_pie: 5,
+  parliament_seats: 10,
+  hospital_occupancy: 3,
 };
 
 describe('datasets', () => {
-  it('has 15 datasets keyed by their id', () => {
-    expect(Object.keys(DATASETS)).toHaveLength(15);
+  it('has 19 datasets keyed by their id', () => {
+    expect(Object.keys(DATASETS)).toHaveLength(19);
     for (const [key, d] of Object.entries(DATASETS)) expect(d.id).toBe(key);
   });
 
@@ -53,9 +55,9 @@ describe('datasets', () => {
 });
 
 describe('exercises', () => {
-  it('has 16 exercises numbered 1..16 with unique ids', () => {
-    expect(EXERCISES.map((e) => e.n)).toEqual(Array.from({ length: 16 }, (_, i) => i + 1));
-    expect(new Set(EXERCISES.map((e) => e.id)).size).toBe(16);
+  it('has 27 exercises numbered 1..27 with unique ids', () => {
+    expect(EXERCISES.map((e) => e.n)).toEqual(Array.from({ length: 27 }, (_, i) => i + 1));
+    expect(new Set(EXERCISES.map((e) => e.id)).size).toBe(27);
   });
 
   it('references existing datasets and is fully filled in', () => {
@@ -73,16 +75,19 @@ describe('exercises', () => {
   });
 });
 
-describe('ALTAIR_API', () => {
-  it('has unique labels with apply and detail', () => {
-    const labels = ALTAIR_API.map((a) => a.label);
-    expect(new Set(labels).size).toBe(labels.length);
-    for (const a of ALTAIR_API) {
-      expect(a.apply).toBeTruthy();
-      expect(a.detail).toBeTruthy();
-    }
-    for (const l of ['mark_tick', 'mark_rect', 'transform_bin', 'alt.Tooltip', 'alt.value', 'alt.datum']) {
-      expect(labels).toContain(l);
+describe('completion vocabulary', () => {
+  it('lists the marks and chart methods without duplicates', () => {
+    const marks = MARKS.map(([n]) => n);
+    expect(new Set(marks).size).toBe(marks.length);
+    for (const m of ['bar', 'point', 'line', 'text', 'rect', 'rule', 'tick', 'arc', 'square', 'errorbar']) expect(marks).toContain(m);
+    const methods = CHART_METHODS.map(([n]) => n);
+    expect(new Set(methods).size).toBe(methods.length);
+    for (const m of ['encode', 'properties', 'transform_filter', 'resolve_scale']) expect(methods).toContain(m);
+  });
+
+  it('gives every keyword argument a detail', () => {
+    for (const [callee, kws] of Object.entries(KWARGS)) {
+      for (const [name, detail] of kws) expect(detail, `${callee}.${name}`).toBeTruthy();
     }
   });
 });

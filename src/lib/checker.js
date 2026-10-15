@@ -3,9 +3,10 @@
 
 const DROP = ['$schema', 'config', 'data', 'datasets', 'autosize', 'usermeta']
 const CONCATS = ['hconcat', 'vconcat', 'concat']
-const ENC_KEYS = ['field', 'type', 'aggregate', 'timeUnit', 'bin', 'value', 'sort', 'stack', 'title', 'scale']
+const ENC_KEYS = ['field', 'type', 'aggregate', 'timeUnit', 'bin', 'value', 'condition', 'sort', 'stack', 'title', 'scale']
 // Keys that together identify "what the channel encodes" (one check).
-const IDENT_KEYS = ['field', 'type', 'aggregate', 'timeUnit', 'bin', 'value']
+// `condition` is part of the identity: alt.condition(test, a, b) encodes test → a, else b.
+const IDENT_KEYS = ['field', 'type', 'aggregate', 'timeUnit', 'bin', 'value', 'condition']
 // Options checked one by one: [id suffix, path into the normalised channel, label word].
 const OPTIONS = [
   ['sort', ['sort'], 'sort'],
@@ -99,9 +100,18 @@ function markLabel(mark) {
 
 const TYPE_ABBR = { nominal: 'N', ordinal: 'O', quantitative: 'Q', temporal: 'T', geojson: 'G' }
 
+function conditionLabel(ch, def) {
+  const conds = Array.isArray(def.condition) ? def.condition : [def.condition]
+  const what = (d) => (d.value !== undefined ? py(d.value) : d.field !== undefined ? d.field : '?')
+  const parts = conds.map((c) => (isObj(c) ? `if ${c.test ?? c.param ?? '…'} → ${what(c)}` : '?'))
+  const otherwise = def.value !== undefined || def.field !== undefined ? `, else ${what(def)}` : ''
+  return short(`${ch}: ${parts.join(', ')}${otherwise}`, 72)
+}
+
 function channelLabel(ch, def) {
   if (Array.isArray(def)) return `${ch}: ${def.map((d) => (isObj(d) && d.field) || '?').join(', ')}`
   if (!isObj(def)) return `${ch}: ${text(def)}`
+  if (def.condition !== undefined) return conditionLabel(ch, def)
   if (def.value !== undefined) return `${ch}: value ${text(def.value)}`
   let what = def.field !== undefined ? def.field : ''
   if (def.timeUnit !== undefined) what = `${isObj(def.timeUnit) ? def.timeUnit.unit ?? 'timeUnit' : def.timeUnit}(${what})`

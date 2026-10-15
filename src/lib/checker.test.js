@@ -103,4 +103,15 @@ describe('checker', () => {
     const bad = { mark: 'bar', encoding: { tooltip: [{ field: 'year' }] } }
     expect(check(bad, t).solved).toBe(false)
   })
+
+  it('checks alt.condition as part of the channel', () => {
+    const t = { mark: 'point', encoding: { color: { condition: { test: '(datum.Cylinders === 4)', value: 'red' }, value: 'blue' } } }
+    const r = check(clone(t), t)
+    expect(r.solved).toBe(true)
+    expect(r.checks.find((c) => c.id === 'enc-0-color').label).toBe("color: if (datum.Cylinders === 4) → 'red', else 'blue'")
+    const plainBlue = { mark: 'point', encoding: { color: { value: 'blue' } } }
+    expect(failed(check(plainBlue, t))).toEqual(['enc-0-color'])
+    const flipped = { mark: 'point', encoding: { color: { condition: { test: '(datum.Cylinders === 4)', value: 'blue' }, value: 'red' } } }
+    expect(check(flipped, t).solved).toBe(false)
+  })
 })

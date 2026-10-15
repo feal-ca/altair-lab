@@ -19,18 +19,64 @@
   flex: none;
 }
 .editor-bar .hint { margin-right: auto; font: 11px var(--font-mono); color: var(--faint); }
-.editor-bar button, .pane.out .next {
+.editor-bar button, .solved-banner .next {
   background: var(--sheet);
   border: 1px solid var(--rule);
   padding: 2px 12px;
   cursor: pointer;
   font-size: 12px;
 }
-.editor-bar button:hover, .pane.out .next:hover { border-color: var(--ink); }
-.editor-bar button.primary, .pane.out .next {
+.editor-bar button:hover { border-color: var(--ink); }
+.editor-bar button.primary {
   background: var(--ink);
   color: var(--paper);
   border-color: var(--ink);
 }
-.pane.out .next { align-self: flex-start; font-weight: 500; padding: 5px 16px; }
+/* Cards shrink to the chart; in a pair both take the wider chart's width. */
+.pane.out > .chart-card { align-self: flex-start; max-width: 100%; }
+.chart-pair {
+  display: grid;
+  grid-template-columns: fit-content(100%);
+  gap: 10px;
+}
+.solved-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--ok);
+  color: #fff;
+  box-shadow: 2px 2px 0 rgba(47, 122, 85, 0.25);
+  animation: solved-in 260ms ease-out;
+}
+.solved-mark {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex: none;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--ok);
+  font: 700 17px var(--font-ui);
+}
+.solved-text { display: flex; flex-direction: column; margin-right: auto; line-height: 1.25; }
+.solved-text strong { font: 600 19px var(--font-head); }
+.solved-text span, .solved-last { font-size: 12.5px; opacity: 0.9; }
+.solved-banner .next {
+  flex: none;
+  background: #fff;
+  color: var(--ok);
+  border-color: #fff;
+  font-weight: 600;
+  padding: 5px 14px;
+}
+.solved-banner .next:hover { background: var(--paper); }
+@keyframes solved-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .solved-banner { animation: none; }
+}
 .editor-wrap { flex: 1; min-height: 0; overflow: hidden; }

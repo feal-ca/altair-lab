@@ -2388,5 +2388,1546 @@
       }
     ],
     "width": 500
+  },
+  "mv-heatmap-text": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/seattle-weather.csv"
+    },
+    "layer": [
+      {
+        "encoding": {
+          "color": {
+            "aggregate": "count",
+            "scale": {
+              "scheme": "blues"
+            },
+            "type": "quantitative"
+          },
+          "x": {
+            "field": "date",
+            "timeUnit": "month",
+            "type": "ordinal"
+          },
+          "y": {
+            "field": "weather",
+            "type": "nominal"
+          }
+        },
+        "mark": {
+          "type": "rect"
+        }
+      },
+      {
+        "encoding": {
+          "text": {
+            "aggregate": "count",
+            "type": "quantitative"
+          },
+          "x": {
+            "field": "date",
+            "timeUnit": "month",
+            "type": "ordinal"
+          },
+          "y": {
+            "field": "weather",
+            "type": "nominal"
+          }
+        },
+        "mark": {
+          "type": "text"
+        }
+      }
+    ]
+  },
+  "mv-errorbar-barley": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "name": "data-9cc0564cb5591205eeeca8d2429dd11b"
+    },
+    "datasets": {
+      "data-9cc0564cb5591205eeeca8d2429dd11b": [
+        {
+          "site": "University Farm",
+          "variety": "Manchuria",
+          "year": 1931,
+          "yield": 27
+        },
+        {
+          "site": "Waseca",
+          "variety": "Manchuria",
+          "year": 1931,
+          "yield": 48.86667
+        },
+        {
+          "site": "Morris",
+          "variety": "Manchuria",
+          "year": 1931,
+          "yield": 27.43334
+        },
+        {
+          "site": "Crookston",
+          "variety": "Manchuria",
+          "year": 1931,
+          "yield": 39.93333
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "Manchuria",
+          "year": 1931,
+          "yield": 32.96667
+        },
+        {
+          "site": "Duluth",
+          "variety": "Manchuria",
+          "year": 1931,
+          "yield": 28.96667
+        },
+        {
+          "site": "University Farm",
+          "variety": "Glabron",
+          "year": 1931,
+          "yield": 43.06666
+        },
+        {
+          "site": "Waseca",
+          "variety": "Glabron",
+          "year": 1931,
+          "yield": 55.2
+        },
+        {
+          "site": "Morris",
+          "variety": "Glabron",
+          "year": 1931,
+          "yield": 28.76667
+        },
+        {
+          "site": "Crookston",
+          "variety": "Glabron",
+          "year": 1931,
+          "yield": 38.13333
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "Glabron",
+          "year": 1931,
+          "yield": 29.13333
+        },
+        {
+          "site": "Duluth",
+          "variety": "Glabron",
+          "year": 1931,
+          "yield": 29.66667
+        },
+        {
+          "site": "University Farm",
+          "variety": "Svansota",
+          "year": 1931,
+          "yield": 35.13333
+        },
+        {
+          "site": "Waseca",
+          "variety": "Svansota",
+          "year": 1931,
+          "yield": 47.33333
+        },
+        {
+          "site": "Morris",
+          "variety": "Svansota",
+          "year": 1931,
+          "yield": 25.76667
+        },
+        {
+          "site": "Crookston",
+          "variety": "Svansota",
+          "year": 1931,
+          "yield": 40.46667
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "Svansota",
+          "year": 1931,
+          "yield": 29.66667
+        },
+        {
+          "site": "Duluth",
+          "variety": "Svansota",
+          "year": 1931,
+          "yield": 25.7
+        },
+        {
+          "site": "University Farm",
+          "variety": "Velvet",
+          "year": 1931,
+          "yield": 39.9
+        },
+        {
+          "site": "Waseca",
+          "variety": "Velvet",
+          "year": 1931,
+          "yield": 50.23333
+        },
+        {
+          "site": "Morris",
+          "variety": "Velvet",
+          "year": 1931,
+          "yield": 26.13333
+        },
+        {
+          "site": "Crookston",
+          "variety": "Velvet",
+          "year": 1931,
+          "yield": 41.33333
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "Velvet",
+          "year": 1931,
+          "yield": 23.03333
+        },
+        {
+          "site": "Duluth",
+          "variety": "Velvet",
+          "year": 1931,
+          "yield": 26.3
+        },
+        {
+          "site": "University Farm",
+          "variety": "Trebi",
+          "year": 1931,
+          "yield": 36.56666
+        },
+        {
+          "site": "Waseca",
+          "variety": "Trebi",
+          "year": 1931,
+          "yield": 63.8333
+        },
+        {
+          "site": "Morris",
+          "variety": "Trebi",
+          "year": 1931,
+          "yield": 43.76667
+        },
+        {
+          "site": "Crookston",
+          "variety": "Trebi",
+          "year": 1931,
+          "yield": 46.93333
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "Trebi",
+          "year": 1931,
+          "yield": 29.76667
+        },
+        {
+          "site": "Duluth",
+          "variety": "Trebi",
+          "year": 1931,
+          "yield": 33.93333
+        },
+        {
+          "site": "University Farm",
+          "variety": "No. 457",
+          "year": 1931,
+          "yield": 43.26667
+        },
+        {
+          "site": "Waseca",
+          "variety": "No. 457",
+          "year": 1931,
+          "yield": 58.1
+        },
+        {
+          "site": "Morris",
+          "variety": "No. 457",
+          "year": 1931,
+          "yield": 28.7
+        },
+        {
+          "site": "Crookston",
+          "variety": "No. 457",
+          "year": 1931,
+          "yield": 45.66667
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "No. 457",
+          "year": 1931,
+          "yield": 32.16667
+        },
+        {
+          "site": "Duluth",
+          "variety": "No. 457",
+          "year": 1931,
+          "yield": 33.6
+        },
+        {
+          "site": "University Farm",
+          "variety": "No. 462",
+          "year": 1931,
+          "yield": 36.6
+        },
+        {
+          "site": "Waseca",
+          "variety": "No. 462",
+          "year": 1931,
+          "yield": 65.7667
+        },
+        {
+          "site": "Morris",
+          "variety": "No. 462",
+          "year": 1931,
+          "yield": 30.36667
+        },
+        {
+          "site": "Crookston",
+          "variety": "No. 462",
+          "year": 1931,
+          "yield": 48.56666
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "No. 462",
+          "year": 1931,
+          "yield": 24.93334
+        },
+        {
+          "site": "Duluth",
+          "variety": "No. 462",
+          "year": 1931,
+          "yield": 28.1
+        },
+        {
+          "site": "University Farm",
+          "variety": "Peatland",
+          "year": 1931,
+          "yield": 32.76667
+        },
+        {
+          "site": "Waseca",
+          "variety": "Peatland",
+          "year": 1931,
+          "yield": 48.56666
+        },
+        {
+          "site": "Morris",
+          "variety": "Peatland",
+          "year": 1931,
+          "yield": 29.86667
+        },
+        {
+          "site": "Crookston",
+          "variety": "Peatland",
+          "year": 1931,
+          "yield": 41.6
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "Peatland",
+          "year": 1931,
+          "yield": 34.7
+        },
+        {
+          "site": "Duluth",
+          "variety": "Peatland",
+          "year": 1931,
+          "yield": 32
+        },
+        {
+          "site": "University Farm",
+          "variety": "No. 475",
+          "year": 1931,
+          "yield": 24.66667
+        },
+        {
+          "site": "Waseca",
+          "variety": "No. 475",
+          "year": 1931,
+          "yield": 46.76667
+        },
+        {
+          "site": "Morris",
+          "variety": "No. 475",
+          "year": 1931,
+          "yield": 22.6
+        },
+        {
+          "site": "Crookston",
+          "variety": "No. 475",
+          "year": 1931,
+          "yield": 44.1
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "No. 475",
+          "year": 1931,
+          "yield": 19.7
+        },
+        {
+          "site": "Duluth",
+          "variety": "No. 475",
+          "year": 1931,
+          "yield": 33.06666
+        },
+        {
+          "site": "University Farm",
+          "variety": "Wisconsin No. 38",
+          "year": 1931,
+          "yield": 39.3
+        },
+        {
+          "site": "Waseca",
+          "variety": "Wisconsin No. 38",
+          "year": 1931,
+          "yield": 58.8
+        },
+        {
+          "site": "Morris",
+          "variety": "Wisconsin No. 38",
+          "year": 1931,
+          "yield": 29.46667
+        },
+        {
+          "site": "Crookston",
+          "variety": "Wisconsin No. 38",
+          "year": 1931,
+          "yield": 49.86667
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "Wisconsin No. 38",
+          "year": 1931,
+          "yield": 34.46667
+        },
+        {
+          "site": "Duluth",
+          "variety": "Wisconsin No. 38",
+          "year": 1931,
+          "yield": 31.6
+        },
+        {
+          "site": "University Farm",
+          "variety": "Manchuria",
+          "year": 1932,
+          "yield": 26.9
+        },
+        {
+          "site": "Waseca",
+          "variety": "Manchuria",
+          "year": 1932,
+          "yield": 33.46667
+        },
+        {
+          "site": "Morris",
+          "variety": "Manchuria",
+          "year": 1932,
+          "yield": 34.36666
+        },
+        {
+          "site": "Crookston",
+          "variety": "Manchuria",
+          "year": 1932,
+          "yield": 32.96667
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "Manchuria",
+          "year": 1932,
+          "yield": 22.13333
+        },
+        {
+          "site": "Duluth",
+          "variety": "Manchuria",
+          "year": 1932,
+          "yield": 22.56667
+        },
+        {
+          "site": "University Farm",
+          "variety": "Glabron",
+          "year": 1932,
+          "yield": 36.8
+        },
+        {
+          "site": "Waseca",
+          "variety": "Glabron",
+          "year": 1932,
+          "yield": 37.73333
+        },
+        {
+          "site": "Morris",
+          "variety": "Glabron",
+          "year": 1932,
+          "yield": 35.13333
+        },
+        {
+          "site": "Crookston",
+          "variety": "Glabron",
+          "year": 1932,
+          "yield": 26.16667
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "Glabron",
+          "year": 1932,
+          "yield": 14.43333
+        },
+        {
+          "site": "Duluth",
+          "variety": "Glabron",
+          "year": 1932,
+          "yield": 25.86667
+        },
+        {
+          "site": "University Farm",
+          "variety": "Svansota",
+          "year": 1932,
+          "yield": 27.43334
+        },
+        {
+          "site": "Waseca",
+          "variety": "Svansota",
+          "year": 1932,
+          "yield": 38.5
+        },
+        {
+          "site": "Morris",
+          "variety": "Svansota",
+          "year": 1932,
+          "yield": 35.03333
+        },
+        {
+          "site": "Crookston",
+          "variety": "Svansota",
+          "year": 1932,
+          "yield": 20.63333
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "Svansota",
+          "year": 1932,
+          "yield": 16.63333
+        },
+        {
+          "site": "Duluth",
+          "variety": "Svansota",
+          "year": 1932,
+          "yield": 22.23333
+        },
+        {
+          "site": "University Farm",
+          "variety": "Velvet",
+          "year": 1932,
+          "yield": 26.8
+        },
+        {
+          "site": "Waseca",
+          "variety": "Velvet",
+          "year": 1932,
+          "yield": 37.4
+        },
+        {
+          "site": "Morris",
+          "variety": "Velvet",
+          "year": 1932,
+          "yield": 38.83333
+        },
+        {
+          "site": "Crookston",
+          "variety": "Velvet",
+          "year": 1932,
+          "yield": 32.06666
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "Velvet",
+          "year": 1932,
+          "yield": 32.23333
+        },
+        {
+          "site": "Duluth",
+          "variety": "Velvet",
+          "year": 1932,
+          "yield": 22.46667
+        },
+        {
+          "site": "University Farm",
+          "variety": "Trebi",
+          "year": 1932,
+          "yield": 29.06667
+        },
+        {
+          "site": "Waseca",
+          "variety": "Trebi",
+          "year": 1932,
+          "yield": 49.2333
+        },
+        {
+          "site": "Morris",
+          "variety": "Trebi",
+          "year": 1932,
+          "yield": 46.63333
+        },
+        {
+          "site": "Crookston",
+          "variety": "Trebi",
+          "year": 1932,
+          "yield": 41.83333
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "Trebi",
+          "year": 1932,
+          "yield": 20.63333
+        },
+        {
+          "site": "Duluth",
+          "variety": "Trebi",
+          "year": 1932,
+          "yield": 30.6
+        },
+        {
+          "site": "University Farm",
+          "variety": "No. 457",
+          "year": 1932,
+          "yield": 26.43334
+        },
+        {
+          "site": "Waseca",
+          "variety": "No. 457",
+          "year": 1932,
+          "yield": 42.2
+        },
+        {
+          "site": "Morris",
+          "variety": "No. 457",
+          "year": 1932,
+          "yield": 43.53334
+        },
+        {
+          "site": "Crookston",
+          "variety": "No. 457",
+          "year": 1932,
+          "yield": 34.33333
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "No. 457",
+          "year": 1932,
+          "yield": 19.46667
+        },
+        {
+          "site": "Duluth",
+          "variety": "No. 457",
+          "year": 1932,
+          "yield": 22.7
+        },
+        {
+          "site": "University Farm",
+          "variety": "No. 462",
+          "year": 1932,
+          "yield": 25.56667
+        },
+        {
+          "site": "Waseca",
+          "variety": "No. 462",
+          "year": 1932,
+          "yield": 44.7
+        },
+        {
+          "site": "Morris",
+          "variety": "No. 462",
+          "year": 1932,
+          "yield": 47
+        },
+        {
+          "site": "Crookston",
+          "variety": "No. 462",
+          "year": 1932,
+          "yield": 30.53333
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "No. 462",
+          "year": 1932,
+          "yield": 19.9
+        },
+        {
+          "site": "Duluth",
+          "variety": "No. 462",
+          "year": 1932,
+          "yield": 22.5
+        },
+        {
+          "site": "University Farm",
+          "variety": "Peatland",
+          "year": 1932,
+          "yield": 28.06667
+        },
+        {
+          "site": "Waseca",
+          "variety": "Peatland",
+          "year": 1932,
+          "yield": 36.03333
+        },
+        {
+          "site": "Morris",
+          "variety": "Peatland",
+          "year": 1932,
+          "yield": 43.2
+        },
+        {
+          "site": "Crookston",
+          "variety": "Peatland",
+          "year": 1932,
+          "yield": 25.23333
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "Peatland",
+          "year": 1932,
+          "yield": 26.76667
+        },
+        {
+          "site": "Duluth",
+          "variety": "Peatland",
+          "year": 1932,
+          "yield": 31.36667
+        },
+        {
+          "site": "University Farm",
+          "variety": "No. 475",
+          "year": 1932,
+          "yield": 30
+        },
+        {
+          "site": "Waseca",
+          "variety": "No. 475",
+          "year": 1932,
+          "yield": 41.26667
+        },
+        {
+          "site": "Morris",
+          "variety": "No. 475",
+          "year": 1932,
+          "yield": 44.23333
+        },
+        {
+          "site": "Crookston",
+          "variety": "No. 475",
+          "year": 1932,
+          "yield": 32.13333
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "No. 475",
+          "year": 1932,
+          "yield": 15.23333
+        },
+        {
+          "site": "Duluth",
+          "variety": "No. 475",
+          "year": 1932,
+          "yield": 27.36667
+        },
+        {
+          "site": "University Farm",
+          "variety": "Wisconsin No. 38",
+          "year": 1932,
+          "yield": 38
+        },
+        {
+          "site": "Waseca",
+          "variety": "Wisconsin No. 38",
+          "year": 1932,
+          "yield": 58.16667
+        },
+        {
+          "site": "Morris",
+          "variety": "Wisconsin No. 38",
+          "year": 1932,
+          "yield": 47.16667
+        },
+        {
+          "site": "Crookston",
+          "variety": "Wisconsin No. 38",
+          "year": 1932,
+          "yield": 35.9
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "Wisconsin No. 38",
+          "year": 1932,
+          "yield": 20.66667
+        },
+        {
+          "site": "Duluth",
+          "variety": "Wisconsin No. 38",
+          "year": 1932,
+          "yield": 29.33333
+        }
+      ]
+    },
+    "layer": [
+      {
+        "encoding": {
+          "x": {
+            "field": "yield",
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "variety",
+            "type": "nominal"
+          }
+        },
+        "mark": {
+          "extent": "stdev",
+          "type": "errorbar"
+        }
+      },
+      {
+        "encoding": {
+          "x": {
+            "aggregate": "mean",
+            "field": "yield",
+            "scale": {
+              "zero": false
+            },
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "variety",
+            "type": "nominal"
+          }
+        },
+        "mark": {
+          "color": "black",
+          "filled": true,
+          "type": "point"
+        }
+      }
+    ]
+  },
+  "mv-dual-axis": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/seattle-weather.csv"
+    },
+    "layer": [
+      {
+        "encoding": {
+          "x": {
+            "field": "date",
+            "timeUnit": "month",
+            "type": "ordinal"
+          },
+          "y": {
+            "aggregate": "sum",
+            "field": "precipitation",
+            "title": "Precipitation (mm)",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "color": "lightsteelblue",
+          "type": "bar"
+        }
+      },
+      {
+        "encoding": {
+          "x": {
+            "field": "date",
+            "timeUnit": "month",
+            "type": "ordinal"
+          },
+          "y": {
+            "aggregate": "mean",
+            "field": "temp_max",
+            "title": "Max temperature (°C)",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "color": "crimson",
+          "point": true,
+          "type": "line"
+        }
+      }
+    ],
+    "resolve": {
+      "scale": {
+        "y": "independent"
+      }
+    }
+  },
+  "mv-area-normalize": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/iowa-electricity.csv"
+    },
+    "encoding": {
+      "color": {
+        "field": "source",
+        "type": "nominal"
+      },
+      "x": {
+        "field": "year",
+        "type": "temporal"
+      },
+      "y": {
+        "axis": {
+          "format": ".0%"
+        },
+        "field": "net_generation",
+        "stack": "normalize",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "type": "area"
+    }
+  },
+  "mv-hconcat-weather": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/seattle-weather.csv"
+    },
+    "hconcat": [
+      {
+        "encoding": {
+          "color": {
+            "field": "weather",
+            "type": "nominal"
+          },
+          "x": {
+            "field": "weather",
+            "type": "nominal"
+          },
+          "y": {
+            "aggregate": "count",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "type": "bar"
+        }
+      },
+      {
+        "encoding": {
+          "color": {
+            "field": "weather",
+            "type": "nominal"
+          },
+          "x": {
+            "field": "temp_max",
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "precipitation",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "filled": true,
+          "opacity": 0.5,
+          "type": "point"
+        }
+      }
+    ]
+  },
+  "mv-boxplot-strip": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/cars.json"
+    },
+    "hconcat": [
+      {
+        "encoding": {
+          "color": {
+            "field": "Origin",
+            "type": "nominal"
+          },
+          "x": {
+            "field": "Origin",
+            "type": "nominal"
+          },
+          "y": {
+            "field": "Miles_per_Gallon",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "extent": "min-max",
+          "type": "boxplot"
+        }
+      },
+      {
+        "encoding": {
+          "color": {
+            "field": "Origin",
+            "type": "nominal"
+          },
+          "x": {
+            "field": "Origin",
+            "type": "nominal"
+          },
+          "y": {
+            "field": "Miles_per_Gallon",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "opacity": 0.6,
+          "type": "tick"
+        }
+      }
+    ]
+  },
+  "mv-vconcat-stocks": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/stocks.csv"
+    },
+    "vconcat": [
+      {
+        "encoding": {
+          "color": {
+            "field": "symbol",
+            "type": "nominal"
+          },
+          "x": {
+            "field": "date",
+            "type": "temporal"
+          },
+          "y": {
+            "field": "price",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "type": "line"
+        }
+      },
+      {
+        "encoding": {
+          "color": {
+            "field": "symbol",
+            "type": "nominal"
+          },
+          "x": {
+            "aggregate": "mean",
+            "field": "price",
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "symbol",
+            "sort": "-x",
+            "type": "nominal"
+          }
+        },
+        "mark": {
+          "type": "bar"
+        }
+      }
+    ]
+  },
+  "exam-cars-condition": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/cars.json"
+    },
+    "encoding": {
+      "color": {
+        "condition": {
+          "test": "(datum.Cylinders === 4)",
+          "value": "red"
+        },
+        "value": "blue"
+      },
+      "shape": {
+        "field": "Origin",
+        "type": "nominal"
+      },
+      "x": {
+        "field": "Horsepower",
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "Miles_per_Gallon",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "filled": true,
+      "size": 200,
+      "stroke": "black",
+      "type": "point"
+    },
+    "transform": [
+      {
+        "filter": "year(datum.Year) > 1975"
+      }
+    ]
+  },
+  "exam-slope-parliament": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "name": "data-fbe82da49830e1deb5bff2fa012f1137"
+    },
+    "datasets": {
+      "data-fbe82da49830e1deb5bff2fa012f1137": [
+        {
+          "Governing": true,
+          "Party": "Liberals",
+          "Seats": 81,
+          "Year": 2018
+        },
+        {
+          "Governing": false,
+          "Party": "Democrats",
+          "Seats": 92,
+          "Year": 2018
+        },
+        {
+          "Governing": true,
+          "Party": "Conservatives",
+          "Seats": 61,
+          "Year": 2018
+        },
+        {
+          "Governing": false,
+          "Party": "Activists",
+          "Seats": 10,
+          "Year": 2018
+        },
+        {
+          "Governing": false,
+          "Party": "Extreme",
+          "Seats": 21,
+          "Year": 2018
+        },
+        {
+          "Governing": false,
+          "Party": "Liberals",
+          "Seats": 89,
+          "Year": 2023
+        },
+        {
+          "Governing": true,
+          "Party": "Democrats",
+          "Seats": 70,
+          "Year": 2023
+        },
+        {
+          "Governing": false,
+          "Party": "Conservatives",
+          "Seats": 75,
+          "Year": 2023
+        },
+        {
+          "Governing": true,
+          "Party": "Activists",
+          "Seats": 21,
+          "Year": 2023
+        },
+        {
+          "Governing": false,
+          "Party": "Extreme",
+          "Seats": 10,
+          "Year": 2023
+        }
+      ]
+    },
+    "layer": [
+      {
+        "encoding": {
+          "color": {
+            "field": "Party",
+            "type": "nominal"
+          },
+          "x": {
+            "field": "Year",
+            "type": "ordinal"
+          },
+          "y": {
+            "field": "Seats",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "type": "line"
+        }
+      },
+      {
+        "encoding": {
+          "text": {
+            "field": "Seats",
+            "type": "quantitative"
+          },
+          "x": {
+            "field": "Year",
+            "type": "ordinal"
+          },
+          "y": {
+            "field": "Seats",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "color": "gray",
+          "type": "text",
+          "xOffset": 15
+        },
+        "transform": [
+          {
+            "filter": "(datum.Year === 2023)"
+          }
+        ]
+      },
+      {
+        "encoding": {
+          "color": {
+            "condition": {
+              "test": "datum.Governing",
+              "value": "yellow"
+            },
+            "field": "Party",
+            "type": "nominal"
+          },
+          "size": {
+            "condition": {
+              "test": "datum.Governing",
+              "value": 60
+            },
+            "value": 30
+          },
+          "x": {
+            "field": "Year",
+            "type": "ordinal"
+          },
+          "y": {
+            "field": "Seats",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "filled": true,
+          "opacity": 1,
+          "shape": "square",
+          "type": "point"
+        }
+      }
+    ],
+    "width": 300
+  },
+  "exam-disasters-timeline": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/disasters.csv"
+    },
+    "layer": [
+      {
+        "encoding": {
+          "color": {
+            "field": "Entity",
+            "type": "nominal"
+          },
+          "size": {
+            "field": "Deaths",
+            "type": "quantitative"
+          },
+          "x": {
+            "field": "Year",
+            "type": "ordinal"
+          },
+          "y": {
+            "field": "Entity",
+            "type": "nominal"
+          }
+        },
+        "mark": {
+          "opacity": 1,
+          "type": "circle"
+        }
+      },
+      {
+        "encoding": {
+          "color": {
+            "field": "Entity",
+            "type": "nominal"
+          },
+          "x": {
+            "field": "Year",
+            "type": "ordinal"
+          },
+          "y": {
+            "field": "Entity",
+            "type": "nominal"
+          }
+        },
+        "mark": {
+          "type": "line"
+        }
+      }
+    ],
+    "transform": [
+      {
+        "filter": "((datum.Year > 1990) && (datum.Entity !== 'All natural disasters'))"
+      }
+    ]
+  },
+  "exam-bullet-hospital": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "name": "data-6b0ccd6f38e4fb135532cd6a107c60af"
+    },
+    "datasets": {
+      "data-6b0ccd6f38e4fb135532cd6a107c60af": [
+        {
+          "historic": 60,
+          "level1": 75,
+          "level2": 100,
+          "level3": 150,
+          "month": "January",
+          "value": 115
+        },
+        {
+          "historic": 95,
+          "level1": 75,
+          "level2": 100,
+          "level3": 150,
+          "month": "February",
+          "value": 120
+        },
+        {
+          "historic": 65,
+          "level1": 75,
+          "level2": 100,
+          "level3": 150,
+          "month": "March",
+          "value": 80
+        }
+      ]
+    },
+    "layer": [
+      {
+        "encoding": {
+          "x": {
+            "field": "level3",
+            "scale": {
+              "domain": [
+                0,
+                160
+              ]
+            },
+            "title": null,
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "month",
+            "sort": [
+              "January",
+              "February",
+              "March"
+            ],
+            "title": null,
+            "type": "nominal"
+          }
+        },
+        "mark": {
+          "color": "red",
+          "opacity": 0.5,
+          "size": 24,
+          "type": "bar"
+        }
+      },
+      {
+        "encoding": {
+          "x": {
+            "field": "level2",
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "month",
+            "sort": [
+              "January",
+              "February",
+              "March"
+            ],
+            "title": null,
+            "type": "nominal"
+          }
+        },
+        "mark": {
+          "color": "yellow",
+          "opacity": 0.5,
+          "size": 24,
+          "type": "bar"
+        }
+      },
+      {
+        "encoding": {
+          "x": {
+            "field": "level1",
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "month",
+            "sort": [
+              "January",
+              "February",
+              "March"
+            ],
+            "title": null,
+            "type": "nominal"
+          }
+        },
+        "mark": {
+          "color": "green",
+          "opacity": 0.5,
+          "size": 24,
+          "type": "bar"
+        }
+      },
+      {
+        "encoding": {
+          "x": {
+            "field": "value",
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "month",
+            "sort": [
+              "January",
+              "February",
+              "March"
+            ],
+            "title": null,
+            "type": "nominal"
+          }
+        },
+        "mark": {
+          "color": "black",
+          "size": 4,
+          "type": "bar"
+        }
+      },
+      {
+        "encoding": {
+          "x": {
+            "field": "value",
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "month",
+            "sort": [
+              "January",
+              "February",
+              "March"
+            ],
+            "title": null,
+            "type": "nominal"
+          }
+        },
+        "mark": {
+          "fill": "yellow",
+          "filled": true,
+          "size": 70,
+          "stroke": "black",
+          "type": "point"
+        }
+      },
+      {
+        "encoding": {
+          "x": {
+            "field": "historic",
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "month",
+            "sort": [
+              "January",
+              "February",
+              "March"
+            ],
+            "title": null,
+            "type": "nominal"
+          }
+        },
+        "mark": {
+          "color": "purple",
+          "size": 30,
+          "thickness": 2,
+          "type": "tick"
+        }
+      }
+    ]
   }
 }

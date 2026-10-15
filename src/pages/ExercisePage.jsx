@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { DATASETS } from '../content/datasets.js'
 import targets from '../content/targets.json'
+import { TOPICS } from '../content/exercises.js'
 import { check } from '../lib/checker.js'
 import { python } from '../lib/python/index.js'
 import { allExercises, exerciseLabel, navigate, resolveDataset } from '../lib/router.js'
@@ -49,7 +50,7 @@ export function ExercisePage({ exercise, state, update }) {
 
   // Declared after the target effect above: effects run in order, so the hook's
   // first run already waits on targetPromise.
-  const { code, out, onChange, runNow, reset, completions } = useLiveRun({
+  const { code, out, onChange, runNow, reset, columns } = useLiveRun({
     initialCode: typeof stored === 'string' ? stored : starter,
     starter,
     dataset,
@@ -69,8 +70,10 @@ export function ExercisePage({ exercise, state, update }) {
     }
   }, [solved, id, state.solved, update])
 
+  // Next follows the rail, which groups exercises by topic.
   const list = allExercises(state)
-  const next = list[list.findIndex((e) => e.id === id) + 1]
+  const ordered = [...TOPICS, 'Generated'].flatMap((t) => list.filter((e) => e.topic === t))
+  const next = ordered[ordered.findIndex((e) => e.id === id) + 1]
 
   const targetMessage = !target
     ? 'Computing the target chart…'
@@ -92,18 +95,31 @@ export function ExercisePage({ exercise, state, update }) {
           <button type="button" className="primary" onClick={runNow}>Run</button>
         </div>
         <div className="editor-wrap">
-          <Editor ref={editor} value={code} onChange={onChange} onRun={runNow} completions={completions} />
+          <Editor ref={editor} value={code} onChange={onChange} onRun={runNow} columns={columns} />
         </div>
       </section>
       <section className="pane out">
-        <ChartCard title="Target" spec={target?.spec} message={targetMessage} />
-        <ChartCard title="Yours" spec={out.spec} message={out.message} placeholder={IDLE_MESSAGE} />
-        {result && !target?.message && <CheckList checks={result.checks} solved={solved} />}
-        {solved && next && (
-          <button type="button" className="next" onClick={() => navigate(`#/ex/${encodeURIComponent(next.id)}`)}>
-            Next →
-          </button>
+        {solved && (
+          <div className="solved-banner" role="status">
+            <span className="solved-mark" aria-hidden="true">✓</span>
+            <div className="solved-text">
+              <strong>Solved</strong>
+              <span>Your chart matches the target.</span>
+            </div>
+            {next ? (
+              <button type="button" className="next" onClick={() => navigate(`#/ex/${encodeURIComponent(next.id)}`)}>
+                Next exercise →
+              </button>
+            ) : (
+              <span className="solved-last">That was the last one.</span>
+            )}
+          </div>
         )}
+        <div className="chart-pair">
+          <ChartCard title="Target" spec={target?.spec} message={targetMessage} />
+          <ChartCard title="Yours" spec={out.spec} message={out.message} placeholder={IDLE_MESSAGE} matched={solved} />
+        </div>
+        {result && !target?.message && <CheckList checks={result.checks} solved={solved} />}
       </section>
     </>
   )
