@@ -1,0 +1,39 @@
+.check-list {
+  font-size: 12px;
+  padding: 2px 2px 0;
+}
+.check-heading {
+  margin: 0 0 4px;
+  font: 600 14px var(--font-head);
+}
+.check-heading.solved {
+  color: var(--accent);
+  font-size: 16px;
+}
+.check-list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.check-list li {
+  display: flex;
+  gap: 7px;
+  padding: 2px 0;
+}
+.check-list .ok .mark {
+  color: var(--accent);
+  font-weight: 700;
+}
+.check-list .no {
+  color: var(--muted);
+}
+.check-list .no .mark {
+  color: var(--faint);
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}

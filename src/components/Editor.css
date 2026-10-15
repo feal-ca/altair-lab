@@ -1,0 +1,11 @@
+.editor-host {
+  height: 100%;
+  min-height: 0;
+  background: var(--sheet);
+}
+.editor-host .cm-editor {
+  height: 100%;
+}
+.editor-host .cm-editor.cm-focused {
+  outline: none;
+}

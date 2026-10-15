@@ -1,0 +1,26 @@
+.chart-card {
+  background: var(--sheet);
+  border: 1px solid #d4d4cf;
+  box-shadow: 2px 2px 0 var(--grid);
+  padding: 8px 12px 10px;
+  min-width: 0;
+}
+.chart-card-title {
+  margin: 0 0 4px;
+  font: italic 400 13px var(--font-head);
+  color: var(--muted);
+}
+.chart-card-body {
+  overflow: auto;
+}
+.chart-card-body svg {
+  max-width: 100%;
+  height: auto;
+}
+.chart-card-msg {
+  padding: 10px 2px;
+  font: 12px/1.5 var(--font-mono);
+  color: var(--ink2);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
