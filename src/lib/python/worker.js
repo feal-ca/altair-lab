@@ -22,7 +22,7 @@ self.onmessage = (e) => {
   const m = e.data;
   if (m.type !== 'run') return;
   if (ready) runOne(m);
-  else queue.push(m);
+  else queue.splice(0, queue.length, m); // before ready only the newest run matters
 };
 
 (async () => {
@@ -38,7 +38,7 @@ self.onmessage = (e) => {
     await pyodide.runPythonAsync(runnerSrc);
     ready = true;
     status('ready');
-    // Only the latest queued run matters; the client already marked older ones stale.
+    // The queue holds at most the newest run; the client already marked older ones stale.
     for (const m of queue.splice(0)) await runOne(m);
   } catch (err) {
     status('error', { error: String(err?.message ?? err) });
