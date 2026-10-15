@@ -1,0 +1,18 @@
+:root {
+  --paper: #f4f4f2;
+  --grid: #e3e3df;
+  --sheet: #fcfcfb;
+  --ink: #1c1c1c;
+  --ink2: #444;
+  --muted: #767676;
+  --faint: #adadaa;
+  --rule: #cacac4;
+  --accent: #e0452b;
+  --ok: #2f7a55;
+  --kw: #3a5f8a;
+  --str: #8a5a1a;
+
+  --font-head: 'Fraunces Variable', serif;
+  --font-ui: 'Instrument Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
