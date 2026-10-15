@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "targets": "node scripts/build-targets.mjs",
-    "test:py": "node scripts/test-runner.mjs"
+    "test:py": "node scripts/test-runner.mjs",
+    "test:gen": "node scripts/test-generated.mjs"
   },
   "dependencies": {
     "@codemirror/autocomplete": "^6.20.3",
