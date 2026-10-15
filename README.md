@@ -9,7 +9,7 @@ Run `npm ci`, then `npm run dev` to start the dev server.
 ## Scripts
 
 - `npm test` runs the unit tests (`vitest run`).
-- `npm run test:py` runs every exercise solution through Pyodide and checks that it solves its own target.
+- `npm run test:py` runs the Python runner's edge cases through Pyodide: errors, no chart, `sys.exit`, `KeyboardInterrupt` and null bytes.
 - `npm run test:gen` runs the exercise generator's output through Pyodide.
 - `npm run targets` rebuilds the target chart specs in `src/content/targets.json`. Rerun it after editing an exercise solution.
 
