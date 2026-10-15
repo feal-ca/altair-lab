@@ -12,8 +12,8 @@ body,
 }
 
 body {
-  background: var(--paper) linear-gradient(var(--grid) 1px, transparent 1px) 0 0/18px 18px,
-    linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0/18px 18px;
+  background: linear-gradient(var(--grid) 1px, transparent 1px) 0 0/18px 18px,
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0/18px 18px, var(--paper);
   color: var(--ink);
   font: 14px/1.45 var(--font-ui);
 }
