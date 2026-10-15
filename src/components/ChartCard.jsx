@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
 import vegaEmbed from 'vega-embed'
 import { baseConfig } from '../lib/vegaTheme.js'
+import { fitWidth } from '../lib/fitWidth.js'
 import './ChartCard.css'
 
 // vega-embed hands config to Vega-Lite as a compile option, and Vega-Lite merges
 // spec.config over it (compile.ts: mergeConfig(opt.config, inputSpec.config)),
 // so the Altair spec's own config wins and baseConfig fills the gaps.
+// fitWidth stretches single and layered charts to the card; it only touches the
+// rendering copy, so the checker still sees the spec Altair produced.
 export function ChartCard({ title, spec, message, placeholder, matched = false }) {
   const el = useRef(null)
   const [embedError, setEmbedError] = useState(null)
@@ -15,7 +18,7 @@ export function ChartCard({ title, spec, message, placeholder, matched = false }
     if (message || !spec || !el.current) return undefined
     let cancelled = false
     let view = null
-    vegaEmbed(el.current, spec, { actions: false, renderer: 'svg', config: baseConfig })
+    vegaEmbed(el.current, fitWidth(spec), { actions: false, renderer: 'svg', config: baseConfig })
       .then((result) => {
         if (cancelled) result.view.finalize()
         else view = result.view

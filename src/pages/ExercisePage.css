@@ -32,11 +32,9 @@
   color: var(--paper);
   border-color: var(--ink);
 }
-/* Cards shrink to the chart; in a pair both take the wider chart's width. */
-.pane.out > .chart-card { align-self: flex-start; max-width: 100%; }
 .chart-pair {
-  display: grid;
-  grid-template-columns: fit-content(100%);
+  display: flex;
+  flex-direction: column;
   gap: 10px;
 }
 .solved-banner {

@@ -21,6 +21,8 @@
 }
 .chart-card-body {
   overflow: auto;
+  /* Charts with a fixed size (concat, facet, explicit width) sit centred. */
+  text-align: center;
 }
 .chart-card-body svg {
   max-width: 100%;
