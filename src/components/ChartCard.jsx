@@ -11,10 +11,10 @@ export function ChartCard({ title, spec, message }) {
   const [embedError, setEmbedError] = useState(null)
 
   useEffect(() => {
+    setEmbedError(null)
     if (message || !spec || !el.current) return undefined
     let cancelled = false
     let view = null
-    setEmbedError(null)
     vegaEmbed(el.current, spec, { actions: false, renderer: 'svg', config: baseConfig })
       .then((result) => {
         if (cancelled) result.view.finalize()
@@ -33,11 +33,8 @@ export function ChartCard({ title, spec, message }) {
   return (
     <section className="chart-card">
       {title && <h3 className="chart-card-title">{title}</h3>}
-      {shown ? (
-        <div className="chart-card-msg">{shown}</div>
-      ) : (
-        <div className="chart-card-body" ref={el} />
-      )}
+      {shown && <div className="chart-card-msg">{shown}</div>}
+      <div className="chart-card-body" ref={el} hidden={Boolean(shown)} />
     </section>
   )
 }

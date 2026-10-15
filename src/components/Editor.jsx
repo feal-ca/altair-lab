@@ -7,7 +7,7 @@ import {
   highlightActiveLine,
   drawSelection,
 } from '@codemirror/view'
-import { EditorState } from '@codemirror/state'
+import { EditorState, Prec } from '@codemirror/state'
 import { history, historyKeymap, defaultKeymap, indentWithTab } from '@codemirror/commands'
 import { python } from '@codemirror/lang-python'
 import {
@@ -80,13 +80,29 @@ export const Editor = forwardRef(function Editor({ value, onChange, onRun, compl
     const source = (context) => {
       const word = context.matchBefore(/[\w.]+/)
       if (!word || (word.from === word.to && !context.explicit)) return null
+      // A column completion applies `'name:T'` with its own quotes, so swallow a quote
+      // typed before the word and an auto-closed one right after the cursor.
+      const doc = context.state.doc
+      const quoteBefore = /['"]/.test(doc.sliceString(Math.max(0, word.from - 1), word.from))
+      const quoteAfter = /['"]/.test(doc.sliceString(word.to, word.to + 1))
       return {
         from: word.from,
-        options: (latest.current.completions || []).map((c) => ({
-          label: c.label,
-          apply: c.apply,
-          detail: c.detail,
-        })),
+        options: (latest.current.completions || []).map((c) => {
+          const quoted = typeof c.apply === 'string' && /^'.*'$/.test(c.apply)
+          if (!quoted || !quoteBefore) return { label: c.label, apply: c.apply, detail: c.detail }
+          return {
+            label: c.label,
+            detail: c.detail,
+            apply: (view, _completion, from, to) => {
+              const f = from - 1
+              const t = quoteAfter ? to + 1 : to
+              view.dispatch({
+                changes: { from: f, to: t, insert: c.apply },
+                selection: { anchor: f + c.apply.length },
+              })
+            },
+          }
+        }),
         validFor: /^[\w.]*$/,
       }
     }
@@ -99,7 +115,8 @@ export const Editor = forwardRef(function Editor({ value, onChange, onRun, compl
           python(),
           theme,
           syntaxHighlighting(highlight),
-          keymap.of([
+          Prec.highest(
+            keymap.of([
             indentWithTab,
             {
               key: 'Mod-Enter',
@@ -108,7 +125,8 @@ export const Editor = forwardRef(function Editor({ value, onChange, onRun, compl
                 return true
               },
             },
-          ]),
+          ])
+          ),
           autocompletion({ override: [source] }),
           EditorView.updateListener.of((u) => {
             if (u.docChanged) latest.current.onChange?.(u.state.doc.toString())

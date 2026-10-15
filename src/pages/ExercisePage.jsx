@@ -45,13 +45,14 @@ export function ExercisePage({ exercise, state, update }) {
   // Generated exercises have no precomputed target: run the solution once.
   useEffect(() => {
     cancelled.current = false
+    let stop = false
     if (isGenerated) {
-      const p = runSolution(exercise.solution, () => cancelled.current).then((o) => {
-        if (!cancelled.current) setTarget(o)
+      targetPromise.current = runSolution(exercise.solution, () => stop).then((o) => {
+        if (!stop) setTarget(o)
       })
-      targetPromise.current = p
     }
     return () => {
+      stop = true
       cancelled.current = true
       clearTimeout(timer.current)
     }
