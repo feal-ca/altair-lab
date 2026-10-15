@@ -13,6 +13,16 @@ export function createPython({ createWorker = defaultCreateWorker, timeoutMs = 1
     subscribers.forEach((cb) => cb(status));
   }
 
+  function startTimer() {
+    if (!pending || pending.timer) return;
+    const { id } = pending;
+    pending.timer = setTimeout(() => {
+      if (!pending || pending.id !== id) return;
+      settle({ timeout: true });
+      restart();
+    }, timeoutMs);
+  }
+
   function settle(result) {
     if (!pending) return;
     const { resolve, timer } = pending;
@@ -30,6 +40,7 @@ export function createPython({ createWorker = defaultCreateWorker, timeoutMs = 1
       if (m.type === 'status') {
         const { phase, step, error } = m;
         setStatus({ phase, ...(step !== undefined && { step }), ...(error !== undefined && { error }) });
+        if (phase === 'ready') startTimer();
       } else if (m.type === 'result' && pending && pending.id === m.id) {
         settle(m.result);
       }
@@ -63,12 +74,9 @@ export function createPython({ createWorker = defaultCreateWorker, timeoutMs = 1
       settle({ stale: true });
       const id = nextId++;
       return new Promise((resolve) => {
-        const timer = setTimeout(() => {
-          if (!pending || pending.id !== id) return;
-          settle({ timeout: true });
-          restart();
-        }, timeoutMs);
-        pending = { id, resolve, timer };
+        pending = { id, resolve, timer: null };
+        // The clock only runs once Python is ready; until then the run waits.
+        if (status.phase === 'ready') startTimer();
         worker.postMessage({ type: 'run', id, code });
       });
     },

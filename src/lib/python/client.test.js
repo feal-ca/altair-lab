@@ -53,6 +53,7 @@ describe('python client', () => {
     python.subscribe((s) => statuses.push(s));
     const p = python.run('while True: pass');
     expect(workers).toHaveLength(1);
+    workers[0].emit({ type: 'status', phase: 'ready' });
     await vi.advanceTimersByTimeAsync(10000);
     await expect(p).resolves.toEqual({ timeout: true });
     expect(workers[0].terminated).toBe(true);
@@ -114,5 +115,34 @@ describe('python client', () => {
     const seen = [];
     python.subscribe((s) => seen.push(s));
     expect(seen[0].phase).toBe('loading');
+  });
+
+  it('does not time out while Python is still loading, then times out after ready', async () => {
+    const { python, workers } = setup();
+    const p = python.run('x');
+    let done = false;
+    p.then(() => { done = true; });
+    await vi.advanceTimersByTimeAsync(20000);
+    expect(done).toBe(false);
+    expect(workers).toHaveLength(1);
+    workers[0].emit({ type: 'status', phase: 'ready' });
+    await vi.advanceTimersByTimeAsync(10000);
+    await expect(p).resolves.toEqual({ timeout: true });
+    expect(workers).toHaveLength(2);
+  });
+
+  it('a restarted worker loading does not trigger another timeout', async () => {
+    const { python, workers } = setup();
+    python.subscribe(() => {});
+    workers[0].emit({ type: 'status', phase: 'ready' });
+    const p = python.run('while True: pass');
+    await vi.advanceTimersByTimeAsync(10000);
+    await expect(p).resolves.toEqual({ timeout: true });
+    const p2 = python.run('y');
+    await vi.advanceTimersByTimeAsync(30000);
+    expect(workers).toHaveLength(2);
+    workers[1].emit({ type: 'status', phase: 'ready' });
+    workers[1].emit({ type: 'result', id: workers[1].sent[0].id, result: { noChart: true } });
+    await expect(p2).resolves.toEqual({ noChart: true });
   });
 });
