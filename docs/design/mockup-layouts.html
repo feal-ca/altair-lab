@@ -1,0 +1,103 @@
+<style>
+  .wf { font: 12px/1.4 ui-sans-serif, system-ui, sans-serif; color: #222; background: #fafaf7; border: 1px solid #ccc; border-radius: 6px; overflow: hidden; }
+  .wf * { box-sizing: border-box; }
+  .wf .bar { display: flex; align-items: center; gap: 14px; padding: 7px 10px; border-bottom: 1px solid #ccc; background: #fff; }
+  .wf .bar b { font-weight: 700; }
+  .wf .bar .nav span { margin-right: 10px; color: #666; }
+  .wf .bar .nav span.on { color: #000; text-decoration: underline; text-underline-offset: 3px; }
+  .wf .bar .st { margin-left: auto; font-size: 11px; color: #3a7d3a; }
+  .wf .box { border: 1px dashed #aaa; border-radius: 4px; padding: 7px; background: #fff; }
+  .wf .lbl { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: #888; margin-bottom: 4px; }
+  .wf .code { font-family: ui-monospace, monospace; font-size: 11px; background: #f1f0ea; border-radius: 3px; padding: 6px; color: #333; white-space: pre; overflow: hidden; }
+  .wf .chart { height: 74px; background: repeating-linear-gradient(45deg, #eee, #eee 6px, #f7f7f7 6px, #f7f7f7 12px); border-radius: 3px; display: flex; align-items: center; justify-content: center; color: #888; font-size: 11px; }
+  .wf .chk { font-size: 11px; color: #444; }
+  .wf .chk div::before { content: "✓ "; color: #3a7d3a; }
+  .wf .chk div.no::before { content: "○ "; color: #aaa; }
+  .wf .pill { display: inline-block; font-size: 10px; border: 1px solid #bbb; border-radius: 10px; padding: 0 6px; color: #555; }
+  .wf .list div { padding: 4px 6px; border-bottom: 1px solid #eee; font-size: 11px; }
+  .wf .list div.on { background: #eee; font-weight: 600; }
+  .wf .tabs span { font-size: 11px; margin-right: 8px; color: #888; }
+  .wf .tabs span.on { color: #000; border-bottom: 2px solid #000; }
+  .wf .cell { display: grid; grid-template-columns: 34px 1fr; gap: 6px; margin-bottom: 7px; }
+  .wf .cell .n { font-family: ui-monospace, monospace; font-size: 10px; color: #999; text-align: right; padding-top: 6px; }
+  .note { font-size: 13px; color: var(--text-secondary, #555); margin: 6px 0 0; }
+</style>
+
+<h2>Which workspace layout makes the most sense?</h2>
+<p class="subtitle">Wireframes only: no colours or fonts yet, just where things live. All three use the same top bar with two sections (Exercises, Sandbox), and the generator + CSV upload live inside those sections instead of the header.</p>
+
+<div class="options">
+
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content" style="width:100%">
+      <h3>Split: write on the left, compare on the right</h3>
+      <div class="wf">
+        <div class="bar"><b>AltairLab</b><span class="nav"><span class="on">Exercises</span><span>Sandbox</span></span><span class="st">● Python ready</span></div>
+        <div style="display:grid;grid-template-columns:1.1fr 1fr;gap:8px;padding:8px">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div class="box">
+              <div style="display:flex;justify-content:space-between"><span class="lbl">‹ All exercises · 10 / 16 ›</span><span class="pill">Intermediate</span></div>
+              <b>Sorted lollipop chart</b>
+              <div style="color:#555;margin-top:3px">Layer a thin bar and filled points: population on X, country sorted by −x on Y, coloured by EU membership.</div>
+              <div style="margin-top:5px;display:flex;gap:6px"><span class="pill">Hints 0/3 ▾</span><span class="pill">Data: data · 3 cols ▾</span><span class="pill">Concept: layering ▾</span></div>
+            </div>
+            <div class="box" style="flex:1"><div class="lbl">Editor</div><div class="code">ch1 = alt.Chart(data).mark_bar(height=2)...
+ch2 = alt.Chart(data).mark_point(...)
+(ch1 + ch2)</div></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div class="box"><div class="tabs"><span class="on">Side by side</span><span>Target only</span><span>Yours only</span></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:5px"><div class="chart">target</div><div class="chart">yours</div></div></div>
+            <div class="box chk"><div class="lbl">Check · 4 of 6</div><div>Two layers</div><div>x = population</div><div class="no">y sorted by −x</div><div class="no">colour scale teal / gray</div></div>
+          </div>
+        </div>
+      </div>
+      <p class="note">Exercise list is its own page. Everything for one exercise fits on one screen; the brief stays short and expands on demand.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content" style="width:100%">
+      <h3>Three panes: list · editor · output</h3>
+      <div class="wf">
+        <div class="bar"><b>AltairLab</b><span class="nav"><span class="on">Exercises</span><span>Sandbox</span></span><span class="st">● Python ready</span></div>
+        <div style="display:grid;grid-template-columns:.7fr 1.2fr 1fr;gap:8px;padding:8px">
+          <div class="box list"><div class="lbl">Exercises</div><div>✓ 1 Coloured bars</div><div>✓ 2 Square scatter</div><div>3 Opacity channel</div><div class="on">10 Lollipop</div><div>11 Connected dots</div><div style="color:#888">+ Generate…</div></div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div class="box"><b>Sorted lollipop chart</b><div style="color:#555;margin-top:3px">Layer a thin bar and filled points…</div><div style="margin-top:5px"><span class="pill">Hints 0/3 ▾</span> <span class="pill">Data ▾</span></div></div>
+            <div class="box" style="flex:1"><div class="lbl">Editor</div><div class="code">ch1 = alt.Chart(data)...
+(ch1 + ch2)</div></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div class="box"><div class="lbl">Target</div><div class="chart">target</div></div>
+            <div class="box"><div class="lbl">Yours</div><div class="chart">yours</div></div>
+            <div class="box chk"><div>Two layers</div><div class="no">y sorted</div></div>
+          </div>
+        </div>
+      </div>
+      <p class="note">Closest to the current app, tidied up. Fast to jump between exercises; the editor gets squeezed on laptop screens.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content" style="width:100%">
+      <h3>Notebook: one column of cells, like Jupyter</h3>
+      <div class="wf">
+        <div class="bar"><b>AltairLab</b><span class="nav"><span class="on">Exercises</span><span>Sandbox</span></span><span class="st">● Python ready</span></div>
+        <div style="padding:8px;max-width:560px;margin:0 auto">
+          <div class="cell"><div class="n">task</div><div class="box"><b>10 · Sorted lollipop chart</b> <span class="pill">Intermediate</span><div style="color:#555;margin-top:3px">Layer a thin bar and filled points…</div></div></div>
+          <div class="cell"><div class="n">[1]</div><div class="code">data.head()   ▸ 3 columns: country:N  population:Q  EU_membership:N</div></div>
+          <div class="cell"><div class="n">[2]</div><div class="code">ch1 = alt.Chart(data).mark_bar(height=2)...
+(ch1 + ch2)</div></div>
+          <div class="cell"><div class="n">out</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:5px"><div class="chart">target</div><div class="chart">yours</div></div></div>
+          <div class="cell"><div class="n">check</div><div class="box chk" style="display:flex;gap:10px;flex-wrap:wrap"><div>Two layers</div><div>x = population</div><div class="no">y sorted</div><div class="no">colours</div></div></div>
+        </div>
+      </div>
+      <p class="note">Feels like the course notebooks. Very readable top to bottom; you scroll between code and output on smaller screens.</p>
+    </div>
+  </div>
+
+</div>

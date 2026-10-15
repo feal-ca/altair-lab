@@ -1,0 +1,151 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;700&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+<style>
+  .m { width: 100%; max-width: 880px; height: 480px; overflow: hidden; display: flex; flex-direction: column; border-radius: 4px; }
+  .m * { box-sizing: border-box; margin: 0; }
+  .m .top { display: flex; align-items: center; gap: 22px; padding: 0 16px; height: 42px; flex: none; }
+  .m .top nav { display: flex; gap: 16px; }
+  .m .top .status { margin-left: auto; }
+  .m .body { flex: 1; display: grid; grid-template-columns: 150px 1.25fr 1fr; min-height: 0; }
+  .m .rail { overflow: hidden; display: flex; flex-direction: column; }
+  .m .rail .it { display: flex; gap: 8px; align-items: baseline; padding: 5px 12px; white-space: nowrap; overflow: hidden; }
+  .m .rail .it .t { overflow: hidden; text-overflow: ellipsis; }
+  .m .rail .grp { padding: 10px 12px 3px; }
+  .m .rail .new { margin-top: auto; padding: 10px 12px; }
+  .m .work { display: flex; flex-direction: column; min-width: 0; }
+  .m .brief { padding: 14px 16px 12px; }
+  .m .brief p { margin-top: 6px; }
+  .m .chips { display: flex; gap: 8px; margin-top: 10px; white-space: nowrap; }
+  .m .editor { flex: 1; display: flex; min-height: 0; overflow: hidden; }
+  .m .gutter { padding: 10px 8px 0 12px; text-align: right; user-select: none; }
+  .m pre { padding: 10px 12px 0 6px; white-space: pre; overflow: hidden; }
+  .m .out { display: flex; flex-direction: column; gap: 10px; padding: 12px; min-width: 0; overflow: hidden; }
+  .m .panel { padding: 8px 10px 4px; }
+  .m .panel svg { display: block; width: 100%; height: auto; }
+  .m .check .row { display: flex; gap: 7px; padding: 2px 0; }
+
+  /* ---------- A: Lab notebook ---------- */
+  .lab { background: var(--paper); color: var(--ink); font: 13px/1.45 'Instrument Sans', sans-serif;
+    background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 18px 18px; border: 1px solid var(--edge); }
+  .lab .top { background: var(--paper); border-bottom: 1.5px solid var(--ink); }
+  .lab .logo { font: 600 19px 'Fraunces', serif; letter-spacing: -.01em; }
+  .lab .logo i { color: var(--accent); font-style: italic; font-weight: 400; }
+  .lab .top nav a { color: var(--muted); } .lab .top nav a.on { color: var(--ink); box-shadow: inset 0 -2px 0 var(--accent); padding-bottom: 2px; }
+  .lab .status { font: 12px 'JetBrains Mono', monospace; color: var(--ok); }
+  .lab .rail { border-right: 1px solid var(--rule); background: var(--paper); font-size: 12px; }
+  .lab .rail .grp { font: italic 12px 'Fraunces', serif; color: var(--muted); }
+  .lab .rail .it .n { font: 11px 'JetBrains Mono', monospace; color: var(--muted); width: 16px; }
+  .lab .rail .it.done .n { color: var(--accent); }
+  .lab .rail .it.on { background: var(--ink); color: var(--paper); } .lab .rail .it.on .n { color: var(--accent-soft); }
+  .lab .rail .new { color: var(--accent); font-weight: 500; }
+  .lab .brief { background: var(--paper); border-bottom: 1px solid var(--rule); }
+  .lab .meta { font: 11px 'JetBrains Mono', monospace; color: var(--muted); }
+  .lab h4 { font: 600 22px/1.15 'Fraunces', serif; letter-spacing: -.01em; margin-top: 3px; }
+  .lab .brief p { color: var(--ink2); }
+  .lab .chip { font-size: 12px; border-bottom: 1px dashed var(--muted); color: var(--ink2); } .lab .chip b { color: var(--accent); font-weight: 600; }
+  .lab .editor { background: var(--sheet); font: 12px/1.6 'JetBrains Mono', monospace; }
+  .lab .gutter { color: var(--faint); border-right: 1px solid var(--grid); }
+  .lab .k { color: var(--kw); } .lab .s { color: var(--str); } .lab .f { color: var(--ink); font-weight: 500; } .lab .nb { color: var(--accent); } .lab .c { color: var(--faint); font-style: italic; }
+  .lab .out { background: var(--paper-a); border-left: 1px solid var(--rule); }
+  .lab .panel { background: var(--sheet); border: 1px solid var(--edge); box-shadow: 2px 2px 0 var(--grid); }
+  .lab .ptitle { font: italic 13px 'Fraunces', serif; color: var(--muted); }
+  .lab .check { font-size: 12px; } .lab .check .h { font: 600 14px 'Fraunces', serif; margin-bottom: 3px; }
+  .lab .check .ok::before { content: '✓'; color: var(--accent); font-weight: 700; } .lab .check .no { color: var(--muted); } .lab .check .no::before { content: '—'; color: var(--faint); }
+
+  
+  .cool1 { --paper:#f2f5f7; --paper-a:rgba(242,245,247,.7); --grid:#dde5eb; --edge:#cdd7df; --rule:#c3ced8; --ink:#17202b; --ink2:#3c4855; --muted:#6b7886; --faint:#a9b4bf; --sheet:#fbfcfd; --accent:#d2432c; --accent-soft:#f3a597; --ok:#2f7a55; --kw:#2a5b9a; --str:#9a5b12; }
+  .cool2 { --paper:#f4f4f2; --paper-a:rgba(244,244,242,.7); --grid:#e3e3df; --edge:#d4d4cf; --rule:#cacac4; --ink:#1c1c1c; --ink2:#444; --muted:#767676; --faint:#adadaa; --sheet:#fcfcfb; --accent:#e0452b; --accent-soft:#f5a99b; --ok:#2f7a55; --kw:#3a5f8a; --str:#8a5a1a; }
+  .cool3 { --paper:#f5f9fb; --paper-a:rgba(245,249,251,.7); --grid:#d3e6ef; --edge:#c2d9e4; --rule:#b8d0dc; --ink:#102a43; --ink2:#334e68; --muted:#627d98; --faint:#9fb3c8; --sheet:#ffffff; --accent:#e8590c; --accent-soft:#ffb38a; --ok:#2b8a3e; --kw:#1864ab; --str:#a35f00; }
+
+  .direction-note { font-size: 13px; margin-top: 8px; color: var(--text-secondary, #555); }
+</style>
+
+<h2>Lab notebook, cooler: which paper?</h2>
+<p class="subtitle">Same structure and fonts as A. Only paper, grid, ink and accent change.</p>
+<div class="options">
+  <div class="option" data-choice="cool1" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content" style="width:100%">
+      <h3>Engineering pad</h3>
+      <div class="m lab cool1" data-theme="cool1"></div>
+      <p class="direction-note">Blue-grey paper and grid, navy-black ink, red pencil kept as the only warm note. Closest to the original A, just cooled down.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="cool2" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content" style="width:100%">
+      <h3>Graphite</h3>
+      <div class="m lab cool2" data-theme="cool2"></div>
+      <p class="direction-note">Neutral grey paper, graphite ink, a brighter vermilion accent. No colour cast at all; the accent does all the talking.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="cool3" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content" style="width:100%">
+      <h3>Cyanotype</h3>
+      <div class="m lab cool3" data-theme="cool3"></div>
+      <p class="direction-note">White paper with a cyan grid, deep-blue ink, orange accent. Reads like a blueprint or a science pad; the coolest of the three.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const rows = [['Russia',145.9,'No'],['Germany',83.8,'Yes'],['UK',67.9,'No'],['France',65.3,'Yes'],['Italy',60.5,'Yes'],['Spain',46.8,'Yes']];
+  const unsorted = ['Germany','France','UK','Italy','Spain','Russia'].map(n => rows.find(r => r[0] === n));
+  function chart(data, colors, font, ink) {
+    const W = 260, rowH = 15, top = 6, left = 50, scale = 1.25;
+    let s = `<svg viewBox="0 0 ${W} ${top + rowH * data.length + 18}" font-family="${font}" font-size="9" fill="${ink}">`;
+    data.forEach((r, i) => {
+      const y = top + i * rowH + 7, x2 = left + r[1] * scale, c = colors[r[2]];
+      s += `<text x="${left - 5}" y="${y + 3}" text-anchor="end">${r[0]}</text>`;
+      s += `<line x1="${left}" y1="${y}" x2="${x2}" y2="${y}" stroke="${c}" stroke-width="2"/>`;
+      s += `<circle cx="${x2}" cy="${y}" r="3.6" fill="${c}"/>`;
+    });
+    const by = top + rowH * data.length + 4;
+    s += `<line x1="${left}" y1="${by}" x2="${left + 150 * scale}" y2="${by}" stroke="${ink}" stroke-opacity=".35"/>`;
+    [0, 50, 100, 150].forEach(v => { s += `<text x="${left + v * scale}" y="${by + 11}" text-anchor="middle" fill-opacity=".6">${v}</text>`; });
+    return s + '</svg>';
+  }
+  const target = { Yes: 'teal', No: 'gray' }, mine = { Yes: '#4c78a8', No: '#f58518' };
+  const fonts = { cool1: ['JetBrains Mono', '#17202b'], cool2: ['JetBrains Mono', '#1c1c1c'], cool3: ['JetBrains Mono', '#102a43'] };
+  const code = [
+    `ch1 = <span class="k">alt</span>.<span class="f">Chart</span>(data).<span class="f">mark_bar</span>(height=<span class="nb">2</span>).<span class="f">encode</span>(`,
+    `    x=<span class="k">alt</span>.<span class="f">X</span>(<span class="s">'population:Q'</span>),`,
+    `    y=<span class="k">alt</span>.<span class="f">Y</span>(<span class="s">'country:N'</span>),`,
+    `    color=<span class="s">'EU_membership:N'</span>`,
+    `)`,
+    `ch2 = ch1.<span class="f">mark_point</span>(size=<span class="nb">50</span>, filled=<span class="k">True</span>)`,
+    ``,
+    `<span class="c"># layer them</span>`,
+    `ch1 + ch2`
+  ];
+  const items = [['Basics'], [1,'Coloured bars',1],[2,'Square scatter',1],[3,'Opacity channel',1],[4,'Dashed line',1],['Transforms'],[5,'Filter & calculate',1],[6,'Percent axis',0],[7,'Faceted bars',0],['Layering'],[8,'Pie with labels',0],[9,'Two palettes',0],[10,'Lollipop',0,1],[11,'Connected dots',0],[12,'Regression',0]];
+  document.querySelectorAll('.m').forEach(m => {
+    const th = m.dataset.theme, [font, ink] = fonts[th];
+    const logo = 'Altair<i>Lab</i>';
+    const rail = items.map(it => it.length === 1 ? `<div class="grp">${it[0]}</div>` :
+      `<div class="it${it[2] ? ' done' : ''}${it[3] ? ' on' : ''}"><span class="n">${it[2] && !it[3] ? '✓' : it[0]}</span><span class="t">${it[1]}</span></div>`).join('');
+    const big = '';
+    const meta = '№ 10 · intermediate · layering';
+    m.innerHTML = `
+      <header class="top"><span class="logo">${logo}</span><nav><a class="on">Exercises</a><a>Sandbox</a></nav><span class="status">python ready</span></header>
+      <div class="body">
+        <aside class="rail">${rail}<div class="new">+ New exercise</div></aside>
+        <section class="work">
+          <div class="brief">${big}<div class="meta">${meta}</div><h4>Sorted lollipop chart</h4>
+            <p>Layer a thin bar and a filled point. Population on X, countries sorted by population on Y, coloured teal for EU members and gray for the rest.</p>
+            <div class="chips"><span class="chip">Hints <b>1</b>/3</span><span class="chip">Data · 3 columns</span><span class="chip">Concept: layering</span></div></div>
+          <div class="editor"><div class="gutter">${code.map((_, i) => i + 1).join('<br>')}</div><pre>${code.join('\n')}</pre></div>
+        </section>
+        <section class="out">
+          <div class="panel"><div class="ptitle">Target</div>${chart(rows, target, font, ink)}</div>
+          <div class="panel"><div class="ptitle">Yours</div>${chart(unsorted, mine, font, ink)}</div>
+          <div class="check"><div class="h">4 of 6 checks</div>
+            <div class="row ok">two layers (bar + point)</div><div class="row ok">x: population</div>
+            <div class="row no">y: sort by −x</div><div class="row no">colour: teal / gray</div></div>
+        </section>
+      </div>`;
+  });
+})();
+</script>
