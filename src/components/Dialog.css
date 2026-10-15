@@ -1,0 +1,35 @@
+.dlg {
+  border: 1px solid var(--ink);
+  background: var(--sheet);
+  color: var(--ink);
+  padding: 0;
+  width: min(440px, 92vw);
+  box-shadow: 4px 4px 0 rgba(28, 28, 28, 0.18);
+}
+.dlg::backdrop { background: rgba(28, 28, 28, 0.35); }
+.dlg-form { display: flex; flex-direction: column; gap: 12px; padding: 18px 20px; }
+.dlg-form h2 { margin: 0; font: 600 20px var(--font-head); }
+.dlg-form label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--ink2); }
+.dlg-form input[type='text'], .dlg-form select, .dlg-form textarea {
+  font: 13px var(--font-ui);
+  padding: 5px 7px;
+  border: 1px solid var(--rule);
+  background: #fff;
+  color: var(--ink);
+}
+.dlg-form textarea { font: 12px var(--font-mono); resize: vertical; }
+.dlg-form fieldset { border: 1px solid var(--rule); margin: 0; padding: 6px 10px 8px; display: flex; gap: 16px; }
+.dlg-form legend { font: italic 12px var(--font-head); color: var(--muted); padding: 0 4px; }
+.dlg-form label.radio { flex-direction: row; align-items: center; gap: 5px; font-size: 13px; color: var(--ink); }
+.dlg-note { margin: 0; font-size: 11px; color: var(--muted); }
+.dlg-error { margin: 0; color: var(--accent); font-size: 12px; }
+.dlg-actions { display: flex; justify-content: flex-end; gap: 8px; }
+.dlg-actions button {
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  padding: 4px 14px;
+  cursor: pointer;
+  font-size: 12px;
+}
+.dlg-actions button:hover { border-color: var(--ink); }
+.dlg-actions button.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }

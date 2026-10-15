@@ -1,10 +1,13 @@
 import { DATASETS } from './content/datasets.js'
+import { useState } from 'react'
 import { useStoredState } from './lib/useStoredState.js'
 import { resetState } from './lib/storage.js'
 import { useRoute, allExercises } from './lib/router.js'
 import { TopBar } from './components/TopBar.jsx'
 import { Rail } from './components/Rail.jsx'
 import { ExercisePage } from './pages/ExercisePage.jsx'
+import { SandboxPage } from './pages/SandboxPage.jsx'
+import { NewExerciseDialog } from './components/NewExerciseDialog.jsx'
 import './App.css'
 
 export default function App() {
@@ -19,10 +22,15 @@ export default function App() {
       update(() => fresh)
     }
   }
-  // TODO(Task 11): open the exercise-generator dialog here.
-  const onNewExercise = () => {}
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const onNewExercise = () => setDialogOpen(true)
 
   const exercise = route.name === 'ex' ? exercises.find((e) => e.id === route.id) ?? exercises[0] : null
+
+  const sandboxDataset =
+    route.name === 'sandbox'
+      ? DATASETS[route.id] ?? state.datasets?.[route.id] ?? Object.values(DATASETS)[0]
+      : null
 
   return (
     <div className="app">
@@ -44,13 +52,11 @@ export default function App() {
           <ExercisePage key={exercise.id} exercise={exercise} state={state} update={update} />
         </main>
       ) : (
-        <main className="placeholder">
-          {/* TODO(Task 11): Sandbox page. */}
-          <p>
-            Sandbox for {DATASETS[route.id]?.name ?? route.id ?? 'a dataset'} is coming soon.
-          </p>
+        <main className="shell" style={{ '--rail-w': '170px' }}>
+          <SandboxPage key={sandboxDataset.id} dataset={sandboxDataset} state={state} update={update} />
         </main>
       )}
+      <NewExerciseDialog open={dialogOpen} onClose={() => setDialogOpen(false)} state={state} update={update} />
     </div>
   )
 }
