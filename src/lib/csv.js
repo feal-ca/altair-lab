@@ -1,7 +1,7 @@
 // CSV parsing and column inference for user-uploaded data.
 // Plain ESM: no DOM or React imports, so Node tests can load it directly.
 
-const MAX_BYTES = 1024 * 1024
+const MAX_BYTES = 250 * 1024
 const MAX_ROWS = 5000
 const NUMERIC = /^[+-]?(\d+\.?\d*|\.\d+)([eE][+-]?\d+)?$/
 const TEMPORAL = /^\d{4}-\d{2}-\d{2}/
@@ -73,7 +73,7 @@ function convertCell(raw) {
 // parseCsv(text) -> { headers, rows } | { error }
 export function parseCsv(text) {
   if (new TextEncoder().encode(text).length > MAX_BYTES) {
-    return { error: 'The file is over 1 MB. Upload a smaller CSV.' }
+    return { error: 'The file is over 250 KB. Upload a smaller CSV.' }
   }
   // Header names are kept verbatim so they match what pandas reads from the same text.
   const split = splitRows(text.replace(/^\uFEFF/, ''))
@@ -149,7 +149,8 @@ export function datasetFromCsv(name, text) {
       'import io\nimport altair as alt\nimport pandas as pd\n\n' +
       'df = pd.read_csv(io.StringIO(' + JSON.stringify(text) + '))\n',
     columns: inferColumns(headers, rows),
-    rows,
+    // Rows are not kept: the CSV text already sits in setupCode, and the app state
+    // lives in one size-limited localStorage key.
     preview: rows.slice(0, 5),
   }
 }

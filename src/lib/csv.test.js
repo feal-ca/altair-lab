@@ -73,11 +73,11 @@ describe('parseCsv', () => {
     expect(r.rows).toHaveLength(5000)
   })
 
-  it('reports text over 1 MB as an error naming the limit', () => {
-    const big = 'a\n' + 'x'.repeat(1024 * 1024)
+  it('reports text over 250 KB as an error naming the limit', () => {
+    const big = 'a\n' + 'x'.repeat(250 * 1024)
     const r = parseCsv(big)
     expect(typeof r.error).toBe('string')
-    expect(r.error).toContain('1 MB')
+    expect(r.error).toContain('250 KB')
   })
 
   it('reports an unterminated quoted field as an error', () => {
@@ -120,8 +120,8 @@ describe('datasetFromCsv', () => {
     expect(d.varName).toBe('df')
     expect(d.source).toBe('inline')
     expect(d.description).toBe('Uploaded CSV · 2 rows · 2 columns')
-    expect(d.rows).toHaveLength(2)
-    expect(d.preview).toEqual(d.rows)
+    expect(d.rows).toBeUndefined()
+    expect(d.preview).toEqual([{ name: 'Ana', score: 10 }, { name: 'Ben', score: 20 }])
     expect(d.columns.map((c) => c.type)).toEqual(['N', 'Q'])
   })
 
@@ -129,7 +129,6 @@ describe('datasetFromCsv', () => {
     const lines = ['a']
     for (let i = 0; i < 12; i++) lines.push(String(i))
     const d = datasetFromCsv('Long', lines.join('\n'))
-    expect(d.rows).toHaveLength(12)
     expect(d.preview).toHaveLength(5)
   })
 

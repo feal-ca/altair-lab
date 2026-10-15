@@ -52,7 +52,7 @@ export function CsvForm({ update, onAdded, onCancel }) {
           placeholder={'city,population\n"Paris, FR",2.1'}
         />
       </label>
-      <p className="dlg-note">Up to 5 000 rows and 1 MB. The first row must hold the column names.</p>
+      <p className="dlg-note">Up to 5 000 rows and 250 KB. The first row must hold the column names.</p>
       {error && <p className="dlg-error" role="alert">{error}</p>}
       <div className="dlg-actions">
         <button type="button" onClick={onCancel}>Cancel</button>
