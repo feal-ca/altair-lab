@@ -53,7 +53,11 @@ const asTransforms = (t) => (Array.isArray(t) ? t : [])
 function collectViews(spec, inherit) {
   if (!isObj(spec)) return []
   const mark = spec.mark !== undefined ? asMark(spec.mark) : inherit.mark
-  const encoding = { ...inherit.encoding, ...pickEncoding(spec.encoding) }
+  const encoding = { ...inherit.encoding }
+  for (const [ch, def] of Object.entries(pickEncoding(spec.encoding))) {
+    // Key-level merge: a layer's x:{title} adds to the parent's x:{field,type}.
+    encoding[ch] = isObj(def) && isObj(encoding[ch]) ? { ...encoding[ch], ...def } : def
+  }
   const transform = [...inherit.transform, ...asTransforms(spec.transform)]
   const next = { mark, encoding, transform }
   if (Array.isArray(spec.layer)) return spec.layer.flatMap((l) => collectViews(l, next))
@@ -127,11 +131,22 @@ function structureLabel(t) {
 }
 
 function identOf(def) {
-  if (Array.isArray(def)) return def
+  if (Array.isArray(def)) return def.map(identOf)
   if (!isObj(def)) return def
   const o = {}
   for (const k of IDENT_KEYS) if (def[k] !== undefined) o[k] = def[k]
   return o
+}
+
+// Array channels (tooltip lists): every target item must appear in the user's
+// list by identity, in any order; extra items or extra item keys are fine.
+function sameIdent(ud, def) {
+  if (Array.isArray(def)) {
+    if (!Array.isArray(ud)) return false
+    const have = new Set(identOf(ud).map(canon))
+    return identOf(def).every((d) => have.has(canon(d)))
+  }
+  return canon(identOf(ud)) === canon(identOf(def))
 }
 
 export function check(userSpec, targetSpec) {
@@ -153,7 +168,7 @@ export function check(userSpec, targetSpec) {
 
     for (const [ch, def] of Object.entries(tv.encoding)) {
       const ud = uv ? uv.encoding[ch] : undefined
-      add(`enc-${i}-${ch}`, prefix + channelLabel(ch, def), ud !== undefined && canon(identOf(ud)) === canon(identOf(def)))
+      add(`enc-${i}-${ch}`, prefix + channelLabel(ch, def), ud !== undefined && sameIdent(ud, def))
       if (!isObj(def)) continue
       for (const [key, path, w] of OPTIONS) {
         const tval = getPath(def, path)

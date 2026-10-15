@@ -89,4 +89,18 @@ describe('checker', () => {
     expect(f.views).toHaveLength(1)
     expect(normalize({ mark: 'bar', title: { text: 'T' } }).title).toBe('T')
   })
+
+  it('layer encoding merges per key with the parent channel', () => {
+    const t = { layer: [{ mark: 'bar', encoding: { x: { field: 'a', type: 'nominal', title: 'B' } } }] }
+    const u = { encoding: { x: { field: 'a', type: 'nominal' } }, layer: [{ mark: 'bar', encoding: { x: { title: 'B' } } }] }
+    expect(check(u, t).solved).toBe(true)
+  })
+
+  it('array channels match by identity, any order, ignoring extra item keys', () => {
+    const t = { mark: 'bar', encoding: { tooltip: [{ field: 'year' }, { field: 'rank', type: 'quantitative' }] } }
+    const u = { mark: 'bar', encoding: { tooltip: [{ field: 'rank', type: 'quantitative', format: '.1f' }, { field: 'year', title: 'Year' }, { field: 'x' }] } }
+    expect(check(u, t).solved).toBe(true)
+    const bad = { mark: 'bar', encoding: { tooltip: [{ field: 'year' }] } }
+    expect(check(bad, t).solved).toBe(false)
+  })
 })
