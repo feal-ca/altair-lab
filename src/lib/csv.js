@@ -75,11 +75,12 @@ export function parseCsv(text) {
   if (new TextEncoder().encode(text).length > MAX_BYTES) {
     return { error: 'The file is over 1 MB. Upload a smaller CSV.' }
   }
-  const split = splitRows(text)
+  // Header names are kept verbatim so they match what pandas reads from the same text.
+  const split = splitRows(text.replace(/^\uFEFF/, ''))
   if (split.error) return { error: split.error }
   if (split.rows.length === 0) return { error: 'The file is empty.' }
 
-  const headers = split.rows[0].map((h) => h.trim())
+  const headers = split.rows[0]
   const body = split.rows.slice(1)
   if (body.length === 0) return { error: 'The file has a header row but no data rows.' }
   if (body.length > MAX_ROWS) {

@@ -14,6 +14,17 @@ describe('parseCsv', () => {
     expect(r.rows).toEqual([{ a: 'say "hi"' }])
   })
 
+  it('keeps header names exactly as pandas reads them, spaces included', () => {
+    const r = parseCsv('name, score\na,1\n')
+    expect(r.headers).toEqual(['name', ' score'])
+    expect(r.rows).toEqual([{ name: 'a', ' score': 1 }])
+  })
+
+  it('drops a leading UTF-8 byte order mark from the first header', () => {
+    const r = parseCsv('﻿a,b\n1,2\n')
+    expect(r.headers).toEqual(['a', 'b'])
+  })
+
   it('accepts CRLF line endings', () => {
     const r = parseCsv('a,b\r\n1,2\r\n3,4\r\n')
     expect(r.headers).toEqual(['a', 'b'])
