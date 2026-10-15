@@ -49,7 +49,7 @@ export function ExercisePage({ exercise, state, update }) {
 
   // Declared after the target effect above: effects run in order, so the hook's
   // first run already waits on targetPromise.
-  const { out, onChange, runNow, reset, completions } = useLiveRun({
+  const { code, out, onChange, runNow, reset, completions } = useLiveRun({
     initialCode: typeof stored === 'string' ? stored : starter,
     starter,
     dataset,
