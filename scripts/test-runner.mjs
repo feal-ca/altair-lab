@@ -19,6 +19,9 @@ const cases = [
   }],
   ['syntax error', 'alt.Chart(\n', (r) => assert.equal(r.error.type, 'SyntaxError')],
   ['bad encoding type does not crash', 'import altair as alt\nalt.Chart("u.csv").mark_bar().encode(x="nope_type:Z")', (r) => assert.ok(r.error)],
+  ['sys.exit is reported as error', 'import sys\nsys.exit(1)', (r) => assert.equal(r.error.type, 'SystemExit')],
+  ['KeyboardInterrupt is reported as error', 'raise KeyboardInterrupt', (r) => assert.equal(r.error.type, 'KeyboardInterrupt')],
+  ['null byte is reported as error', 'x = 1\0', (r) => assert.ok(r.error)],
 ];
 
 for (const [name, code, check] of cases) {

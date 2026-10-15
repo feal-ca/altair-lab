@@ -14,6 +14,8 @@ def run_user_code(code):
         tree = ast.parse(code, "<user>")
     except SyntaxError as e:
         return _err(e, e.lineno)
+    except ValueError as e:
+        return _err(e)
     ns = {"__name__": "__main__"}
     try:
         result = None
@@ -29,7 +31,7 @@ def run_user_code(code):
         if result is None:
             return json.dumps({"noChart": True})
         return json.dumps({"spec": json.loads(result.to_json())})
-    except Exception as e:
+    except BaseException as e:
         frames = traceback.extract_tb(e.__traceback__)
         line = next((f.lineno for f in reversed(frames) if f.filename == "<user>"), None)
         return _err(e, line)
