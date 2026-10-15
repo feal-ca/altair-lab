@@ -15,7 +15,7 @@ import './ExercisePage.css'
 import '../components/Dialog.css'
 
 const DEBOUNCE_MS = 600
-const IDLE_MESSAGE = 'Write an `alt.Chart(...)` in the editor and your chart appears here.'
+const PLACEHOLDER = 'Write some Altair code; the chart shows up here.'
 
 const starterFor = (ds) => ds.setupCode + '\nalt.Chart(' + ds.varName + ').mark_point()\n'
 
@@ -56,7 +56,7 @@ export function SandboxPage({ dataset, state, update }) {
   const starter = starterFor(dataset)
   const stored = state.sandboxCode?.[id]
   const [code, setCode] = useState(typeof stored === 'string' ? stored : starter)
-  const [out, setOut] = useState({ message: IDLE_MESSAGE })
+  const [out, setOut] = useState({})
 
   const seq = useRef(0)
   const timer = useRef(null)
@@ -65,7 +65,7 @@ export function SandboxPage({ dataset, state, update }) {
   const execute = useCallback(async (src) => {
     const mine = ++seq.current
     if (!/alt\./.test(src)) {
-      setOut({ message: IDLE_MESSAGE })
+      setOut({})
       return
     }
     const result = resultToOutput(await python.run(src))
@@ -142,7 +142,7 @@ export function SandboxPage({ dataset, state, update }) {
         </div>
       </section>
       <section className="pane out">
-        <ChartCard title="Output" spec={out.spec} message={out.message} />
+        <ChartCard title="Output" spec={out.spec} message={out.message} placeholder={PLACEHOLDER} />
       </section>
       <dialog ref={dialog} className="dlg" onClose={() => setCsvOpen(false)} aria-label="Add a CSV">
         {csvOpen && (

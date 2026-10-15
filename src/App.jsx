@@ -1,5 +1,5 @@
 import { DATASETS } from './content/datasets.js'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useStoredState } from './lib/useStoredState.js'
 import { resetState } from './lib/storage.js'
 import { useRoute, allExercises } from './lib/router.js'
@@ -15,6 +15,9 @@ export default function App() {
   const route = useRoute()
   const collapsed = state.railCollapsed === true
   const exercises = allExercises(state)
+  const [drawer, setDrawer] = useState(false)
+  const isNarrow = () => window.matchMedia('(max-width: 899px)').matches
+  useEffect(() => setDrawer(false), [route.name, route.id])
 
   const onReset = () => {
     if (window.confirm('Reset all progress and saved code? This cannot be undone.')) {
@@ -38,10 +41,16 @@ export default function App() {
         route={route}
         railCollapsed={collapsed}
         saveOk={saveOk}
-        onToggleRail={() => update((s) => ({ ...s, railCollapsed: !collapsed }))}
+        onToggleRail={() => (isNarrow() ? setDrawer((d) => !d) : update((s) => ({ ...s, railCollapsed: !collapsed })))}
       />
+      {!saveOk && (
+        <div className="save-notice" role="status">
+          Progress can't be saved in this browser, so it will be lost when you close the tab.
+        </div>
+      )}
+      <div className={'scrim' + (drawer ? ' open' : '')} onClick={() => setDrawer(false)} />
       {exercise ? (
-        <main className="shell" style={{ '--rail-w': collapsed ? '0px' : '170px' }}>
+        <main className={'shell' + (drawer ? ' drawer-open' : '')} style={{ '--rail-w': collapsed ? '0px' : '170px' }}>
           <Rail
             exercises={exercises}
             state={state}
@@ -52,7 +61,7 @@ export default function App() {
           <ExercisePage key={exercise.id} exercise={exercise} state={state} update={update} />
         </main>
       ) : (
-        <main className="shell" style={{ '--rail-w': '170px' }}>
+        <main className={'shell' + (drawer ? ' drawer-open' : '')} style={{ '--rail-w': collapsed ? '0px' : '170px' }}>
           <SandboxPage key={sandboxDataset.id} dataset={sandboxDataset} state={state} update={update} />
         </main>
       )}

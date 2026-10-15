@@ -45,3 +45,7 @@
   margin-right: -10px;
 }
 .save-warn + .py-status { margin-left: 0; }
+@media (max-width: 899px) {
+  .topbar { gap: 12px; padding: 0 10px; }
+  .topbar nav { gap: 10px; }
+}

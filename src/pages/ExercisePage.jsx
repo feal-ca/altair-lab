@@ -13,7 +13,7 @@ import { CheckList } from '../components/CheckList.jsx'
 import './ExercisePage.css'
 
 const DEBOUNCE_MS = 600
-const IDLE_MESSAGE = 'Write an `alt.Chart(...)` in the editor and your chart appears here.'
+const PLACEHOLDER = 'Write some Altair code; the chart shows up here.'
 
 // Runs one solution to completion; a newer run elsewhere makes the client report
 // `stale`, so retry until we get a real answer (or the page is gone).
@@ -33,7 +33,7 @@ export function ExercisePage({ exercise, state, update }) {
   const starter = dataset ? dataset.setupCode + '\n' : ''
   const stored = state.code?.[id]
   const [code, setCode] = useState(typeof stored === 'string' ? stored : starter)
-  const [out, setOut] = useState({ message: IDLE_MESSAGE })
+  const [out, setOut] = useState({})
   const isGenerated = exercise.n == null
   const [target, setTarget] = useState(() => (isGenerated ? null : { spec: targets[id] ?? null }))
 
@@ -61,7 +61,7 @@ export function ExercisePage({ exercise, state, update }) {
   const execute = useCallback(async (src) => {
     const mine = ++seq.current
     if (!/alt\./.test(src)) {
-      setOut({ message: IDLE_MESSAGE })
+      setOut({})
       return
     }
     await targetPromise.current
@@ -147,7 +147,7 @@ export function ExercisePage({ exercise, state, update }) {
       </section>
       <section className="pane out">
         <ChartCard title="Target" spec={target?.spec} message={targetMessage} />
-        <ChartCard title="Yours" spec={out.spec} message={out.message} />
+        <ChartCard title="Yours" spec={out.spec} message={out.message} placeholder={PLACEHOLDER} />
         {result && !target?.message && <CheckList checks={result.checks} solved={solved} />}
         {solved && next && (
           <button type="button" className="next" onClick={() => navigate(`#/ex/${encodeURIComponent(next.id)}`)}>

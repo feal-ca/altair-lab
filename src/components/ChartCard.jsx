@@ -6,7 +6,7 @@ import './ChartCard.css'
 // vega-embed hands config to Vega-Lite as a compile option, and Vega-Lite merges
 // spec.config over it (compile.ts: mergeConfig(opt.config, inputSpec.config)),
 // so the Altair spec's own config wins and baseConfig fills the gaps.
-export function ChartCard({ title, spec, message }) {
+export function ChartCard({ title, spec, message, placeholder }) {
   const el = useRef(null)
   const [embedError, setEmbedError] = useState(null)
 
@@ -30,11 +30,13 @@ export function ChartCard({ title, spec, message }) {
   }, [spec, message])
 
   const shown = message ?? embedError
+  const empty = !shown && !spec && placeholder
   return (
     <section className="chart-card">
       {title && <h3 className="chart-card-title">{title}</h3>}
       {shown && <div className="chart-card-msg">{shown}</div>}
-      <div className="chart-card-body" ref={el} hidden={Boolean(shown)} />
+      {empty && <div className="chart-card-empty">{placeholder}</div>}
+      <div className="chart-card-body" ref={el} hidden={Boolean(shown || empty)} />
     </section>
   )
 }

@@ -6,7 +6,7 @@ export function TopBar({ route, railCollapsed, onToggleRail, saveOk }) {
   const sandboxHref = `#/sandbox/${route.name === 'sandbox' && route.id ? route.id : Object.keys(DATASETS)[0]}`
   return (
     <header className="topbar">
-      {route.name === 'ex' && (
+      {(
         <button
           type="button"
           className="rail-toggle"

@@ -24,3 +24,8 @@
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
+.chart-card-empty {
+  padding: 18px 2px;
+  font: italic 400 15px var(--font-head);
+  color: var(--muted);
+}
