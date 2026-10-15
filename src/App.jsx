@@ -16,6 +16,7 @@ export default function App() {
   const collapsed = state.railCollapsed === true
   const exercises = allExercises(state)
   const [drawer, setDrawer] = useState(false)
+  const [resetEpoch, setResetEpoch] = useState(0)
   const isNarrow = () => window.matchMedia('(max-width: 899px)').matches
   useEffect(() => setDrawer(false), [route.name, route.id])
 
@@ -23,6 +24,7 @@ export default function App() {
     if (window.confirm('Reset all progress and saved code? This cannot be undone.')) {
       const fresh = resetState()
       update(() => fresh)
+      setResetEpoch((n) => n + 1)
     }
   }
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -41,6 +43,7 @@ export default function App() {
         route={route}
         railCollapsed={collapsed}
         saveOk={saveOk}
+        drawerOpen={drawer}
         onToggleRail={() => (isNarrow() ? setDrawer((d) => !d) : update((s) => ({ ...s, railCollapsed: !collapsed })))}
       />
       {!saveOk && (
@@ -58,11 +61,11 @@ export default function App() {
             onNewExercise={onNewExercise}
             onReset={onReset}
           />
-          <ExercisePage key={exercise.id} exercise={exercise} state={state} update={update} />
+          <ExercisePage key={`${exercise.id}:${resetEpoch}`} exercise={exercise} state={state} update={update} />
         </main>
       ) : (
         <main className={'shell' + (drawer ? ' drawer-open' : '')} style={{ '--rail-w': collapsed ? '0px' : '170px' }}>
-          <SandboxPage key={sandboxDataset.id} dataset={sandboxDataset} state={state} update={update} />
+          <SandboxPage key={`${sandboxDataset.id}:${resetEpoch}`} dataset={sandboxDataset} state={state} update={update} />
         </main>
       )}
       <NewExerciseDialog open={dialogOpen} onClose={() => setDialogOpen(false)} state={state} update={update} />

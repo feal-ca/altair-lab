@@ -1,8 +1,6 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { DATASETS } from '../content/datasets.js'
-import { ALTAIR_API } from '../content/altairApi.js'
-import { python } from '../lib/python/index.js'
-import { resultToOutput } from '../lib/formatResult.js'
+import { IDLE_MESSAGE, useLiveRun } from '../lib/useLiveRun.js'
 import { navigate } from '../lib/router.js'
 import { Expander } from '../components/Expander.jsx'
 import { DataPanel } from '../components/DataPanel.jsx'
@@ -13,9 +11,6 @@ import '../components/Brief.css'
 import '../components/Rail.css'
 import './ExercisePage.css'
 import '../components/Dialog.css'
-
-const DEBOUNCE_MS = 600
-const PLACEHOLDER = 'Write some Altair code; the chart shows up here.'
 
 const starterFor = (ds) => ds.setupCode + '\nalt.Chart(' + ds.varName + ').mark_point()\n'
 
@@ -55,33 +50,13 @@ export function SandboxPage({ dataset, state, update }) {
   const [csvOpen, setCsvOpen] = useState(false)
   const starter = starterFor(dataset)
   const stored = state.sandboxCode?.[id]
-  const [code, setCode] = useState(typeof stored === 'string' ? stored : starter)
-  const [out, setOut] = useState({})
-
-  const seq = useRef(0)
-  const timer = useRef(null)
-  const gone = useRef(false)
-
-  const execute = useCallback(async (src) => {
-    const mine = ++seq.current
-    if (!/alt\./.test(src)) {
-      setOut({})
-      return
-    }
-    const result = resultToOutput(await python.run(src))
-    if (result.stale || mine !== seq.current || gone.current) return
-    setOut(result)
-  }, [])
-
-  useEffect(() => {
-    gone.current = false
-    execute(code)
-    return () => {
-      gone.current = true
-      clearTimeout(timer.current)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const { code, out, onChange, runNow, reset, completions } = useLiveRun({
+    initialCode: typeof stored === 'string' ? stored : starter,
+    starter,
+    dataset,
+    onCodeChange: (next) =>
+      update((s) => ({ ...s, sandboxCode: { ...(s.sandboxCode ?? {}), [id]: next } })),
+  })
 
   useEffect(() => {
     const dlg = dialog.current
@@ -89,32 +64,6 @@ export function SandboxPage({ dataset, state, update }) {
     if (csvOpen && !dlg.open) dlg.showModal()
     else if (!csvOpen && dlg.open) dlg.close()
   }, [csvOpen])
-
-  const onChange = (next) => {
-    setCode(next)
-    update((s) => ({ ...s, sandboxCode: { ...(s.sandboxCode ?? {}), [id]: next } }))
-    clearTimeout(timer.current)
-    timer.current = setTimeout(() => execute(next), DEBOUNCE_MS)
-  }
-
-  const runNow = () => {
-    clearTimeout(timer.current)
-    execute(code)
-  }
-
-  const reset = () => {
-    if (code === starter || window.confirm('Reset the editor to the starter code?')) {
-      editor.current?.setValue(starter)
-    }
-  }
-
-  const completions = useMemo(
-    () => [
-      ...ALTAIR_API,
-      ...(dataset.columns ?? []).map((c) => ({ label: c.name, apply: `'${c.name}:${c.type}'`, detail: c.type })),
-    ],
-    [dataset]
-  )
 
   return (
     <>
@@ -134,7 +83,7 @@ export function SandboxPage({ dataset, state, update }) {
         </header>
         <div className="editor-bar">
           <span className="hint">Ctrl+Enter runs</span>
-          <button type="button" onClick={reset}>Reset</button>
+          <button type="button" onClick={() => reset(editor)}>Reset</button>
           <button type="button" className="primary" onClick={runNow}>Run</button>
         </div>
         <div className="editor-wrap">
@@ -142,7 +91,7 @@ export function SandboxPage({ dataset, state, update }) {
         </div>
       </section>
       <section className="pane out">
-        <ChartCard title="Output" spec={out.spec} message={out.message} placeholder={PLACEHOLDER} />
+        <ChartCard title="Output" spec={out.spec} message={out.message} placeholder={IDLE_MESSAGE} />
       </section>
       <dialog ref={dialog} className="dlg" onClose={() => setCsvOpen(false)} aria-label="Add a CSV">
         {csvOpen && (
