@@ -504,3 +504,18 @@ export function generateExercise(dataset, level, seed = Date.now()) {
   }
   return null;
 }
+
+// Picks the dataset too: tries datasets in seeded random order until one fits the level.
+export function generateFromAny(datasets, level, seed = Date.now()) {
+  const rand = mulberry32(seed);
+  const order = [...datasets];
+  for (let i = order.length - 1; i > 0; i--) {
+    const j = Math.floor(rand() * (i + 1));
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+  for (const ds of order) {
+    const ex = generateExercise(ds, level, seed);
+    if (ex) return ex;
+  }
+  return null;
+}

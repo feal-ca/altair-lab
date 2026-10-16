@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { DATASETS } from '../content/datasets.js';
-import { columnRoles, TEMPLATES, generateExercise } from './generator.js';
+import { columnRoles, TEMPLATES, generateExercise, generateFromAny } from './generator.js';
 
 const LEVELS = ['Beginner', 'Intermediate', 'Advanced'];
 const names = (cols) => cols.map((c) => c.name);
@@ -69,5 +69,25 @@ describe('generateExercise', () => {
       { name: 'a "b"', type: 'N', unique: 3 }, { name: 'x y', type: 'Q' }] };
     const ex = generateExercise(ds, 'Beginner', 1);
     expect(ex.solution).toContain(JSON.stringify('a "b":N'));
+  });
+});
+
+describe('generateFromAny', () => {
+  it('is deterministic per seed and draws from the given datasets', () => {
+    const list = Object.values(DATASETS);
+    const a = generateFromAny(list, 'Intermediate', 7);
+    expect(a).toEqual(generateFromAny(list, 'Intermediate', 7));
+    expect(list.map((d) => d.id)).toContain(a.datasetId);
+  });
+  it('varies the dataset across seeds', () => {
+    const list = Object.values(DATASETS);
+    const ids = new Set();
+    for (let s = 1; s <= 30; s++) ids.add(generateFromAny(list, 'Beginner', s).datasetId);
+    expect(ids.size).toBeGreaterThan(3);
+  });
+  it('skips datasets that cannot fill the level', () => {
+    const flat = { id: 'flat', varName: 'df', setupCode: '', columns: [{ name: 'a', type: 'N', unique: 5 }] };
+    for (let s = 1; s <= 10; s++) expect(generateFromAny([flat, DATASETS.cars], 'Advanced', s).datasetId).toBe('cars');
+    expect(generateFromAny([flat], 'Advanced', 1)).toBeNull();
   });
 });
