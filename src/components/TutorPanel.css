@@ -1,0 +1,79 @@
+.tutor { display: flex; flex-direction: column; gap: 8px; }
+.tutor-bar { display: flex; align-items: center; gap: 8px; }
+.tutor-bar button {
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  padding: 4px 12px;
+  cursor: pointer;
+  font-size: 12px;
+}
+.tutor-bar button:hover { border-color: var(--ink); }
+.tutor-bar button:disabled { opacity: 0.6; cursor: default; border-color: var(--rule); }
+.tutor-explain::before { content: '?'; color: var(--accent); font-weight: 700; margin-right: 6px; }
+.tutor-clear { margin-left: auto; }
+
+.tutor-thread {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.tutor-q {
+  align-self: flex-end;
+  max-width: 85%;
+  margin: 0;
+  padding: 5px 10px;
+  background: var(--paper);
+  border: 1px solid var(--grid);
+  color: var(--ink2);
+  white-space: pre-wrap;
+}
+.tutor-a { color: var(--ink); overflow-wrap: anywhere; }
+.tutor-a p { margin: 0 0 6px; white-space: pre-wrap; }
+.tutor-a ul, .tutor-a ol { margin: 0 0 6px; padding-left: 20px; }
+.tutor-a > :last-child { margin-bottom: 0; }
+.tutor-a code { font: 12px var(--font-mono); color: var(--kw); }
+.tutor-a pre {
+  margin: 4px 0 6px;
+  padding: 8px 10px;
+  background: var(--paper);
+  border: 1px solid var(--grid);
+  font: 11.5px/1.5 var(--font-mono);
+  overflow: auto;
+}
+.tutor-wait { color: var(--muted); font-style: italic; }
+.tutor-error { color: var(--accent); }
+.tutor-error button.link {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--accent);
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.tutor-ask { display: flex; gap: 6px; align-items: flex-end; border-top: 1px solid var(--grid); padding-top: 8px; }
+.tutor-ask textarea {
+  flex: 1;
+  min-width: 0;
+  resize: vertical;
+  font: 13px var(--font-ui);
+  padding: 5px 7px;
+  border: 1px solid var(--rule);
+  background: #fff;
+  color: var(--ink);
+}
+.tutor-ask button {
+  background: var(--ink);
+  color: var(--paper);
+  border: 1px solid var(--ink);
+  padding: 4px 14px;
+  cursor: pointer;
+  font-size: 12px;
+}
+.tutor-ask button:disabled { opacity: 0.5; cursor: default; }

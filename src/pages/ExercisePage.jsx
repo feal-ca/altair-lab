@@ -11,6 +11,7 @@ import { Brief } from '../components/Brief.jsx'
 import { Editor } from '../components/Editor.jsx'
 import { ChartCard } from '../components/ChartCard.jsx'
 import { CheckList } from '../components/CheckList.jsx'
+import { TutorPanel } from '../components/TutorPanel.jsx'
 import './ExercisePage.css'
 
 // Runs one solution to completion; a newer run elsewhere makes the client report
@@ -63,6 +64,10 @@ export function ExercisePage({ exercise, state, update }) {
     [out.spec, target]
   )
   const solved = Boolean(result?.solved)
+
+  // The tutor reads the latest run when it sends, not when it renders.
+  const run = useRef(null)
+  run.current = { code, checks: result?.checks ?? null, message: out.message ?? null }
 
   useEffect(() => {
     if (solved && !state.solved?.[id]) {
@@ -120,6 +125,7 @@ export function ExercisePage({ exercise, state, update }) {
           <ChartCard title="Yours" spec={out.spec} message={out.message} placeholder={IDLE_MESSAGE} matched={solved} />
         </div>
         {result && !target?.message && <CheckList checks={result.checks} solved={solved} />}
+        {target?.spec && <TutorPanel exercise={exercise} getRun={() => run.current} solved={solved} />}
       </section>
     </>
   )
