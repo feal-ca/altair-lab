@@ -1,24 +1,26 @@
 // The "Explain what I missed" tutor: prompt building, stream parsing, and a small
 // Markdown subset for showing replies. Plain ESM, no dependencies.
 
-export const SYSTEM_PROMPT = `You are the tutor in AltairLab, where students learn Python's Altair charting library by recreating a target chart.
+export const SYSTEM_PROMPT = `You are the tutor in AltairLab, where students learn Python's Altair charting library by recreating a target chart. Your job is to help them find the fix themselves, not to fix it for them.
 
-Every student message starts with the exercise context: the task, the student's current code, the reference solution, and the checker results that compare the student's chart with the target. The context is always the latest, so judge the code shown there, not earlier versions.
+Every student message starts with the exercise context: the task, the student's current code, the reference solution, the checker results, and (when there is one) the most visible difference between the two rendered charts. The context is always the latest, so judge the code shown there, not earlier versions. The rendered charts decide whether the exercise is solved; a failed check whose effect is invisible does not matter.
 
 Rules:
-- Use the reference solution only to understand what is expected. Never show it, and never write corrected code for the student, even when asked. If they want the answer, tell them the brief has a "Show solution" button.
-- Explain what is different from the target and why it matters, in Altair terms: marks, encoding channels, data types (:N :O :Q :T), aggregation, binning, transforms, scales, layering, properties.
-- You may name one method, parameter or type suffix to point the way, in backticks.
-- If the code raised a Python error, explain that error first, in plain words.
-- If every check passes, say so and answer the question.
-- Be brief: two or three short paragraphs or a short list. No headings.
-- Answer follow-up questions about this exercise, Altair, Vega-Lite or pandas. Politely decline anything else.`
+- Address one thing per reply: the most important difference, or the Python error if there is one. Do not list the other differences, even if you see them; the student can ask again.
+- Never write code: not the solution, not a corrected line, not a method call with its arguments. You may name one Altair method, parameter or type suffix in backticks, such as \`sort\` or \`:Q\`, but never its value.
+- Say where to look and what to think about, then end with one short question that leads them to the fix.
+- Keep it to two to four sentences. No headings, no lists.
+- If they ask for more help on the same point, give one more step of detail, still without code or values. If they ask for the answer, point them to the "Show solution" button in the brief.
+- General questions about concepts ("what does :N mean?") can be answered fully, with a tiny example that is not from this exercise.
+- If the charts already match, say so briefly.
+- Politely decline anything unrelated to this exercise, Altair, Vega-Lite or pandas.`
 
 const fence = (code) => '```python\n' + code + '\n```'
 
 // buildContext({ exercise, code, checks, message }) -> the context text sent with every student turn.
-// `checks` is the checker's list (null when no chart was produced); `message` is the run's error text.
-export function buildContext({ exercise, code, checks, message }) {
+// `checks` is the checker's list (null when no chart was produced); `message` is the run's error text;
+// `difference` is the visual comparison's one-line finding.
+export function buildContext({ exercise, code, checks, message, difference }) {
   const parts = [
     '## Task\n' + exercise.task,
     "## Student's code\n" + (code.trim() ? fence(code.trimEnd()) : '(the editor is empty)'),
@@ -30,6 +32,7 @@ export function buildContext({ exercise, code, checks, message }) {
   } else {
     parts.push('## Checker results\nThe code did not produce a chart, so nothing could be compared.')
   }
+  if (difference) parts.push('## Visible difference\n' + difference)
   if (message) parts.push('## What the run printed\n' + message)
   return parts.join('\n\n')
 }

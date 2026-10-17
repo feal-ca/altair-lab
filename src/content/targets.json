@@ -1361,7 +1361,11 @@
           },
           "y": {
             "field": "country",
-            "sort": "-x",
+            "sort": {
+              "field": "population",
+              "op": "max",
+              "order": "descending"
+            },
             "title": "Country",
             "type": "nominal"
           }
@@ -1397,7 +1401,11 @@
           },
           "y": {
             "field": "country",
-            "sort": "-x",
+            "sort": {
+              "field": "population",
+              "op": "max",
+              "order": "descending"
+            },
             "title": "Country",
             "type": "nominal"
           }
@@ -1491,6 +1499,11 @@
           },
           "y": {
             "field": "Country",
+            "sort": {
+              "field": "Smoking rate",
+              "op": "max",
+              "order": "descending"
+            },
             "type": "nominal"
           }
         },
@@ -1514,7 +1527,11 @@
           },
           "y": {
             "field": "Country",
-            "sort": "-x",
+            "sort": {
+              "field": "Smoking rate",
+              "op": "max",
+              "order": "descending"
+            },
             "type": "nominal"
           }
         },
@@ -1545,7 +1562,11 @@
           },
           "y": {
             "field": "Country",
-            "sort": "-x",
+            "sort": {
+              "field": "Smoking rate",
+              "op": "max",
+              "order": "descending"
+            },
             "type": "nominal"
           }
         },

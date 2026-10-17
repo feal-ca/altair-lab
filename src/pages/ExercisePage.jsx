@@ -7,6 +7,7 @@ import { python } from '../lib/python/index.js'
 import { allExercises, exerciseLabel, navigate, resolveDataset } from '../lib/router.js'
 import { resultToOutput } from '../lib/formatResult.js'
 import { IDLE_MESSAGE, useLiveRun } from '../lib/useLiveRun.js'
+import { useVisualMatch } from '../lib/useVisualMatch.js'
 import { Brief } from '../components/Brief.jsx'
 import { Editor } from '../components/Editor.jsx'
 import { ChartCard } from '../components/ChartCard.jsx'
@@ -63,11 +64,14 @@ export function ExercisePage({ exercise, state, update }) {
     () => (out.spec && target?.spec ? check(out.spec, target.spec) : null),
     [out.spec, target]
   )
-  const solved = Boolean(result?.solved)
+  // Solved when the code passes every check, or when it draws exactly the target chart.
+  const visual = useVisualMatch(out.spec, target?.spec)
+  const solved = Boolean(result?.solved || visual?.same)
+  const difference = !solved && visual?.difference ? visual.difference : null
 
   // The tutor reads the latest run when it sends, not when it renders.
   const run = useRef(null)
-  run.current = { code, checks: result?.checks ?? null, message: out.message ?? null }
+  run.current = { code, checks: result?.checks ?? null, message: out.message ?? null, difference }
 
   useEffect(() => {
     if (solved && !state.solved?.[id]) {
@@ -124,7 +128,15 @@ export function ExercisePage({ exercise, state, update }) {
           <ChartCard title="Target" spec={target?.spec} message={targetMessage} />
           <ChartCard title="Yours" spec={out.spec} message={out.message} placeholder={IDLE_MESSAGE} matched={solved} />
         </div>
-        {result && !target?.message && <CheckList checks={result.checks} solved={solved} />}
+        {difference && <p className="diff-line" role="status"><span>Still different:</span> {difference}</p>}
+        {result && !target?.message && (
+          <CheckList
+            checks={result.checks}
+            solved={solved}
+            open={state.checksOpen === true}
+            onToggle={() => update((s) => ({ ...s, checksOpen: s.checksOpen !== true }))}
+          />
+        )}
         {target?.spec && <TutorPanel exercise={exercise} getRun={() => run.current} solved={solved} />}
       </section>
     </>

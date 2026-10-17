@@ -26,8 +26,21 @@ describe('buildContext', () => {
     expect(text).not.toContain('Passed:')
   })
 
+  it('passes on the visible difference the comparison found', () => {
+    const text = buildContext({ exercise, code: 'x', checks, difference: 'Point opacity: yours 0.7, target 1.' })
+    expect(text).toContain('## Visible difference\nPoint opacity: yours 0.7, target 1.')
+  })
+
   it('says when the editor is empty', () => {
     expect(buildContext({ exercise, code: '  ', checks: null })).toContain('(the editor is empty)')
+  })
+})
+
+describe('SYSTEM_PROMPT', () => {
+  it('limits each reply to one difference and forbids code and values', () => {
+    expect(SYSTEM_PROMPT).toMatch(/one thing/i)
+    expect(SYSTEM_PROMPT).toMatch(/never write code/i)
+    expect(SYSTEM_PROMPT).toMatch(/never its value/i)
   })
 })
 

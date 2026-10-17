@@ -293,13 +293,14 @@ ch2 = base.transform_filter(alt.datum.job == 'Weaver').encode(
     title: 'Sorted Lollipop Chart (Europe Population)',
     level: 'Intermediate',
     topic: 'Layering',
-    task: 'Layer a thin bar chart (mark_bar(height=2)) and filled points (mark_point(size=50, filled=True, opacity=1.0)) showing population:Q on X, country:N sorted by "-x" on Y, colored by EU_membership:N (domain ["Yes", "No"], range ["teal", "gray"]).',
+    task: 'Layer a thin bar chart (mark_bar(height=2)) and filled points (mark_point(size=50, filled=True, opacity=1.0)) showing population:Q on X, country:N on Y sorted by population (largest first), colored by EU_membership:N (domain ["Yes", "No"], range ["teal", "gray"]).',
     hints: [
-      'Encode x=alt.X("population:Q", title="Population in Millions") and y=alt.Y("country:N", title="Country", sort="-x").',
+      'Encode x=alt.X("population:Q", title="Population in Millions") and y=alt.Y("country:N", title="Country", sort=...).',
+      'In a layered chart `sort="-x"` is silently dropped. Sort with alt.EncodingSortField("population", op="max", order="descending") instead.',
       'Use scale=alt.Scale(domain=["Yes", "No"], range=["teal", "gray"]) on alt.Color("EU_membership:N").',
       'Combine with (ch1 + ch2).properties(width=400, title="10 most populated countries in Europe in 2023").'
     ],
-    concept: 'A lollipop is two layers on the same encodings: a thin bar for the stick and a point for the head. `sort=\'-x\'` orders categories by the x value, descending.',
+    concept: 'A lollipop is two layers on the same encodings: a thin bar for the stick and a point for the head. Layers share one Y axis, and Vega-Lite can only merge their sorts when they use `op` max, min or count, so `sort=\'-x\'` (a sum) is dropped.',
     docs: 'https://altair-viz.github.io/user_guide/compound_charts.html',
     datasetId: 'eu_lollipop',
     solution: `import altair as alt
@@ -313,13 +314,13 @@ data = pd.DataFrame({
 
 ch1 = alt.Chart(data).mark_bar(height=2).encode(
     x=alt.X('population:Q', title='Population in Millions'),
-    y=alt.Y('country:N', title='Country', sort='-x'),
+    y=alt.Y('country:N', title='Country', sort=alt.EncodingSortField('population', op='max', order='descending')),
     color=alt.Color('EU_membership:N', scale=alt.Scale(domain=['Yes', 'No'], range=['teal', 'gray']), legend=alt.Legend(title='EU member?'))
 )
 
 ch2 = alt.Chart(data).mark_point(size=50, filled=True, opacity=1.0).encode(
     x=alt.X('population:Q', title='Population in Millions'),
-    y=alt.Y('country:N', title='Country', sort='-x'),
+    y=alt.Y('country:N', title='Country', sort=alt.EncodingSortField('population', op='max', order='descending')),
     color=alt.Color('EU_membership:N', scale=alt.Scale(domain=['Yes', 'No'], range=['teal', 'gray']), legend=alt.Legend(title='EU member?'))
 )
 
@@ -331,13 +332,14 @@ ch2 = alt.Chart(data).mark_point(size=50, filled=True, opacity=1.0).encode(
     title: 'Connected Dot Plot (Smoking by Gender)',
     level: 'Advanced',
     topic: 'Layering',
-    task: 'Create a 3-layer connected dot plot: ch3 is a gray line connecting each Country (detail="Country"), ch1 plots teal circles (size=50) filtered for Gender == "M", and ch2 plots lightsalmon circles filtered for Gender == "F" sorted by "-x".',
+    task: 'Create a 3-layer connected dot plot: ch3 is a gray line connecting each Country (detail="Country"), ch1 plots teal circles (size=50) filtered for Gender == "M", and ch2 plots lightsalmon circles filtered for Gender == "F". Sort the countries by their highest smoking rate, largest first, in all three layers.',
     hints: [
       'Create ch3 with mark_line(color="gray") and encode X("Smoking rate:Q"), Y("Country:N"), and detail="Country".',
       'Create ch1 (Gender == "M", color="teal") and ch2 (Gender == "F", color="lightsalmon") using mark_circle(opacity=1, size=50) and scale=alt.Scale(domain=(0, 0.6)).',
+      'Sort Y in every layer with alt.EncodingSortField("Smoking rate", op="max", order="descending"); `sort="-x"` is dropped when layers are merged.',
       'Superpose as ch3 + ch1 + ch2.'
     ],
-    concept: 'The `detail` channel groups rows without adding colour, so the line connects the two dots of each country.',
+    concept: 'The `detail` channel groups rows without adding colour, so the line connects the two dots of each country. A sort only survives layering if every layer uses the same one, with `op` max, min or count.',
     docs: 'https://altair-viz.github.io/user_guide/encodings/channels.html',
     datasetId: 'smoking_rates',
     solution: `import altair as alt
@@ -352,17 +354,17 @@ df = pd.DataFrame(data)
 
 ch1 = alt.Chart(df).mark_circle(opacity=1, size=50, color='teal').encode(
     alt.X('Smoking rate:Q', scale=alt.Scale(domain=(0, 0.6))),
-    alt.Y('Country:N', sort='-x')
+    alt.Y('Country:N', sort=alt.EncodingSortField('Smoking rate', op='max', order='descending'))
 ).transform_filter(alt.datum.Gender == 'M').properties(title='Smoking population')
 
 ch2 = alt.Chart(df).mark_circle(opacity=1, size=50, color='lightsalmon').encode(
     alt.X('Smoking rate:Q', scale=alt.Scale(domain=(0, 0.6))),
-    alt.Y('Country:N', sort='-x')
+    alt.Y('Country:N', sort=alt.EncodingSortField('Smoking rate', op='max', order='descending'))
 ).transform_filter(alt.datum.Gender == 'F').properties(title='Smoking population')
 
 ch3 = alt.Chart(df).mark_line(color='gray').encode(
     alt.X('Smoking rate:Q'),
-    alt.Y('Country:N'),
+    alt.Y('Country:N', sort=alt.EncodingSortField('Smoking rate', op='max', order='descending')),
     detail='Country'
 ).properties(title='Smoking population')
 

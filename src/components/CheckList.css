@@ -4,8 +4,16 @@
 }
 .check-heading {
   margin: 0 0 4px;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
   font: 600 14px var(--font-head);
 }
+.check-heading:hover { text-decoration: underline; text-decoration-color: var(--rule); }
+.check-heading .caret { color: var(--accent); font-size: 10px; margin-right: 6px; }
 .check-heading.solved {
   color: var(--ok);
 }
