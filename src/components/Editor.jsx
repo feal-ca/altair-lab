@@ -15,6 +15,7 @@ import {
   closeBrackets,
   closeBracketsKeymap,
   completionKeymap,
+  acceptCompletion,
   snippetCompletion,
   startCompletion,
 } from '@codemirror/autocomplete'
@@ -115,9 +116,11 @@ export const Editor = forwardRef(function Editor({ value, onChange, onRun, colum
           python(),
           theme,
           syntaxHighlighting(highlight),
-          // Tab stays at normal precedence so an active snippet can use it to jump fields.
+          // Tab accepts an open completion first; with no list open, acceptCompletion
+          // returns false and Tab falls through to snippet field jumps or indent.
           Prec.highest(
             keymap.of([
+              { key: 'Tab', run: acceptCompletion },
               {
                 key: 'Mod-Enter',
                 run: () => {
