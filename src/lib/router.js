@@ -47,10 +47,10 @@ export function allExercises(state) {
 }
 
 // Number shown for an exercise: n for curated ones, G1, G2... for generated ones.
-// Core exercises show their main-list number; extras a dot; generated ones G1, G2, ….
+// Curated exercises are numbered inside their topic ("3.2"); generated ones G1, G2, ….
 export function exerciseLabel(ex, state) {
-  if (ex.main != null) return String(ex.main)
-  if (ex.n != null) return '·'
+  if (ex.label != null) return ex.label
+  if (ex.n != null) return String(ex.n)
   const gen = Array.isArray(state?.generated) ? state.generated : []
   return 'G' + (gen.findIndex((g) => g.id === ex.id) + 1)
 }

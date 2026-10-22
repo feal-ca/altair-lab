@@ -4,7 +4,7 @@ import { useStoredState } from './lib/useStoredState.js'
 import { resetState } from './lib/storage.js'
 import { useRoute, allExercises } from './lib/router.js'
 import { TopBar } from './components/TopBar.jsx'
-import { Rail } from './components/Rail.jsx'
+import { Rail, RAIL_DEFAULT } from './components/Rail.jsx'
 import { ExercisePage } from './pages/ExercisePage.jsx'
 import { SandboxPage } from './pages/SandboxPage.jsx'
 import { NewExerciseDialog } from './components/NewExerciseDialog.jsx'
@@ -14,6 +14,14 @@ export default function App() {
   const [state, update, saveOk] = useStoredState()
   const route = useRoute()
   const collapsed = state.railCollapsed === true
+  // The rail width follows the drag live and is saved when the drag ends.
+  const [dragWidth, setDragWidth] = useState(null)
+  const railWidth = dragWidth ?? (Number.isFinite(state.railWidth) ? state.railWidth : RAIL_DEFAULT)
+  const onRailResize = (w, done) => {
+    if (!done) return setDragWidth(w)
+    setDragWidth(null)
+    update((s) => ({ ...s, railWidth: w }))
+  }
   const exercises = allExercises(state)
   const [drawer, setDrawer] = useState(false)
   const [resetEpoch, setResetEpoch] = useState(0)
@@ -53,11 +61,13 @@ export default function App() {
       )}
       <div className={'scrim' + (drawer ? ' open' : '')} onClick={() => setDrawer(false)} />
       {exercise ? (
-        <main className={'shell' + (drawer ? ' drawer-open' : '')} style={{ '--rail-w': collapsed ? '0px' : '170px' }}>
+        <main className={'shell' + (drawer ? ' drawer-open' : '')} style={{ '--rail-w': collapsed ? '0px' : `${railWidth}px` }}>
           <Rail
             exercises={exercises}
             state={state}
             activeId={exercise.id}
+            width={railWidth}
+            onResize={onRailResize}
             onToggleTopic={(topic) => update((s) => ({ ...s, openTopics: { ...(s.openTopics ?? {}), [topic]: !s.openTopics?.[topic] } }))}
             onNewExercise={onNewExercise}
             onReset={onReset}

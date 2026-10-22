@@ -1001,14 +1001,10 @@ export const CORE = [
 ];
 
 // Ordered by topic, core exercises first within each. `n` is the position in this list;
-// `main` numbers the core exercises only (1, 2, …) and is null for extras.
+// `label` numbers each exercise inside its topic ("3.2"), so extras follow the core ones.
 const ALL = [...COURSE_EXERCISES, ...BOOK_EXERCISES];
-const ordered = TOPICS.flatMap((t) => {
+export const EXERCISES = TOPICS.flatMap((t, ti) => {
   const inTopic = ALL.filter((e) => e.topic === t);
-  return [...inTopic.filter((e) => CORE.includes(e.id)), ...inTopic.filter((e) => !CORE.includes(e.id))];
-});
-let main = 0;
-export const EXERCISES = ordered.map((e, i) => {
-  const core = CORE.includes(e.id);
-  return { ...e, n: i + 1, core, main: core ? ++main : null };
-});
+  return [...inTopic.filter((e) => CORE.includes(e.id)), ...inTopic.filter((e) => !CORE.includes(e.id))]
+    .map((e, k) => ({ ...e, core: CORE.includes(e.id), label: `${ti + 1}.${k + 1}` }));
+}).map((e, i) => ({ ...e, n: i + 1 }));

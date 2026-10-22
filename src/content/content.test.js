@@ -68,16 +68,16 @@ describe('exercises', () => {
     for (const t of TOPICS) expect(EXERCISES.some((e) => e.topic === t), t).toBe(true);
   });
 
-  it('has a main list of two to four core exercises per topic, numbered 1..k', () => {
+  it('has two to four core exercises per topic, numbered first inside it', () => {
     for (const id of CORE) expect(EXERCISES.find((e) => e.id === id), id).toBeDefined();
-    for (const t of TOPICS) {
-      const n = EXERCISES.filter((e) => e.topic === t && e.core).length;
-      expect(n, t).toBeGreaterThanOrEqual(2);
-      expect(n, t).toBeLessThanOrEqual(4);
-    }
-    const core = EXERCISES.filter((e) => e.core);
-    expect(core.map((e) => e.main)).toEqual(core.map((_, i) => i + 1));
-    expect(EXERCISES.filter((e) => !e.core).every((e) => e.main === null)).toBe(true);
+    TOPICS.forEach((t, ti) => {
+      const inTopic = EXERCISES.filter((e) => e.topic === t);
+      const core = inTopic.filter((e) => e.core).length;
+      expect(core, t).toBeGreaterThanOrEqual(2);
+      expect(core, t).toBeLessThanOrEqual(4);
+      expect(inTopic.map((e) => e.label)).toEqual(inTopic.map((_, k) => `${ti + 1}.${k + 1}`));
+      expect(inTopic.slice(0, core).every((e) => e.core), t).toBe(true);
+    });
   });
 
   it('a custom starter is the beginning of its solution', () => {

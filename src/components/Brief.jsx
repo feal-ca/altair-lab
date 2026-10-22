@@ -16,7 +16,7 @@ export function Brief({ exercise, label, dataset, onInsert, onLoadSolution }) {
 
   return (
     <header className="brief">
-      <div className="meta">{exercise.core === false ? 'Extra' : `№ ${label}`} · {exercise.level} · {exercise.topic}</div>
+      <div className="meta">№ {label}{exercise.core === false ? ' · extra' : ''} · {exercise.level} · {exercise.topic}</div>
       <h1>{exercise.title}</h1>
       <p className="task">{exercise.task}</p>
 
