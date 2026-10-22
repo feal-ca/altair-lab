@@ -14,6 +14,26 @@
   font: italic 12px var(--font-head);
   color: var(--muted);
 }
+.rail-grp-btn {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+}
+.rail-grp-btn:hover:not(:disabled) { color: var(--ink); }
+.rail-grp-btn:disabled { cursor: default; }
+.rail-more {
+  font: 10.5px var(--font-mono);
+  font-style: normal;
+  color: var(--faint);
+}
+.rail-grp-btn:hover:not(:disabled) .rail-more { color: var(--accent); }
+.rail-it.extra { padding-left: 20px; }
+.rail-it.extra .n { color: var(--faint); }
 .rail-it {
   display: flex;
   gap: 8px;

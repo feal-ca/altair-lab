@@ -11,8 +11,6 @@ const IDENT_KEYS = ['field', 'type', 'aggregate', 'timeUnit', 'bin', 'value', 'c
 const OPTIONS = [
   ['sort', ['sort'], 'sort'],
   ['scale', ['scale'], 'scale'],
-  ['axis-format', ['axis', 'format'], 'axis format'],
-  ['legend-title', ['legend', 'title'], 'legend title'],
   ['title', ['title'], 'title'],
   ['stack', ['stack'], 'stack'],
 ]
@@ -30,13 +28,64 @@ export function canon(v) {
 
 const getPath = (o, path) => path.reduce((a, k) => (isObj(a) ? a[k] : undefined), o)
 
+// Selections and parameters are named by Altair (param_7b0e…, a content hash) or by the
+// learner (name='Year'). Two specs that declare the same parameters should compare equal,
+// so every name is replaced by one derived from what the parameter does.
+const paramKey = (p) => canon({ ...p, name: undefined, views: undefined })
+
+function collectParams(v, out) {
+  if (Array.isArray(v)) v.forEach((x) => collectParams(x, out))
+  else if (isObj(v)) {
+    for (const [k, x] of Object.entries(v)) {
+      if (k === 'params' && Array.isArray(x)) x.forEach((p) => isObj(p) && typeof p.name === 'string' && out.push(p))
+      collectParams(x, out)
+    }
+  }
+  return out
+}
+
+const EXPR_KEYS = ['test', 'filter', 'calculate', 'expr']
+
+const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+function renameParams(spec) {
+  const params = collectParams(spec, [])
+  const names = [...new Set(params.map((p) => p.name))]
+  if (names.length === 0) return spec
+  const keyOfName = new Map()
+  for (const p of params) if (!keyOfName.has(p.name)) keyOfName.set(p.name, paramKey(p))
+  // Sorting by definition makes the new names independent of declaration order.
+  const order = [...names].sort((a, b) => (keyOfName.get(a) < keyOfName.get(b) ? -1 : keyOfName.get(a) > keyOfName.get(b) ? 1 : 0))
+  const rename = new Map(order.map((n, i) => [n, `param${i + 1}`]))
+  const inExpr = names.map((n) => [new RegExp(`(?<![\\w$])${escapeRe(n)}(?![\\w$])`, 'g'), rename.get(n)])
+  // A name is replaced where it is a reference ({param: name}, the param's own name) and,
+  // as an identifier, inside expression strings; labels such as a widget's name are left alone.
+  const walk = (v, key) => {
+    if (typeof v === 'string') {
+      if ((key === 'param' || key === 'name') && rename.has(v)) return rename.get(v)
+      if (EXPR_KEYS.includes(key)) return inExpr.reduce((acc, [re, to]) => acc.replace(re, to), v)
+      return v
+    }
+    if (Array.isArray(v)) return v.map((x) => walk(x, key))
+    if (isObj(v)) {
+      const o = {}
+      for (const [k, x] of Object.entries(v)) if (k !== 'views') o[k] = walk(x, k)
+      return o
+    }
+    return v
+  }
+  return walk(spec)
+}
+
 function pickChannel(ch) {
   if (Array.isArray(ch)) return ch.map(pickChannel)
   if (!isObj(ch)) return ch
   const out = {}
   for (const k of ENC_KEYS) if (ch[k] !== undefined) out[k] = ch[k]
-  if (isObj(ch.axis) && ch.axis.format !== undefined) out.axis = { format: ch.axis.format }
-  if (isObj(ch.legend) && ch.legend.title !== undefined) out.legend = { title: ch.legend.title }
+  // alt.when(...).then(...).otherwise(...) writes a one-item list where alt.condition writes the item.
+  if (Array.isArray(out.condition) && out.condition.length === 1) out.condition = out.condition[0]
+  // Axis and legend options are checked one by one; None (no axis / legend) is kept as null.
+  for (const k of ['axis', 'legend']) if (isObj(ch[k]) || ch[k] === null) out[k] = ch[k]
   return out
 }
 
@@ -60,29 +109,54 @@ function collectViews(spec, inherit) {
     encoding[ch] = isObj(def) && isObj(encoding[ch]) ? { ...encoding[ch], ...def } : def
   }
   const transform = [...inherit.transform, ...asTransforms(spec.transform)]
-  const next = { mark, encoding, transform }
+  const projection = isObj(spec.projection) ? spec.projection : inherit.projection
+  const next = { mark, encoding, transform, projection }
   if (Array.isArray(spec.layer)) return spec.layer.flatMap((l) => collectViews(l, next))
+  if (isObj(spec.repeat) && isObj(spec.spec)) return collectViews(spec.spec, next)
   // Panels that are themselves layered are flattened into the view list.
   for (const c of CONCATS) if (Array.isArray(spec[c])) return spec[c].flatMap((p) => collectViews(p, next))
   if (isObj(spec.facet) || (spec.facet && spec.spec)) return collectViews(spec.spec, next)
   return [next]
 }
 
+// Config sections Altair always writes; anything else came from a configure_* call.
+const DEFAULT_CONFIG = ['view']
+
 export function normalize(spec) {
-  if (!isObj(spec)) return { layout: 'single', views: [] }
-  const s = { ...spec }
-  for (const k of DROP) delete s[k]
+  if (!isObj(spec)) return { layout: 'single', views: [], params: [] }
+  const config = isObj(spec.config) ? spec.config : {}
+  const dropped = { ...spec }
+  for (const k of DROP) delete dropped[k]
+  const s = renameParams(dropped)
   let layout = 'single'
   if (Array.isArray(s.layer)) layout = 'layer'
+  else if (isObj(s.repeat) && s.spec !== undefined) layout = 'repeat'
   else if (s.facet !== undefined && s.spec !== undefined) layout = 'facet'
   else layout = CONCATS.find((c) => Array.isArray(s[c])) || 'single'
-  const views = collectViews(s, { mark: {}, encoding: {}, transform: [] })
+  const views = collectViews(s, { mark: {}, encoding: {}, transform: [], projection: undefined })
   const out = { layout, views }
   const title = isObj(s.title) ? s.title.text : s.title
   if (title !== undefined) out.title = title
   if (s.width !== undefined) out.width = s.width
   if (s.height !== undefined) out.height = s.height
   if (isObj(s.resolve)) out.resolve = s.resolve
+  if (layout === 'repeat') out.repeat = s.repeat
+  if (layout === 'facet') out.facet = s.facet
+  out.params = collectParams(s, []).map((p) => {
+    const { name, views, ...def } = p
+    // Pointer events replaced mouse events in current Altair; both behave the same.
+    if (isObj(def.select) && typeof def.select.on === 'string') {
+      def.select = { ...def.select, on: def.select.on.replace(/\bmouse(over|out|move|down|up)\b/g, 'pointer$1') }
+    }
+    // .interactive() spells out the default encodings of a scale-bound interval.
+    if (def.bind === 'scales' && isObj(def.select) && canon(def.select.encodings) === canon(['x', 'y'])) {
+      const { encodings, ...rest } = def.select
+      def.select = rest
+    }
+    return def
+  })
+  const configured = Object.entries(config).filter(([k, v]) => !DEFAULT_CONFIG.includes(k) && isObj(v))
+  if (configured.length) out.config = Object.fromEntries(configured)
   return out
 }
 
@@ -103,7 +177,7 @@ const TYPE_ABBR = { nominal: 'N', ordinal: 'O', quantitative: 'Q', temporal: 'T'
 function conditionLabel(ch, def) {
   const conds = Array.isArray(def.condition) ? def.condition : [def.condition]
   const what = (d) => (d.value !== undefined ? py(d.value) : d.field !== undefined ? d.field : '?')
-  const parts = conds.map((c) => (isObj(c) ? `if ${c.test ?? c.param ?? '…'} → ${what(c)}` : '?'))
+  const parts = conds.map((c) => (isObj(c) ? `if ${c.test ?? (c.param !== undefined ? 'selected' : '…')} → ${what(c)}` : '?'))
   const otherwise = def.value !== undefined || def.field !== undefined ? `, else ${what(def)}` : ''
   return short(`${ch}: ${parts.join(', ')}${otherwise}`, 72)
 }
@@ -125,7 +199,7 @@ function optionLabel(ch, word, value) {
   if (word === 'sort') return `${ch}: sort${typeof value === 'string' ? ' ' + value : ''}`
   if (word === 'scale' || word === 'stack') return `${ch}: ${word}`
   if (value === null) return `${ch}: no ${word}`
-  return `${ch}: ${word} ${word === 'axis format' ? text(value) : JSON.stringify(text(value))}`
+  return `${ch}: ${word} ${typeof value === 'string' ? JSON.stringify(value) : text(value)}`
 }
 
 function structureLabel(t) {
@@ -136,8 +210,28 @@ function structureLabel(t) {
     case 'vconcat': return `${n} panels stacked`
     case 'concat': return `${n} panels`
     case 'facet': return 'faceted'
+    case 'repeat': return `repeated (${n} layer${n === 1 ? '' : 's'} per cell)`
     default: return 'single view'
   }
+}
+
+const INPUTS = { range: 'a slider', select: 'a dropdown', radio: 'radio buttons', checkbox: 'a checkbox' }
+
+function paramLabel(p) {
+  const sel = isObj(p.select) ? p.select : null
+  if (sel && p.bind === 'scales') return 'zoom & pan (.interactive() or bind="scales")'
+  const args = []
+  if (sel) for (const k of ['encodings', 'fields', 'on', 'nearest', 'clear']) if (sel[k] !== undefined) args.push(`${k}=${py(sel[k])}`)
+  if (p.value !== undefined) args.push(`value=${py(p.value)}`)
+  const call = sel ? `selection_${sel.type === 'interval' ? 'interval' : 'point'}` : 'param'
+  let bound = ''
+  if (p.bind === 'legend') bound = ', bound to the legend'
+  else if (isObj(p.bind)) {
+    const { input, name, ...rest } = p.bind
+    const extra = input === 'range' ? ` ${rest.min ?? '?'}–${rest.max ?? '?'}` : ''
+    bound = `, bound to ${INPUTS[input] ?? 'a widget'}${extra}`
+  }
+  return short(`${call}(${args.join(', ')})${bound}`, 80)
 }
 
 function identOf(def) {
@@ -185,15 +279,60 @@ export function check(userSpec, targetSpec) {
         if (tval === undefined) continue
         add(`opt-${i}-${ch}-${key}`, prefix + optionLabel(ch, w, tval), canon(getPath(ud, path)) === canon(tval) && getPath(ud, path) !== undefined)
       }
+      for (const part of ['axis', 'legend']) {
+        const tv = def[part]
+        if (tv === null) {
+          add(`opt-${i}-${ch}-${part}`, prefix + `${ch}: no ${part}`, isObj(ud) && ud[part] === null)
+          continue
+        }
+        if (!isObj(tv)) continue
+        for (const [k, v] of Object.entries(tv)) {
+          const uv = getPath(ud, [part, k])
+          add(`opt-${i}-${ch}-${part}-${k}`, prefix + optionLabel(ch, `${part} ${k}`, v), uv !== undefined && canon(uv) === canon(v))
+        }
+      }
+    }
+
+    if (tv.projection !== undefined) {
+      const ptype = tv.projection.type ?? 'projection'
+      add(`proj-${i}`, prefix + `project('${ptype}')`, uv && canon(uv.projection) === canon(tv.projection))
     }
 
     tv.transform.forEach((tr, k) => {
       const keys = isObj(tr) ? Object.keys(tr) : []
       const key = keys.find((k) => !['groupby', 'as', 'sort', 'frame'].includes(k)) ?? keys[0]
-      const label = key === undefined ? text(tr) : `${key}: ${text(tr[key])}`
+      const bySelection = key === 'filter' && isObj(tr.filter) && tr.filter.param !== undefined
+      const label = bySelection ? 'filter: keep the selected rows' : key === undefined ? text(tr) : `${key}: ${text(tr[key])}`
       add(`tr-${i}-${k}`, prefix + short(label), uv && uv.transform.some((x) => canon(x) === canon(tr)))
     })
   })
+
+  // Parameters are matched as a multiset by what they do, ignoring their names.
+  const unused = u.params.map(canon)
+  t.params.forEach((p, k) => {
+    const at = unused.indexOf(canon(p))
+    if (at >= 0) unused.splice(at, 1)
+    add(`param-${k}`, paramLabel(p), at >= 0)
+  })
+
+  if (t.repeat !== undefined) {
+    const parts = Object.entries(t.repeat).map(([k, v]) => `${k} ${text(v)}`).join(', ')
+    add('repeat', short(`repeat: ${parts}`, 80), canon(u.repeat) === canon(t.repeat))
+  }
+  if (t.facet !== undefined) {
+    const label = t.facet.field !== undefined ? channelLabel('facet', t.facet)
+      : `facet: ${Object.entries(t.facet).map(([k, d]) => channelLabel(k, d)).join(', ')}`
+    const same = t.facet.field !== undefined ? isObj(u.facet) && sameIdent(u.facet, t.facet)
+      : isObj(u.facet) && Object.entries(t.facet).every(([k, d]) => u.facet[k] !== undefined && sameIdent(u.facet[k], d))
+    add('facet', short(label, 80), same)
+  }
+
+  for (const [section, props] of Object.entries(t.config || {})) {
+    for (const [k, v] of Object.entries(props)) {
+      const uv = getPath(u.config, [section, k])
+      add(`config-${section}-${k}`, `configure_${section}: ${k}=${py(v)}`, uv !== undefined && canon(uv) === canon(v))
+    }
+  }
 
   for (const key of ['title', 'width', 'height']) {
     if (t[key] === undefined) continue
@@ -208,5 +347,8 @@ export function check(userSpec, targetSpec) {
     }
   }
 
-  return { checks, solved: checks.every((c) => c.passed) }
+  // A chart can look like the target before anyone interacts with it, so a visual match
+  // only counts when the interactive parts are there too.
+  const interactionOk = checks.filter((c) => c.id.startsWith('param-')).every((c) => c.passed)
+  return { checks, solved: checks.every((c) => c.passed), interactionOk }
 }

@@ -294,7 +294,7 @@ export const TEMPLATES = [
   },
   {
     id: 'bar-condition', level: 'Intermediate', needs: { cat: 1, quant: 1 },
-    concept: 'alt.condition colours each mark by a test; aggregating first with transform_aggregate gives the test a named field to compare.',
+    concept: 'alt.when(...).then(...).otherwise(...) colours each mark by a test; aggregating first with transform_aggregate gives the test a named field to compare.',
     docs: DOCS + 'transform/aggregate.html',
     build(ds, pick) {
       const c = pick('cat'), v = pick('quant');
@@ -306,9 +306,9 @@ export const TEMPLATES = [
         hints: [
           `Aggregate with \`.transform_aggregate(avg=${pyStr('mean(' + v.name + ')')}, groupby=[${pyStr(c.name)}])\`.`,
           `Encode \`x=${f(c)}, y='avg:Q'\`.`,
-          `Colour with \`alt.condition(alt.datum.avg > ${thr}, alt.value('crimson'), alt.value('lightgray'))\`.`,
+          `Colour with \`alt.when(alt.datum.avg > ${thr}).then(alt.value('crimson')).otherwise(alt.value('lightgray'))\` (the older \`alt.condition\` works too).`,
         ],
-        chart: `alt.Chart(${ds.varName}).mark_bar().encode(x=${f(c)}, y='avg:Q', color=alt.condition(alt.datum.avg > ${thr}, alt.value('crimson'), alt.value('lightgray'))).transform_aggregate(avg=${pyStr('mean(' + v.name + ')')}, groupby=[${pyStr(c.name)}])`,
+        chart: `alt.Chart(${ds.varName}).mark_bar().encode(x=${f(c)}, y='avg:Q', color=alt.when(alt.datum.avg > ${thr}).then(alt.value('crimson')).otherwise(alt.value('lightgray'))).transform_aggregate(avg=${pyStr('mean(' + v.name + ')')}, groupby=[${pyStr(c.name)}])`,
       };
     },
   },
@@ -428,8 +428,8 @@ export const TEMPLATES = [
   },
   {
     id: 'scatter-condition', level: 'Advanced', needs: { cat: 1, quant: 2 },
-    concept: 'Shape carries the category while alt.condition recolours points by a threshold; constant condition values add no legend.',
-    docs: DOCS + 'interactions/conditions.html',
+    concept: 'Shape carries the category while alt.when(...).then(...).otherwise(...) recolours points by a threshold; constant condition values add no legend.',
+    docs: DOCS + 'interactions/parameters.html#conditions',
     build(ds, pick) {
       const v = pick('quant'), v2 = pick('quant', [v]), c = pick('cat');
       if (!v || !v2 || !c) return null;
@@ -440,9 +440,9 @@ export const TEMPLATES = [
         hints: [
           "Use `.mark_point(filled=True, stroke='black', size=100)`.",
           `Encode \`x=${f(v)}, y=${f(v2)}, shape=${f(c)}\`.`,
-          `\`color=alt.condition(${datum(v2)} > ${thr}, alt.value('red'), alt.value('blue'))\``,
+          `\`color=alt.when(${datum(v2)} > ${thr}).then(alt.value('red')).otherwise(alt.value('blue'))\` (or the older \`alt.condition\`)`,
         ],
-        chart: `alt.Chart(${ds.varName}).mark_point(filled=True, stroke='black', size=100).encode(x=${f(v)}, y=${f(v2)}, shape=${f(c)}, color=alt.condition(${datum(v2)} > ${thr}, alt.value('red'), alt.value('blue')))`,
+        chart: `alt.Chart(${ds.varName}).mark_point(filled=True, stroke='black', size=100).encode(x=${f(v)}, y=${f(v2)}, shape=${f(c)}, color=alt.when(${datum(v2)} > ${thr}).then(alt.value('red')).otherwise(alt.value('blue')))`,
       };
     },
   },

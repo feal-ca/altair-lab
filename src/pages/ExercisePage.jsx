@@ -30,7 +30,8 @@ export function ExercisePage({ exercise, state, update }) {
   const id = exercise.id
   const editor = useRef(null)
   const dataset = resolveDataset(DATASETS, state, exercise.datasetId)
-  const starter = dataset ? dataset.setupCode + '\n' : ''
+  // An exercise may start from more than its dataset (a lookup table, say).
+  const starter = exercise.starter ?? (dataset ? dataset.setupCode + '\n' : '')
   const stored = state.code?.[id]
   const isGenerated = exercise.n == null
   const [target, setTarget] = useState(() => (isGenerated ? null : { spec: targets[id] ?? null }))
@@ -64,9 +65,10 @@ export function ExercisePage({ exercise, state, update }) {
     () => (out.spec && target?.spec ? check(out.spec, target.spec) : null),
     [out.spec, target]
   )
-  // Solved when the code passes every check, or when it draws exactly the target chart.
+  // Solved when the code passes every check, or when it draws exactly the target chart
+  // and declares the same selections and parameters (which a static drawing can't show).
   const visual = useVisualMatch(out.spec, target?.spec)
-  const solved = Boolean(result?.solved || visual?.same)
+  const solved = Boolean(result?.solved || (visual?.same && result?.interactionOk))
   const difference = !solved && visual?.difference ? visual.difference : null
 
   // The tutor reads the latest run when it sends, not when it renders.
@@ -79,10 +81,13 @@ export function ExercisePage({ exercise, state, update }) {
     }
   }, [solved, id, state.solved, update])
 
-  // Next follows the rail, which groups exercises by topic.
+  // Next follows the main list; from an extra it carries on through that topic's extras.
   const list = allExercises(state)
   const ordered = [...TOPICS, 'Generated'].flatMap((t) => list.filter((e) => e.topic === t))
-  const next = ordered[ordered.findIndex((e) => e.id === id) + 1]
+  const after = ordered.slice(ordered.findIndex((e) => e.id === id) + 1)
+  const next = exercise.core === false && after[0]?.topic === exercise.topic
+    ? after[0]
+    : after.find((e) => e.core !== false)
 
   const targetMessage = !target
     ? 'Computing the target chart…'

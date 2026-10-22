@@ -72,13 +72,17 @@ describe('compareScenes', () => {
   })
 })
 
+// Bootstrapped confidence intervals (ci0/ci1, extent='ci') and random() jitter differ on
+// every render, so these can only be solved through the checks.
+const RANDOM = ['bk-ci-band', 'bk-errorband', 'bk-jitter-strip']
+
 describe('curated targets', () => {
   it('all render, and each matches itself', async () => {
     for (const [id, spec] of Object.entries(targets)) {
       if (!spec) continue
       const scene = await sceneOf(spec)
       expect(scene.items.length, id).toBeGreaterThan(0)
-      expect(compareScenes(scene, await sceneOf(structuredClone(spec))).same, id).toBe(true)
+      expect(compareScenes(scene, await sceneOf(structuredClone(spec))).same, id).toBe(!RANDOM.includes(id))
     }
-  })
+  }, 60000)
 })

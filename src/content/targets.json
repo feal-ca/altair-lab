@@ -1,4 +1,191 @@
 {
+  "bk-wide-fold": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "name": "data-39699f0b7c3f92b500deb7759d9ead41"
+    },
+    "datasets": {
+      "data-39699f0b7c3f92b500deb7759d9ead41": [
+        {
+          "AAPL": 189.95,
+          "AMZN": 89.15,
+          "Date": "2007-10-01",
+          "GOOG": 707
+        },
+        {
+          "AAPL": 182.22,
+          "AMZN": 90.56,
+          "Date": "2007-11-01",
+          "GOOG": 693
+        },
+        {
+          "AAPL": 198.08,
+          "AMZN": 92.64,
+          "Date": "2007-12-01",
+          "GOOG": 691.48
+        }
+      ]
+    },
+    "encoding": {
+      "color": {
+        "field": "company",
+        "type": "nominal"
+      },
+      "x": {
+        "field": "Date",
+        "type": "temporal"
+      },
+      "y": {
+        "field": "price",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "type": "line"
+    },
+    "transform": [
+      {
+        "as": [
+          "company",
+          "price"
+        ],
+        "fold": [
+          "AAPL",
+          "AMZN",
+          "GOOG"
+        ]
+      }
+    ]
+  },
+  "bk-wide-layers": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "name": "data-39699f0b7c3f92b500deb7759d9ead41"
+    },
+    "datasets": {
+      "data-39699f0b7c3f92b500deb7759d9ead41": [
+        {
+          "AAPL": 189.95,
+          "AMZN": 89.15,
+          "Date": "2007-10-01",
+          "GOOG": 707
+        },
+        {
+          "AAPL": 182.22,
+          "AMZN": 90.56,
+          "Date": "2007-11-01",
+          "GOOG": 693
+        },
+        {
+          "AAPL": 198.08,
+          "AMZN": 92.64,
+          "Date": "2007-12-01",
+          "GOOG": 691.48
+        }
+      ]
+    },
+    "layer": [
+      {
+        "encoding": {
+          "color": {
+            "value": "red"
+          },
+          "x": {
+            "field": "Date",
+            "type": "temporal"
+          },
+          "y": {
+            "field": "AAPL",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "type": "line"
+        }
+      },
+      {
+        "encoding": {
+          "color": {
+            "value": "blue"
+          },
+          "x": {
+            "field": "Date",
+            "type": "temporal"
+          },
+          "y": {
+            "field": "AMZN",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "type": "line"
+        }
+      },
+      {
+        "encoding": {
+          "color": {
+            "value": "green"
+          },
+          "x": {
+            "field": "Date",
+            "type": "temporal"
+          },
+          "y": {
+            "field": "GOOG",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "type": "line"
+        }
+      }
+    ]
+  },
+  "bk-types-explicit": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/cars.json"
+    },
+    "encoding": {
+      "color": {
+        "field": "Cylinders",
+        "type": "ordinal"
+      },
+      "shape": {
+        "field": "Origin",
+        "type": "nominal"
+      },
+      "x": {
+        "field": "Acceleration",
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "Miles_per_Gallon",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "type": "point"
+    }
+  },
   "nb1-bar-color": {
     "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
     "config": {
@@ -246,7 +433,7 @@
       "type": "line"
     }
   },
-  "nb1-stocks-predicate": {
+  "bk-donut-order": {
     "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
     "config": {
       "view": {
@@ -255,47 +442,52 @@
       }
     },
     "data": {
-      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/stocks.csv"
+      "name": "data-5ebeadaa34ec2740076eb7cc5c0abe10"
+    },
+    "datasets": {
+      "data-5ebeadaa34ec2740076eb7cc5c0abe10": [
+        {
+          "mobile system": "iOS",
+          "percentage": 60
+        },
+        {
+          "mobile system": "Android",
+          "percentage": 35
+        },
+        {
+          "mobile system": "Tizen",
+          "percentage": 4
+        },
+        {
+          "mobile system": "Other",
+          "percentage": 1
+        }
+      ]
     },
     "encoding": {
       "color": {
-        "field": "symbol",
+        "field": "mobile system",
+        "scale": {
+          "scheme": "dark2"
+        },
         "type": "nominal"
       },
-      "x": {
-        "field": "date",
-        "type": "temporal"
+      "order": {
+        "field": "percentage",
+        "sort": "descending",
+        "type": "quantitative"
       },
-      "y": {
-        "field": "price",
+      "theta": {
+        "field": "percentage",
         "type": "quantitative"
       }
     },
     "mark": {
-      "type": "line"
-    },
-    "transform": [
-      {
-        "as": "year",
-        "calculate": "year(datum.date)"
-      },
-      {
-        "filter": {
-          "and": [
-            {
-              "field": "symbol",
-              "oneOf": [
-                "GOOG",
-                "MSFT"
-              ]
-            },
-            "(!(datum.year <= 2005))"
-          ]
-        }
-      }
-    ]
+      "innerRadius": 80,
+      "type": "arc"
+    }
   },
-  "nb1-jobs-scale": {
+  "bk-detail-iowa": {
     "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
     "config": {
       "view": {
@@ -304,48 +496,27 @@
       }
     },
     "data": {
-      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/jobs.json"
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/iowa-electricity.csv"
     },
     "encoding": {
-      "color": {
-        "field": "sex",
-        "legend": {
-          "title": "Gender"
-        },
-        "scale": {
-          "domain": [
-            "men",
-            "women"
-          ],
-          "range": [
-            "green",
-            "blue"
-          ]
-        },
+      "detail": {
+        "field": "source",
         "type": "nominal"
       },
       "x": {
         "field": "year",
-        "type": "ordinal"
+        "type": "temporal"
       },
       "y": {
-        "axis": {
-          "format": "%"
-        },
-        "field": "perc",
+        "field": "net_generation",
         "type": "quantitative"
       }
     },
     "mark": {
       "type": "line"
-    },
-    "transform": [
-      {
-        "filter": "(datum.job === 'Welder')"
-      }
-    ]
+    }
   },
-  "nb1-barley-grouped": {
+  "bk-strokedash-barley": {
     "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
     "config": {
       "view": {
@@ -1081,11 +1252,7 @@
       ]
     },
     "encoding": {
-      "color": {
-        "field": "year",
-        "type": "nominal"
-      },
-      "column": {
+      "strokeDash": {
         "field": "site",
         "type": "nominal"
       },
@@ -1100,7 +1267,419 @@
       }
     },
     "mark": {
+      "type": "line"
+    },
+    "width": 300
+  },
+  "bk-stroke-bars": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "name": "data-d46858fae834a27c36f0c704f9391db6"
+    },
+    "datasets": {
+      "data-d46858fae834a27c36f0c704f9391db6": [
+        {
+          "Country": "Germany",
+          "Population (Millions)": 83.155
+        },
+        {
+          "Country": "France",
+          "Population (Millions)": 67.657
+        },
+        {
+          "Country": "Italy",
+          "Population (Millions)": 59.236
+        },
+        {
+          "Country": "Spain",
+          "Population (Millions)": 47.399
+        },
+        {
+          "Country": "Poland",
+          "Population (Millions)": 37.84
+        },
+        {
+          "Country": "Romania",
+          "Population (Millions)": 19.202
+        },
+        {
+          "Country": "Netherlands",
+          "Population (Millions)": 17.475
+        },
+        {
+          "Country": "Belgium",
+          "Population (Millions)": 11.555
+        },
+        {
+          "Country": "Czech Republic",
+          "Population (Millions)": 10.702
+        },
+        {
+          "Country": "Greece",
+          "Population (Millions)": 10.679
+        }
+      ]
+    },
+    "encoding": {
+      "stroke": {
+        "field": "Country",
+        "type": "nominal"
+      },
+      "x": {
+        "field": "Population (Millions)",
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "Country",
+        "type": "nominal"
+      }
+    },
+    "mark": {
+      "color": "pink",
+      "strokeDash": [
+        4,
+        4
+      ],
+      "strokeWidth": 3,
       "type": "bar"
+    },
+    "title": "Population"
+  },
+  "bk-boxplot-minmax": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/cars.json"
+    },
+    "encoding": {
+      "x": {
+        "field": "Miles_per_Gallon",
+        "scale": {
+          "zero": false
+        },
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "Origin",
+        "type": "nominal"
+      }
+    },
+    "mark": {
+      "extent": "min-max",
+      "type": "boxplot"
+    }
+  },
+  "bk-text-values": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "name": "data-d46858fae834a27c36f0c704f9391db6"
+    },
+    "datasets": {
+      "data-d46858fae834a27c36f0c704f9391db6": [
+        {
+          "Country": "Germany",
+          "Population (Millions)": 83.155
+        },
+        {
+          "Country": "France",
+          "Population (Millions)": 67.657
+        },
+        {
+          "Country": "Italy",
+          "Population (Millions)": 59.236
+        },
+        {
+          "Country": "Spain",
+          "Population (Millions)": 47.399
+        },
+        {
+          "Country": "Poland",
+          "Population (Millions)": 37.84
+        },
+        {
+          "Country": "Romania",
+          "Population (Millions)": 19.202
+        },
+        {
+          "Country": "Netherlands",
+          "Population (Millions)": 17.475
+        },
+        {
+          "Country": "Belgium",
+          "Population (Millions)": 11.555
+        },
+        {
+          "Country": "Czech Republic",
+          "Population (Millions)": 10.702
+        },
+        {
+          "Country": "Greece",
+          "Population (Millions)": 10.679
+        }
+      ]
+    },
+    "encoding": {
+      "text": {
+        "field": "Population (Millions)",
+        "type": "quantitative"
+      },
+      "x": {
+        "field": "Country",
+        "type": "nominal"
+      },
+      "y": {
+        "field": "Population (Millions)",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "type": "text"
+    },
+    "title": "Population"
+  },
+  "mv-area-normalize": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/iowa-electricity.csv"
+    },
+    "encoding": {
+      "color": {
+        "field": "source",
+        "type": "nominal"
+      },
+      "x": {
+        "field": "year",
+        "type": "temporal"
+      },
+      "y": {
+        "axis": {
+          "format": ".0%"
+        },
+        "field": "net_generation",
+        "stack": "normalize",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "type": "area"
+    }
+  },
+  "bk-hist-stacked": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/cars.json"
+    },
+    "encoding": {
+      "color": {
+        "field": "Origin",
+        "type": "nominal"
+      },
+      "x": {
+        "bin": true,
+        "field": "Acceleration",
+        "type": "quantitative"
+      },
+      "y": {
+        "aggregate": "count",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "type": "bar"
+    }
+  },
+  "bk-timeunit-stocks": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/stocks.csv"
+    },
+    "encoding": {
+      "color": {
+        "field": "symbol",
+        "type": "nominal"
+      },
+      "x": {
+        "field": "date",
+        "timeUnit": "year",
+        "type": "temporal"
+      },
+      "y": {
+        "aggregate": "average",
+        "field": "price",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "type": "line"
+    }
+  },
+  "bk-ci-band": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/stocks.csv"
+    },
+    "layer": [
+      {
+        "encoding": {
+          "color": {
+            "field": "symbol",
+            "legend": {
+              "symbolOpacity": 1,
+              "title": "Stock"
+            },
+            "type": "nominal"
+          },
+          "x": {
+            "field": "date",
+            "timeUnit": "year",
+            "title": "Year",
+            "type": "temporal"
+          },
+          "y": {
+            "aggregate": "ci0",
+            "field": "price",
+            "title": "",
+            "type": "quantitative"
+          },
+          "y2": {
+            "aggregate": "ci1",
+            "field": "price",
+            "title": ""
+          }
+        },
+        "mark": {
+          "opacity": 0.5,
+          "type": "area"
+        }
+      },
+      {
+        "encoding": {
+          "color": {
+            "field": "symbol",
+            "type": "nominal"
+          },
+          "x": {
+            "field": "date",
+            "timeUnit": "year",
+            "title": "Year",
+            "type": "temporal"
+          },
+          "y": {
+            "aggregate": "average",
+            "field": "price",
+            "title": "Price",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "type": "line"
+        }
+      }
+    ]
+  },
+  "bk-stack-false": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/iowa-electricity.csv"
+    },
+    "encoding": {
+      "color": {
+        "field": "source",
+        "type": "nominal"
+      },
+      "x": {
+        "field": "year",
+        "type": "temporal"
+      },
+      "y": {
+        "field": "net_generation",
+        "stack": false,
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "opacity": 0.6,
+      "type": "area"
+    }
+  },
+  "bk-errorband": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/seattle-weather.csv"
+    },
+    "encoding": {
+      "x": {
+        "field": "date",
+        "timeUnit": "month",
+        "type": "temporal"
+      },
+      "y": {
+        "aggregate": "average",
+        "field": "temp_max",
+        "scale": {
+          "zero": false
+        },
+        "title": "Average maximum temperature",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "borders": true,
+      "extent": "ci",
+      "type": "errorband"
     }
   },
   "nb2-pie-labels": {
@@ -1670,287 +2249,6 @@
       }
     ]
   },
-  "nb2-bump-tennis": {
-    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
-    "config": {
-      "mark": {
-        "strokeWidth": 3
-      },
-      "point": {
-        "size": 60
-      },
-      "view": {
-        "continuousHeight": 300,
-        "continuousWidth": 300
-      }
-    },
-    "data": {
-      "name": "data-63df962c4d5fca7f0c4508182f081cf7"
-    },
-    "datasets": {
-      "data-63df962c4d5fca7f0c4508182f081cf7": [
-        {
-          "item": "Maria",
-          "points": 40,
-          "year": 2018
-        },
-        {
-          "item": "Laura",
-          "points": 58,
-          "year": 2018
-        },
-        {
-          "item": "Anna",
-          "points": 79,
-          "year": 2018
-        },
-        {
-          "item": "Joana",
-          "points": 84,
-          "year": 2018
-        },
-        {
-          "item": "Montse",
-          "points": 88,
-          "year": 2018
-        },
-        {
-          "item": "Maria",
-          "points": 40,
-          "year": 2019
-        },
-        {
-          "item": "Laura",
-          "points": 84,
-          "year": 2019
-        },
-        {
-          "item": "Anna",
-          "points": 49,
-          "year": 2019
-        },
-        {
-          "item": "Joana",
-          "points": 86,
-          "year": 2019
-        },
-        {
-          "item": "Montse",
-          "points": 96,
-          "year": 2019
-        },
-        {
-          "item": "Maria",
-          "points": 74,
-          "year": 2020
-        },
-        {
-          "item": "Laura",
-          "points": 88,
-          "year": 2020
-        },
-        {
-          "item": "Anna",
-          "points": 83,
-          "year": 2020
-        },
-        {
-          "item": "Joana",
-          "points": 45,
-          "year": 2020
-        },
-        {
-          "item": "Montse",
-          "points": 61,
-          "year": 2020
-        },
-        {
-          "item": "Maria",
-          "points": 56,
-          "year": 2021
-        },
-        {
-          "item": "Laura",
-          "points": 81,
-          "year": 2021
-        },
-        {
-          "item": "Anna",
-          "points": 51,
-          "year": 2021
-        },
-        {
-          "item": "Joana",
-          "points": 82,
-          "year": 2021
-        },
-        {
-          "item": "Montse",
-          "points": 72,
-          "year": 2021
-        },
-        {
-          "item": "Maria",
-          "points": 80,
-          "year": 2022
-        },
-        {
-          "item": "Laura",
-          "points": 76,
-          "year": 2022
-        },
-        {
-          "item": "Anna",
-          "points": 45,
-          "year": 2022
-        },
-        {
-          "item": "Joana",
-          "points": 68,
-          "year": 2022
-        },
-        {
-          "item": "Montse",
-          "points": 83,
-          "year": 2022
-        },
-        {
-          "item": "Maria",
-          "points": 69,
-          "year": 2023
-        },
-        {
-          "item": "Laura",
-          "points": 89,
-          "year": 2023
-        },
-        {
-          "item": "Anna",
-          "points": 86,
-          "year": 2023
-        },
-        {
-          "item": "Joana",
-          "points": 82,
-          "year": 2023
-        },
-        {
-          "item": "Montse",
-          "points": 92,
-          "year": 2023
-        },
-        {
-          "item": "Maria",
-          "points": 88,
-          "year": 2024
-        },
-        {
-          "item": "Laura",
-          "points": 71,
-          "year": 2024
-        },
-        {
-          "item": "Anna",
-          "points": 47,
-          "year": 2024
-        },
-        {
-          "item": "Joana",
-          "points": 68,
-          "year": 2024
-        },
-        {
-          "item": "Montse",
-          "points": 87,
-          "year": 2024
-        }
-      ]
-    },
-    "encoding": {
-      "color": {
-        "field": "item",
-        "title": "Players",
-        "type": "nominal"
-      },
-      "tooltip": [
-        {
-          "field": "year",
-          "type": "ordinal"
-        },
-        {
-          "field": "item",
-          "type": "nominal"
-        },
-        {
-          "field": "points",
-          "type": "quantitative"
-        },
-        {
-          "field": "rank",
-          "type": "quantitative"
-        }
-      ],
-      "x": {
-        "field": "year",
-        "title": null,
-        "type": "ordinal"
-      },
-      "y": {
-        "axis": {
-          "title": "Rank",
-          "values": [
-            1,
-            2,
-            3,
-            4,
-            5
-          ]
-        },
-        "field": "rank",
-        "scale": {
-          "domain": [
-            1,
-            5
-          ],
-          "nice": false,
-          "reverse": true,
-          "zero": false
-        },
-        "type": "quantitative"
-      }
-    },
-    "height": 280,
-    "mark": {
-      "point": true,
-      "type": "line"
-    },
-    "title": "Best Catalan tennis players",
-    "transform": [
-      {
-        "groupby": [
-          "year"
-        ],
-        "sort": [
-          {
-            "field": "points",
-            "order": "descending"
-          },
-          {
-            "field": "item",
-            "order": "ascending"
-          }
-        ],
-        "window": [
-          {
-            "as": "rank",
-            "field": "",
-            "op": "row_number"
-          }
-        ]
-      }
-    ],
-    "width": 500
-  },
   "nb2-priestley-range": {
     "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
     "config": {
@@ -2233,182 +2531,6 @@
         }
       }
     ]
-  },
-  "nb2-us-airports-map": {
-    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
-    "config": {
-      "view": {
-        "continuousHeight": 300,
-        "continuousWidth": 300
-      }
-    },
-    "height": 300,
-    "layer": [
-      {
-        "data": {
-          "format": {
-            "feature": "states",
-            "type": "topojson"
-          },
-          "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/us-10m.json"
-        },
-        "mark": {
-          "fill": "lightgray",
-          "stroke": "white",
-          "type": "geoshape"
-        },
-        "projection": {
-          "type": "albersUsa"
-        }
-      },
-      {
-        "data": {
-          "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/airports.csv"
-        },
-        "encoding": {
-          "color": {
-            "value": "steelblue"
-          },
-          "latitude": {
-            "field": "latitude",
-            "type": "quantitative"
-          },
-          "longitude": {
-            "field": "longitude",
-            "type": "quantitative"
-          },
-          "size": {
-            "field": "count",
-            "title": "Number of Airports",
-            "type": "quantitative"
-          },
-          "tooltip": [
-            {
-              "field": "state",
-              "type": "nominal"
-            },
-            {
-              "field": "count",
-              "type": "quantitative"
-            }
-          ]
-        },
-        "mark": {
-          "type": "circle"
-        },
-        "title": "Number of airports in US",
-        "transform": [
-          {
-            "aggregate": [
-              {
-                "as": "latitude",
-                "field": "latitude",
-                "op": "mean"
-              },
-              {
-                "as": "longitude",
-                "field": "longitude",
-                "op": "mean"
-              },
-              {
-                "as": "count",
-                "op": "count"
-              }
-            ],
-            "groupby": [
-              "state"
-            ]
-          }
-        ]
-      }
-    ],
-    "width": 500
-  },
-  "nb2-parallel-coords": {
-    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
-    "config": {
-      "view": {
-        "continuousHeight": 300,
-        "continuousWidth": 300
-      }
-    },
-    "data": {
-      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/cars.json"
-    },
-    "encoding": {
-      "color": {
-        "field": "Origin",
-        "type": "nominal"
-      },
-      "detail": {
-        "field": "index",
-        "type": "nominal"
-      },
-      "opacity": {
-        "value": 0.25
-      },
-      "x": {
-        "axis": {
-          "labelAngle": -45
-        },
-        "field": "key",
-        "title": null,
-        "type": "nominal"
-      },
-      "y": {
-        "field": "minmax_value",
-        "title": "Value",
-        "type": "quantitative"
-      }
-    },
-    "mark": {
-      "type": "line"
-    },
-    "transform": [
-      {
-        "window": [
-          {
-            "as": "index",
-            "op": "count"
-          }
-        ]
-      },
-      {
-        "fold": [
-          "Weight_in_lbs",
-          "Miles_per_Gallon",
-          "Cylinders",
-          "Displacement",
-          "Horsepower",
-          "Acceleration"
-        ]
-      },
-      {
-        "filter": "isValid(datum.value) && isFinite(datum.value)"
-      },
-      {
-        "groupby": [
-          "key"
-        ],
-        "joinaggregate": [
-          {
-            "as": "min",
-            "field": "value",
-            "op": "min"
-          },
-          {
-            "as": "max",
-            "field": "value",
-            "op": "max"
-          }
-        ]
-      },
-      {
-        "as": "minmax_value",
-        "calculate": "(datum.value - datum.min) / (datum.max - datum.min)"
-      }
-    ],
-    "width": 500
   },
   "mv-heatmap-text": {
     "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
@@ -3300,39 +3422,6 @@
       }
     }
   },
-  "mv-area-normalize": {
-    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
-    "config": {
-      "view": {
-        "continuousHeight": 300,
-        "continuousWidth": 300
-      }
-    },
-    "data": {
-      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/iowa-electricity.csv"
-    },
-    "encoding": {
-      "color": {
-        "field": "source",
-        "type": "nominal"
-      },
-      "x": {
-        "field": "year",
-        "type": "temporal"
-      },
-      "y": {
-        "axis": {
-          "format": ".0%"
-        },
-        "field": "net_generation",
-        "stack": "normalize",
-        "type": "quantitative"
-      }
-    },
-    "mark": {
-      "type": "area"
-    }
-  },
   "mv-hconcat-weather": {
     "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
     "config": {
@@ -3495,6 +3584,4661 @@
       }
     ]
   },
+  "bk-streamgraph": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/us-employment.csv"
+    },
+    "encoding": {
+      "color": {
+        "field": "sector",
+        "type": "nominal"
+      },
+      "x": {
+        "axis": {
+          "format": "%Y"
+        },
+        "field": "month",
+        "timeUnit": "yearmonth",
+        "type": "temporal"
+      },
+      "y": {
+        "aggregate": "sum",
+        "axis": null,
+        "field": "employees",
+        "stack": "center",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "type": "area"
+    },
+    "transform": [
+      {
+        "as": [
+          "sector",
+          "employees"
+        ],
+        "fold": [
+          "construction",
+          "manufacturing",
+          "retail_trade",
+          "education_and_health_services",
+          "leisure_and_hospitality",
+          "government"
+        ]
+      }
+    ]
+  },
+  "bk-connected-scatter": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/driving.json"
+    },
+    "encoding": {
+      "order": {
+        "field": "year",
+        "type": "ordinal"
+      },
+      "x": {
+        "field": "miles",
+        "scale": {
+          "zero": false
+        },
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "gas",
+        "scale": {
+          "zero": false
+        },
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "point": true,
+      "type": "line"
+    }
+  },
+  "bk-trail": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/iowa-electricity.csv"
+    },
+    "encoding": {
+      "color": {
+        "field": "source",
+        "type": "nominal"
+      },
+      "size": {
+        "field": "net_generation",
+        "type": "quantitative"
+      },
+      "x": {
+        "field": "year",
+        "type": "temporal"
+      },
+      "y": {
+        "field": "net_generation",
+        "title": "Net generation",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "type": "trail"
+    }
+  },
+  "bk-step-line": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/stocks.csv"
+    },
+    "encoding": {
+      "x": {
+        "field": "date",
+        "type": "temporal"
+      },
+      "y": {
+        "field": "price",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "interpolate": "step-after",
+      "type": "line"
+    },
+    "transform": [
+      {
+        "filter": "(datum.symbol === 'GOOG')"
+      }
+    ]
+  },
+  "bk-punchcard": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/github.csv"
+    },
+    "encoding": {
+      "color": {
+        "aggregate": "sum",
+        "field": "count",
+        "legend": {
+          "title": "Contributions"
+        },
+        "type": "quantitative"
+      },
+      "x": {
+        "field": "time",
+        "timeUnit": "hours",
+        "type": "ordinal"
+      },
+      "y": {
+        "field": "time",
+        "timeUnit": "day",
+        "type": "ordinal"
+      }
+    },
+    "mark": {
+      "type": "rect"
+    }
+  },
+  "bk-binned-heatmap": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/movies.json"
+    },
+    "encoding": {
+      "color": {
+        "aggregate": "count",
+        "legend": {
+          "title": "Total Records"
+        },
+        "scale": {
+          "scheme": "oranges"
+        },
+        "type": "quantitative"
+      },
+      "x": {
+        "bin": true,
+        "field": "IMDB_Rating",
+        "type": "quantitative"
+      },
+      "y": {
+        "bin": true,
+        "field": "Rotten_Tomatoes_Rating",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "type": "rect"
+    }
+  },
+  "bk-jitter-strip": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/seattle-weather.csv"
+    },
+    "encoding": {
+      "color": {
+        "field": "weather",
+        "legend": null,
+        "type": "nominal"
+      },
+      "x": {
+        "field": "weather",
+        "title": "Weather",
+        "type": "nominal"
+      },
+      "xOffset": {
+        "field": "jitter",
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "precipitation",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "size": 8,
+      "type": "circle"
+    },
+    "title": "Precipitation",
+    "transform": [
+      {
+        "as": "jitter",
+        "calculate": "sqrt(-2*log(random()))*cos(2*PI*random())"
+      }
+    ]
+  },
+  "bk-polar-area": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "name": "data-5ebeadaa34ec2740076eb7cc5c0abe10"
+    },
+    "datasets": {
+      "data-5ebeadaa34ec2740076eb7cc5c0abe10": [
+        {
+          "mobile system": "iOS",
+          "percentage": 60
+        },
+        {
+          "mobile system": "Android",
+          "percentage": 35
+        },
+        {
+          "mobile system": "Tizen",
+          "percentage": 4
+        },
+        {
+          "mobile system": "Other",
+          "percentage": 1
+        }
+      ]
+    },
+    "encoding": {
+      "color": {
+        "field": "mobile system",
+        "type": "nominal"
+      },
+      "radius": {
+        "field": "percentage",
+        "scale": {
+          "rangeMin": 20,
+          "type": "sqrt",
+          "zero": true
+        },
+        "type": "quantitative"
+      },
+      "theta": {
+        "field": "slice",
+        "stack": true,
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "innerRadius": 20,
+      "stroke": "#fff",
+      "type": "arc"
+    },
+    "transform": [
+      {
+        "as": "slice",
+        "calculate": "1"
+      }
+    ]
+  },
+  "bk-horizon": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/disasters.csv"
+    },
+    "height": 100,
+    "layer": [
+      {
+        "encoding": {
+          "x": {
+            "axis": {
+              "format": "d"
+            },
+            "field": "Year",
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "Deaths",
+            "scale": {
+              "domain": [
+                0,
+                2000000
+              ]
+            },
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "clip": true,
+          "interpolate": "monotone",
+          "opacity": 0.6,
+          "type": "area"
+        },
+        "transform": [
+          {
+            "filter": "((datum.Entity === 'All natural disasters') && (datum.Year < 1950))"
+          }
+        ]
+      },
+      {
+        "encoding": {
+          "color": {
+            "value": "purple"
+          },
+          "x": {
+            "axis": {
+              "format": "d"
+            },
+            "field": "Year",
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "DeathsMod",
+            "scale": {
+              "domain": [
+                0,
+                2000000
+              ]
+            },
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "clip": true,
+          "interpolate": "monotone",
+          "opacity": 0.6,
+          "type": "area"
+        },
+        "transform": [
+          {
+            "filter": "((datum.Entity === 'All natural disasters') && (datum.Year < 1950))"
+          },
+          {
+            "as": "DeathsMod",
+            "calculate": "(datum.Deaths - 2000000)"
+          }
+        ]
+      }
+    ],
+    "width": 500
+  },
+  "nb1-stocks-predicate": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/stocks.csv"
+    },
+    "encoding": {
+      "color": {
+        "field": "symbol",
+        "type": "nominal"
+      },
+      "x": {
+        "field": "date",
+        "type": "temporal"
+      },
+      "y": {
+        "field": "price",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "type": "line"
+    },
+    "transform": [
+      {
+        "as": "year",
+        "calculate": "year(datum.date)"
+      },
+      {
+        "filter": {
+          "and": [
+            {
+              "field": "symbol",
+              "oneOf": [
+                "GOOG",
+                "MSFT"
+              ]
+            },
+            "(!(datum.year <= 2005))"
+          ]
+        }
+      }
+    ]
+  },
+  "nb2-bump-tennis": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "mark": {
+        "strokeWidth": 3
+      },
+      "point": {
+        "size": 60
+      },
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "name": "data-63df962c4d5fca7f0c4508182f081cf7"
+    },
+    "datasets": {
+      "data-63df962c4d5fca7f0c4508182f081cf7": [
+        {
+          "item": "Maria",
+          "points": 40,
+          "year": 2018
+        },
+        {
+          "item": "Laura",
+          "points": 58,
+          "year": 2018
+        },
+        {
+          "item": "Anna",
+          "points": 79,
+          "year": 2018
+        },
+        {
+          "item": "Joana",
+          "points": 84,
+          "year": 2018
+        },
+        {
+          "item": "Montse",
+          "points": 88,
+          "year": 2018
+        },
+        {
+          "item": "Maria",
+          "points": 40,
+          "year": 2019
+        },
+        {
+          "item": "Laura",
+          "points": 84,
+          "year": 2019
+        },
+        {
+          "item": "Anna",
+          "points": 49,
+          "year": 2019
+        },
+        {
+          "item": "Joana",
+          "points": 86,
+          "year": 2019
+        },
+        {
+          "item": "Montse",
+          "points": 96,
+          "year": 2019
+        },
+        {
+          "item": "Maria",
+          "points": 74,
+          "year": 2020
+        },
+        {
+          "item": "Laura",
+          "points": 88,
+          "year": 2020
+        },
+        {
+          "item": "Anna",
+          "points": 83,
+          "year": 2020
+        },
+        {
+          "item": "Joana",
+          "points": 45,
+          "year": 2020
+        },
+        {
+          "item": "Montse",
+          "points": 61,
+          "year": 2020
+        },
+        {
+          "item": "Maria",
+          "points": 56,
+          "year": 2021
+        },
+        {
+          "item": "Laura",
+          "points": 81,
+          "year": 2021
+        },
+        {
+          "item": "Anna",
+          "points": 51,
+          "year": 2021
+        },
+        {
+          "item": "Joana",
+          "points": 82,
+          "year": 2021
+        },
+        {
+          "item": "Montse",
+          "points": 72,
+          "year": 2021
+        },
+        {
+          "item": "Maria",
+          "points": 80,
+          "year": 2022
+        },
+        {
+          "item": "Laura",
+          "points": 76,
+          "year": 2022
+        },
+        {
+          "item": "Anna",
+          "points": 45,
+          "year": 2022
+        },
+        {
+          "item": "Joana",
+          "points": 68,
+          "year": 2022
+        },
+        {
+          "item": "Montse",
+          "points": 83,
+          "year": 2022
+        },
+        {
+          "item": "Maria",
+          "points": 69,
+          "year": 2023
+        },
+        {
+          "item": "Laura",
+          "points": 89,
+          "year": 2023
+        },
+        {
+          "item": "Anna",
+          "points": 86,
+          "year": 2023
+        },
+        {
+          "item": "Joana",
+          "points": 82,
+          "year": 2023
+        },
+        {
+          "item": "Montse",
+          "points": 92,
+          "year": 2023
+        },
+        {
+          "item": "Maria",
+          "points": 88,
+          "year": 2024
+        },
+        {
+          "item": "Laura",
+          "points": 71,
+          "year": 2024
+        },
+        {
+          "item": "Anna",
+          "points": 47,
+          "year": 2024
+        },
+        {
+          "item": "Joana",
+          "points": 68,
+          "year": 2024
+        },
+        {
+          "item": "Montse",
+          "points": 87,
+          "year": 2024
+        }
+      ]
+    },
+    "encoding": {
+      "color": {
+        "field": "item",
+        "title": "Players",
+        "type": "nominal"
+      },
+      "tooltip": [
+        {
+          "field": "year",
+          "type": "ordinal"
+        },
+        {
+          "field": "item",
+          "type": "nominal"
+        },
+        {
+          "field": "points",
+          "type": "quantitative"
+        },
+        {
+          "field": "rank",
+          "type": "quantitative"
+        }
+      ],
+      "x": {
+        "field": "year",
+        "title": null,
+        "type": "ordinal"
+      },
+      "y": {
+        "axis": {
+          "title": "Rank",
+          "values": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "field": "rank",
+        "scale": {
+          "domain": [
+            1,
+            5
+          ],
+          "nice": false,
+          "reverse": true,
+          "zero": false
+        },
+        "type": "quantitative"
+      }
+    },
+    "height": 280,
+    "mark": {
+      "point": true,
+      "type": "line"
+    },
+    "title": "Best Catalan tennis players",
+    "transform": [
+      {
+        "groupby": [
+          "year"
+        ],
+        "sort": [
+          {
+            "field": "points",
+            "order": "descending"
+          },
+          {
+            "field": "item",
+            "order": "ascending"
+          }
+        ],
+        "window": [
+          {
+            "as": "rank",
+            "field": "",
+            "op": "row_number"
+          }
+        ]
+      }
+    ],
+    "width": 500
+  },
+  "nb2-parallel-coords": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/cars.json"
+    },
+    "encoding": {
+      "color": {
+        "field": "Origin",
+        "type": "nominal"
+      },
+      "detail": {
+        "field": "index",
+        "type": "nominal"
+      },
+      "opacity": {
+        "value": 0.25
+      },
+      "x": {
+        "axis": {
+          "labelAngle": -45
+        },
+        "field": "key",
+        "title": null,
+        "type": "nominal"
+      },
+      "y": {
+        "field": "minmax_value",
+        "title": "Value",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "type": "line"
+    },
+    "transform": [
+      {
+        "window": [
+          {
+            "as": "index",
+            "op": "count"
+          }
+        ]
+      },
+      {
+        "fold": [
+          "Weight_in_lbs",
+          "Miles_per_Gallon",
+          "Cylinders",
+          "Displacement",
+          "Horsepower",
+          "Acceleration"
+        ]
+      },
+      {
+        "filter": "isValid(datum.value) && isFinite(datum.value)"
+      },
+      {
+        "groupby": [
+          "key"
+        ],
+        "joinaggregate": [
+          {
+            "as": "min",
+            "field": "value",
+            "op": "min"
+          },
+          {
+            "as": "max",
+            "field": "value",
+            "op": "max"
+          }
+        ]
+      },
+      {
+        "as": "minmax_value",
+        "calculate": "(datum.value - datum.min) / (datum.max - datum.min)"
+      }
+    ],
+    "width": 500
+  },
+  "bk-transform-aggregate": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/cars.json"
+    },
+    "encoding": {
+      "x": {
+        "field": "avgMPG",
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "Cylinders",
+        "type": "ordinal"
+      }
+    },
+    "mark": {
+      "type": "bar"
+    },
+    "transform": [
+      {
+        "aggregate": [
+          {
+            "as": "avgMPG",
+            "field": "Miles_per_Gallon",
+            "op": "mean"
+          }
+        ],
+        "groupby": [
+          "Cylinders"
+        ]
+      }
+    ]
+  },
+  "bk-transform-bin": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/cars.json"
+    },
+    "encoding": {
+      "x": {
+        "field": "binnedDisp",
+        "type": "ordinal"
+      },
+      "y": {
+        "aggregate": "count",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "type": "bar"
+    },
+    "transform": [
+      {
+        "as": "binnedDisp",
+        "bin": {
+          "maxbins": 5
+        },
+        "field": "Displacement"
+      }
+    ]
+  },
+  "bk-calc-circle": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "name": "data-aef39f9138d05413671f36b312a38762"
+    },
+    "datasets": {
+      "data-aef39f9138d05413671f36b312a38762": [
+        {
+          "angle": 0
+        },
+        {
+          "angle": 1
+        },
+        {
+          "angle": 2
+        },
+        {
+          "angle": 3
+        },
+        {
+          "angle": 4
+        },
+        {
+          "angle": 5
+        },
+        {
+          "angle": 6
+        },
+        {
+          "angle": 7
+        },
+        {
+          "angle": 8
+        },
+        {
+          "angle": 9
+        },
+        {
+          "angle": 10
+        },
+        {
+          "angle": 11
+        },
+        {
+          "angle": 12
+        },
+        {
+          "angle": 13
+        },
+        {
+          "angle": 14
+        },
+        {
+          "angle": 15
+        },
+        {
+          "angle": 16
+        },
+        {
+          "angle": 17
+        },
+        {
+          "angle": 18
+        },
+        {
+          "angle": 19
+        },
+        {
+          "angle": 20
+        },
+        {
+          "angle": 21
+        },
+        {
+          "angle": 22
+        },
+        {
+          "angle": 23
+        },
+        {
+          "angle": 24
+        },
+        {
+          "angle": 25
+        },
+        {
+          "angle": 26
+        },
+        {
+          "angle": 27
+        },
+        {
+          "angle": 28
+        },
+        {
+          "angle": 29
+        },
+        {
+          "angle": 30
+        },
+        {
+          "angle": 31
+        },
+        {
+          "angle": 32
+        },
+        {
+          "angle": 33
+        },
+        {
+          "angle": 34
+        },
+        {
+          "angle": 35
+        },
+        {
+          "angle": 36
+        },
+        {
+          "angle": 37
+        },
+        {
+          "angle": 38
+        },
+        {
+          "angle": 39
+        },
+        {
+          "angle": 40
+        },
+        {
+          "angle": 41
+        },
+        {
+          "angle": 42
+        },
+        {
+          "angle": 43
+        },
+        {
+          "angle": 44
+        },
+        {
+          "angle": 45
+        },
+        {
+          "angle": 46
+        },
+        {
+          "angle": 47
+        },
+        {
+          "angle": 48
+        },
+        {
+          "angle": 49
+        },
+        {
+          "angle": 50
+        }
+      ]
+    },
+    "encoding": {
+      "x": {
+        "field": "x",
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "y",
+        "type": "quantitative"
+      }
+    },
+    "height": 300,
+    "mark": {
+      "type": "circle"
+    },
+    "transform": [
+      {
+        "as": "x",
+        "calculate": "sin(PI*(datum.angle - 25) / 25)"
+      },
+      {
+        "as": "y",
+        "calculate": "cos(PI*(datum.angle - 25) / 25)"
+      }
+    ],
+    "width": 300
+  },
+  "bk-calc-distance": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "name": "data-0a339963573d2026ec33ab6fe089c230"
+    },
+    "datasets": {
+      "data-0a339963573d2026ec33ab6fe089c230": [
+        {
+          "x": -5,
+          "y": -5
+        },
+        {
+          "x": -4,
+          "y": -5
+        },
+        {
+          "x": -3,
+          "y": -5
+        },
+        {
+          "x": -2,
+          "y": -5
+        },
+        {
+          "x": -1,
+          "y": -5
+        },
+        {
+          "x": 0,
+          "y": -5
+        },
+        {
+          "x": 1,
+          "y": -5
+        },
+        {
+          "x": 2,
+          "y": -5
+        },
+        {
+          "x": 3,
+          "y": -5
+        },
+        {
+          "x": 4,
+          "y": -5
+        },
+        {
+          "x": 5,
+          "y": -5
+        },
+        {
+          "x": -5,
+          "y": -4
+        },
+        {
+          "x": -4,
+          "y": -4
+        },
+        {
+          "x": -3,
+          "y": -4
+        },
+        {
+          "x": -2,
+          "y": -4
+        },
+        {
+          "x": -1,
+          "y": -4
+        },
+        {
+          "x": 0,
+          "y": -4
+        },
+        {
+          "x": 1,
+          "y": -4
+        },
+        {
+          "x": 2,
+          "y": -4
+        },
+        {
+          "x": 3,
+          "y": -4
+        },
+        {
+          "x": 4,
+          "y": -4
+        },
+        {
+          "x": 5,
+          "y": -4
+        },
+        {
+          "x": -5,
+          "y": -3
+        },
+        {
+          "x": -4,
+          "y": -3
+        },
+        {
+          "x": -3,
+          "y": -3
+        },
+        {
+          "x": -2,
+          "y": -3
+        },
+        {
+          "x": -1,
+          "y": -3
+        },
+        {
+          "x": 0,
+          "y": -3
+        },
+        {
+          "x": 1,
+          "y": -3
+        },
+        {
+          "x": 2,
+          "y": -3
+        },
+        {
+          "x": 3,
+          "y": -3
+        },
+        {
+          "x": 4,
+          "y": -3
+        },
+        {
+          "x": 5,
+          "y": -3
+        },
+        {
+          "x": -5,
+          "y": -2
+        },
+        {
+          "x": -4,
+          "y": -2
+        },
+        {
+          "x": -3,
+          "y": -2
+        },
+        {
+          "x": -2,
+          "y": -2
+        },
+        {
+          "x": -1,
+          "y": -2
+        },
+        {
+          "x": 0,
+          "y": -2
+        },
+        {
+          "x": 1,
+          "y": -2
+        },
+        {
+          "x": 2,
+          "y": -2
+        },
+        {
+          "x": 3,
+          "y": -2
+        },
+        {
+          "x": 4,
+          "y": -2
+        },
+        {
+          "x": 5,
+          "y": -2
+        },
+        {
+          "x": -5,
+          "y": -1
+        },
+        {
+          "x": -4,
+          "y": -1
+        },
+        {
+          "x": -3,
+          "y": -1
+        },
+        {
+          "x": -2,
+          "y": -1
+        },
+        {
+          "x": -1,
+          "y": -1
+        },
+        {
+          "x": 0,
+          "y": -1
+        },
+        {
+          "x": 1,
+          "y": -1
+        },
+        {
+          "x": 2,
+          "y": -1
+        },
+        {
+          "x": 3,
+          "y": -1
+        },
+        {
+          "x": 4,
+          "y": -1
+        },
+        {
+          "x": 5,
+          "y": -1
+        },
+        {
+          "x": -5,
+          "y": 0
+        },
+        {
+          "x": -4,
+          "y": 0
+        },
+        {
+          "x": -3,
+          "y": 0
+        },
+        {
+          "x": -2,
+          "y": 0
+        },
+        {
+          "x": -1,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 0
+        },
+        {
+          "x": 3,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 0
+        },
+        {
+          "x": 5,
+          "y": 0
+        },
+        {
+          "x": -5,
+          "y": 1
+        },
+        {
+          "x": -4,
+          "y": 1
+        },
+        {
+          "x": -3,
+          "y": 1
+        },
+        {
+          "x": -2,
+          "y": 1
+        },
+        {
+          "x": -1,
+          "y": 1
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        },
+        {
+          "x": 2,
+          "y": 1
+        },
+        {
+          "x": 3,
+          "y": 1
+        },
+        {
+          "x": 4,
+          "y": 1
+        },
+        {
+          "x": 5,
+          "y": 1
+        },
+        {
+          "x": -5,
+          "y": 2
+        },
+        {
+          "x": -4,
+          "y": 2
+        },
+        {
+          "x": -3,
+          "y": 2
+        },
+        {
+          "x": -2,
+          "y": 2
+        },
+        {
+          "x": -1,
+          "y": 2
+        },
+        {
+          "x": 0,
+          "y": 2
+        },
+        {
+          "x": 1,
+          "y": 2
+        },
+        {
+          "x": 2,
+          "y": 2
+        },
+        {
+          "x": 3,
+          "y": 2
+        },
+        {
+          "x": 4,
+          "y": 2
+        },
+        {
+          "x": 5,
+          "y": 2
+        },
+        {
+          "x": -5,
+          "y": 3
+        },
+        {
+          "x": -4,
+          "y": 3
+        },
+        {
+          "x": -3,
+          "y": 3
+        },
+        {
+          "x": -2,
+          "y": 3
+        },
+        {
+          "x": -1,
+          "y": 3
+        },
+        {
+          "x": 0,
+          "y": 3
+        },
+        {
+          "x": 1,
+          "y": 3
+        },
+        {
+          "x": 2,
+          "y": 3
+        },
+        {
+          "x": 3,
+          "y": 3
+        },
+        {
+          "x": 4,
+          "y": 3
+        },
+        {
+          "x": 5,
+          "y": 3
+        },
+        {
+          "x": -5,
+          "y": 4
+        },
+        {
+          "x": -4,
+          "y": 4
+        },
+        {
+          "x": -3,
+          "y": 4
+        },
+        {
+          "x": -2,
+          "y": 4
+        },
+        {
+          "x": -1,
+          "y": 4
+        },
+        {
+          "x": 0,
+          "y": 4
+        },
+        {
+          "x": 1,
+          "y": 4
+        },
+        {
+          "x": 2,
+          "y": 4
+        },
+        {
+          "x": 3,
+          "y": 4
+        },
+        {
+          "x": 4,
+          "y": 4
+        },
+        {
+          "x": 5,
+          "y": 4
+        },
+        {
+          "x": -5,
+          "y": 5
+        },
+        {
+          "x": -4,
+          "y": 5
+        },
+        {
+          "x": -3,
+          "y": 5
+        },
+        {
+          "x": -2,
+          "y": 5
+        },
+        {
+          "x": -1,
+          "y": 5
+        },
+        {
+          "x": 0,
+          "y": 5
+        },
+        {
+          "x": 1,
+          "y": 5
+        },
+        {
+          "x": 2,
+          "y": 5
+        },
+        {
+          "x": 3,
+          "y": 5
+        },
+        {
+          "x": 4,
+          "y": 5
+        },
+        {
+          "x": 5,
+          "y": 5
+        }
+      ]
+    },
+    "encoding": {
+      "color": {
+        "field": "dist",
+        "type": "quantitative"
+      },
+      "x": {
+        "field": "x",
+        "type": "ordinal"
+      },
+      "y": {
+        "field": "y",
+        "sort": "descending",
+        "type": "ordinal"
+      }
+    },
+    "mark": {
+      "type": "rect"
+    },
+    "transform": [
+      {
+        "as": "xShift",
+        "calculate": "datum.x - 3"
+      },
+      {
+        "as": "yShift",
+        "calculate": "datum.y - 3"
+      },
+      {
+        "as": "dist",
+        "calculate": "sqrt(datum.xShift*datum.xShift + datum.yShift*datum.yShift)"
+      }
+    ]
+  },
+  "bk-timeunit-transform": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/seattle-weather.csv"
+    },
+    "encoding": {
+      "x": {
+        "axis": {
+          "format": "%b"
+        },
+        "field": "monthY",
+        "title": "Month",
+        "type": "temporal"
+      },
+      "y": {
+        "aggregate": "average",
+        "field": "precipitation",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "color": "teal",
+      "type": "line"
+    },
+    "transform": [
+      {
+        "as": "monthY",
+        "field": "date",
+        "timeUnit": "yearmonth"
+      }
+    ]
+  },
+  "bk-filter-base": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/flights-2k.json"
+    },
+    "layer": [
+      {
+        "encoding": {
+          "color": {
+            "field": "origin",
+            "scale": {
+              "domain": [
+                "LAX",
+                "HOU"
+              ],
+              "range": [
+                "teal",
+                "orange"
+              ]
+            },
+            "type": "nominal"
+          },
+          "x": {
+            "field": "date",
+            "timeUnit": "date",
+            "title": "Day",
+            "type": "ordinal"
+          },
+          "y": {
+            "aggregate": "count",
+            "title": "Flights",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "type": "line"
+        },
+        "transform": [
+          {
+            "filter": "(datum.origin === 'LAX')"
+          }
+        ]
+      },
+      {
+        "encoding": {
+          "color": {
+            "field": "origin",
+            "scale": {
+              "domain": [
+                "LAX",
+                "HOU"
+              ],
+              "range": [
+                "teal",
+                "orange"
+              ]
+            },
+            "type": "nominal"
+          },
+          "x": {
+            "field": "date",
+            "timeUnit": "date",
+            "title": "Day",
+            "type": "ordinal"
+          },
+          "y": {
+            "aggregate": "count",
+            "title": "Flights",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "type": "line"
+        },
+        "transform": [
+          {
+            "filter": "(datum.origin === 'HOU')"
+          }
+        ]
+      }
+    ]
+  },
+  "bk-lookup-regions": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/gapminder.json"
+    },
+    "datasets": {
+      "data-92bf09133372877210548ff74a246489": [
+        {
+          "id": 0,
+          "region": "South Asia"
+        },
+        {
+          "id": 1,
+          "region": "Europe & Central Asia"
+        },
+        {
+          "id": 2,
+          "region": "Sub-Saharan Africa"
+        },
+        {
+          "id": 3,
+          "region": "America"
+        },
+        {
+          "id": 4,
+          "region": "East Asia & Pacific"
+        },
+        {
+          "id": 5,
+          "region": "Middle East & North Africa"
+        }
+      ]
+    },
+    "encoding": {
+      "color": {
+        "field": "region",
+        "type": "nominal"
+      },
+      "tooltip": [
+        {
+          "field": "country",
+          "type": "nominal"
+        },
+        {
+          "field": "region",
+          "type": "nominal"
+        }
+      ],
+      "x": {
+        "field": "fertility",
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "life_expect",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "size": 60,
+      "type": "circle"
+    },
+    "transform": [
+      {
+        "from": {
+          "data": {
+            "name": "data-92bf09133372877210548ff74a246489"
+          },
+          "fields": [
+            "region"
+          ],
+          "key": "id"
+        },
+        "lookup": "cluster"
+      },
+      {
+        "filter": "(datum.year === 2005)"
+      }
+    ]
+  },
+  "nb1-jobs-scale": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/jobs.json"
+    },
+    "encoding": {
+      "color": {
+        "field": "sex",
+        "legend": {
+          "title": "Gender"
+        },
+        "scale": {
+          "domain": [
+            "men",
+            "women"
+          ],
+          "range": [
+            "green",
+            "blue"
+          ]
+        },
+        "type": "nominal"
+      },
+      "x": {
+        "field": "year",
+        "type": "ordinal"
+      },
+      "y": {
+        "axis": {
+          "format": "%"
+        },
+        "field": "perc",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "type": "line"
+    },
+    "transform": [
+      {
+        "filter": "(datum.job === 'Welder')"
+      }
+    ]
+  },
+  "bk-axis-style": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/stocks.csv"
+    },
+    "encoding": {
+      "x": {
+        "aggregate": "max",
+        "axis": {
+          "gridDash": [
+            7,
+            3
+          ],
+          "labelAngle": 45,
+          "labelColor": "blue",
+          "tickColor": "red"
+        },
+        "field": "price",
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "symbol",
+        "title": "Stock",
+        "type": "nominal"
+      }
+    },
+    "mark": {
+      "type": "bar"
+    }
+  },
+  "bk-legend-config": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "legend": {
+        "cornerRadius": 5,
+        "fillColor": "#EEEEFF",
+        "orient": "top-right",
+        "padding": 5,
+        "strokeColor": "gray"
+      },
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/stocks.csv"
+    },
+    "encoding": {
+      "color": {
+        "field": "symbol",
+        "title": "Stock",
+        "type": "nominal"
+      },
+      "x": {
+        "aggregate": "max",
+        "field": "price",
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "symbol",
+        "title": "",
+        "type": "nominal"
+      }
+    },
+    "height": 300,
+    "mark": {
+      "type": "bar"
+    },
+    "title": "Max stock prices",
+    "width": 350
+  },
+  "bk-annotate-minmax": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "datasets": {
+      "data-717efacb6eab0dce16b9f3517791a2ab": [
+        {
+          "date": "2014-07-01",
+          "temp": 29,
+          "text": "Max"
+        },
+        {
+          "date": "2014-07-01",
+          "temp": 11,
+          "text": "Min"
+        }
+      ]
+    },
+    "layer": [
+      {
+        "data": {
+          "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/seattle-weather.csv"
+        },
+        "encoding": {
+          "x": {
+            "field": "date",
+            "timeUnit": "month",
+            "title": "Month",
+            "type": "temporal"
+          },
+          "y": {
+            "aggregate": "mean",
+            "field": "temp_max",
+            "title": "Temperature",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "color": "crimson",
+          "type": "line"
+        },
+        "title": "Seattle temperature",
+        "transform": [
+          {
+            "filter": "year(datum.date) == 2014"
+          }
+        ]
+      },
+      {
+        "data": {
+          "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/seattle-weather.csv"
+        },
+        "encoding": {
+          "x": {
+            "field": "date",
+            "timeUnit": "month",
+            "title": "Month",
+            "type": "temporal"
+          },
+          "y": {
+            "aggregate": "mean",
+            "field": "temp_min",
+            "title": "Temperature",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "color": "steelblue",
+          "type": "line"
+        },
+        "transform": [
+          {
+            "filter": "year(datum.date) == 2014"
+          }
+        ]
+      },
+      {
+        "data": {
+          "name": "data-717efacb6eab0dce16b9f3517791a2ab"
+        },
+        "encoding": {
+          "text": {
+            "field": "text",
+            "type": "nominal"
+          },
+          "x": {
+            "field": "date",
+            "timeUnit": "month",
+            "type": "temporal"
+          },
+          "y": {
+            "field": "temp",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "font": "Courier",
+          "fontSize": 16,
+          "fontStyle": "bold",
+          "type": "text"
+        }
+      }
+    ]
+  },
+  "bk-emoji-weather": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/seattle-weather.csv"
+    },
+    "encoding": {
+      "text": {
+        "field": "emoji",
+        "type": "nominal"
+      },
+      "x": {
+        "field": "date",
+        "timeUnit": "date",
+        "type": "ordinal"
+      },
+      "y": {
+        "field": "date",
+        "timeUnit": "month",
+        "type": "ordinal"
+      }
+    },
+    "mark": {
+      "fontSize": 14,
+      "type": "text"
+    },
+    "transform": [
+      {
+        "filter": "year(datum.date) == 2015"
+      },
+      {
+        "as": "emoji",
+        "calculate": "{'sun': '☀️', 'rain': '🌧️', 'drizzle': '🌦️', 'fog': '🌫️', 'snow': '❄️'}[datum.weather]"
+      }
+    ]
+  },
+  "bk-interactive-zoom": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/gapminder.json"
+    },
+    "encoding": {
+      "color": {
+        "field": "country",
+        "title": "Country",
+        "type": "nominal"
+      },
+      "size": {
+        "field": "pop",
+        "title": "Population",
+        "type": "quantitative"
+      },
+      "x": {
+        "field": "fertility",
+        "scale": {
+          "domain": [
+            0,
+            9
+          ]
+        },
+        "title": "Fertility rate",
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "life_expect",
+        "title": "Life expectancy",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "type": "circle"
+    },
+    "params": [
+      {
+        "bind": "scales",
+        "name": "param_1e9efca18e7a2868",
+        "select": {
+          "encodings": [
+            "x",
+            "y"
+          ],
+          "type": "interval"
+        }
+      }
+    ],
+    "transform": [
+      {
+        "filter": "((datum.year > 1980) && ((datum.country === 'Argentina') || (datum.country === 'Afghanistan')))"
+      }
+    ]
+  },
+  "bk-slider-filter": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/gapminder.json"
+    },
+    "encoding": {
+      "color": {
+        "field": "country",
+        "title": "Country",
+        "type": "nominal"
+      },
+      "size": {
+        "field": "pop",
+        "title": "Population",
+        "type": "quantitative"
+      },
+      "x": {
+        "field": "fertility",
+        "scale": {
+          "domain": [
+            0,
+            9
+          ]
+        },
+        "title": "Fertility rate",
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "life_expect",
+        "title": "Life expectancy",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "type": "circle"
+    },
+    "params": [
+      {
+        "bind": {
+          "input": "range",
+          "max": 2005,
+          "min": 1960,
+          "name": "year:",
+          "step": 5
+        },
+        "name": "param_6a8316800201cffd",
+        "value": 1960
+      }
+    ],
+    "transform": [
+      {
+        "filter": "((datum.year > param_6a8316800201cffd) && ((datum.country === 'Afghanistan') || (datum.country === 'Argentina')))"
+      }
+    ]
+  },
+  "bk-point-highlight": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/gapminder.json"
+    },
+    "encoding": {
+      "color": {
+        "field": "country",
+        "title": "Country",
+        "type": "nominal"
+      },
+      "opacity": {
+        "condition": [
+          {
+            "param": "param_e4a496766298965a",
+            "value": 1
+          }
+        ],
+        "value": 0.2
+      },
+      "size": {
+        "field": "pop",
+        "title": "Population",
+        "type": "quantitative"
+      },
+      "x": {
+        "field": "fertility",
+        "scale": {
+          "domain": [
+            0,
+            9
+          ]
+        },
+        "title": "Fertility rate",
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "life_expect",
+        "title": "Life expectancy",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "type": "circle"
+    },
+    "params": [
+      {
+        "name": "param_e4a496766298965a",
+        "select": {
+          "type": "point"
+        }
+      }
+    ],
+    "transform": [
+      {
+        "filter": "((datum.year > 1980) && ((datum.country === 'Afghanistan') || (datum.country === 'Argentina')))"
+      }
+    ]
+  },
+  "bk-brush-x": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/gapminder.json"
+    },
+    "encoding": {
+      "color": {
+        "condition": {
+          "empty": false,
+          "field": "country",
+          "param": "param_214d58680461dd81",
+          "type": "nominal"
+        },
+        "value": "lightgray"
+      },
+      "x": {
+        "field": "pop",
+        "title": "Population",
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "life_expect",
+        "title": "Life expectancy",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "size": 50,
+      "type": "circle"
+    },
+    "params": [
+      {
+        "name": "param_214d58680461dd81",
+        "select": {
+          "encodings": [
+            "x"
+          ],
+          "type": "interval"
+        }
+      }
+    ],
+    "transform": [
+      {
+        "filter": "((datum.year > 1980) && (datum.pop > 100000000))"
+      }
+    ]
+  },
+  "bk-cross-highlight": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/gapminder.json"
+    },
+    "hconcat": [
+      {
+        "encoding": {
+          "color": {
+            "condition": {
+              "empty": false,
+              "param": "param_b4b61b2307021f3f",
+              "value": "crimson"
+            },
+            "field": "country",
+            "scale": {
+              "scheme": "pastel1"
+            },
+            "type": "nominal"
+          },
+          "x": {
+            "field": "life_expect",
+            "title": "Life expectancy",
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "pop",
+            "title": "Population",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "opacity": 1,
+          "size": 50,
+          "type": "circle"
+        },
+        "name": "view_e0ac19143878b266_0",
+        "transform": [
+          {
+            "filter": "((datum.year > 1980) && (datum.pop > 100000000))"
+          }
+        ]
+      },
+      {
+        "encoding": {
+          "color": {
+            "condition": {
+              "empty": false,
+              "param": "param_b4b61b2307021f3f",
+              "value": "crimson"
+            },
+            "field": "country",
+            "scale": {
+              "scheme": "pastel1"
+            },
+            "type": "nominal"
+          },
+          "size": {
+            "condition": [
+              {
+                "empty": false,
+                "param": "param_b4b61b2307021f3f",
+                "value": 80
+              }
+            ],
+            "value": 30
+          },
+          "x": {
+            "field": "life_expect",
+            "title": "Life expectancy",
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "fertility",
+            "title": "Fertility",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "opacity": 1,
+          "type": "circle"
+        },
+        "transform": [
+          {
+            "filter": "((datum.year > 1980) && (datum.pop > 100000000))"
+          }
+        ]
+      }
+    ],
+    "params": [
+      {
+        "name": "param_b4b61b2307021f3f",
+        "select": {
+          "encodings": [
+            "y"
+          ],
+          "type": "interval"
+        },
+        "views": [
+          "view_e0ac19143878b266_0"
+        ]
+      }
+    ]
+  },
+  "bk-legend-selector": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/cars.json"
+    },
+    "hconcat": [
+      {
+        "encoding": {
+          "color": {
+            "condition": {
+              "field": "Origin",
+              "legend": null,
+              "param": "param_f650f34d656e1ca0",
+              "type": "nominal"
+            },
+            "value": "lightgray"
+          },
+          "tooltip": {
+            "field": "Name",
+            "type": "nominal"
+          },
+          "x": {
+            "field": "Horsepower",
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "Miles_per_Gallon",
+            "title": "Miles per gallon",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "type": "point"
+        }
+      },
+      {
+        "encoding": {
+          "color": {
+            "condition": {
+              "field": "Origin",
+              "legend": null,
+              "param": "param_f650f34d656e1ca0",
+              "type": "nominal"
+            },
+            "value": "lightgray"
+          },
+          "y": {
+            "axis": {
+              "orient": "right"
+            },
+            "field": "Origin",
+            "type": "nominal"
+          }
+        },
+        "mark": {
+          "size": 120,
+          "type": "circle"
+        },
+        "name": "view_e0cb02889315a5cc_1"
+      }
+    ],
+    "params": [
+      {
+        "name": "param_f650f34d656e1ca0",
+        "select": {
+          "encodings": [
+            "color"
+          ],
+          "type": "point"
+        },
+        "views": [
+          "view_e0cb02889315a5cc_1"
+        ]
+      }
+    ]
+  },
+  "bk-matrix-selector": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/cars.json"
+    },
+    "hconcat": [
+      {
+        "encoding": {
+          "color": {
+            "condition": {
+              "field": "Origin",
+              "legend": null,
+              "param": "param_e7a5ac3993313669",
+              "type": "nominal"
+            },
+            "value": "lightgray"
+          },
+          "tooltip": {
+            "field": "Name",
+            "type": "nominal"
+          },
+          "x": {
+            "field": "Horsepower",
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "Miles_per_Gallon",
+            "title": "Miles per gallon",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "type": "point"
+        }
+      },
+      {
+        "encoding": {
+          "color": {
+            "condition": {
+              "field": "Origin",
+              "legend": null,
+              "param": "param_e7a5ac3993313669",
+              "type": "nominal"
+            },
+            "value": "lightgray"
+          },
+          "x": {
+            "field": "Cylinders",
+            "type": "ordinal"
+          },
+          "y": {
+            "axis": {
+              "orient": "right"
+            },
+            "field": "Origin",
+            "type": "nominal"
+          }
+        },
+        "mark": {
+          "type": "rect"
+        },
+        "name": "view_082541bef3d181ce_1"
+      }
+    ],
+    "params": [
+      {
+        "name": "param_e7a5ac3993313669",
+        "select": {
+          "fields": [
+            "Origin",
+            "Cylinders"
+          ],
+          "type": "point"
+        },
+        "views": [
+          "view_082541bef3d181ce_1"
+        ]
+      }
+    ]
+  },
+  "bk-radio-origin": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/cars.json"
+    },
+    "encoding": {
+      "color": {
+        "field": "Origin",
+        "scale": {
+          "domain": [
+            "Europe",
+            "Japan",
+            "USA"
+          ]
+        },
+        "type": "nominal"
+      },
+      "x": {
+        "field": "Horsepower",
+        "scale": {
+          "domain": [
+            0,
+            240
+          ]
+        },
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "Miles_per_Gallon",
+        "scale": {
+          "domain": [
+            0,
+            50
+          ]
+        },
+        "title": "Miles per Gallon",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "type": "point"
+    },
+    "params": [
+      {
+        "bind": {
+          "input": "radio",
+          "labels": [
+            "Europe ",
+            "Japan ",
+            "USA ",
+            "All"
+          ],
+          "name": "Region: ",
+          "options": [
+            "Europe",
+            "Japan",
+            "USA",
+            null
+          ]
+        },
+        "name": "param_e606e3fae59ce128",
+        "select": {
+          "fields": [
+            "Origin"
+          ],
+          "type": "point"
+        }
+      }
+    ],
+    "transform": [
+      {
+        "filter": {
+          "param": "param_e606e3fae59ce128"
+        }
+      }
+    ]
+  },
+  "bk-dropdown-region": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/gapminder.json"
+    },
+    "datasets": {
+      "data-92bf09133372877210548ff74a246489": [
+        {
+          "id": 0,
+          "region": "South Asia"
+        },
+        {
+          "id": 1,
+          "region": "Europe & Central Asia"
+        },
+        {
+          "id": 2,
+          "region": "Sub-Saharan Africa"
+        },
+        {
+          "id": 3,
+          "region": "America"
+        },
+        {
+          "id": 4,
+          "region": "East Asia & Pacific"
+        },
+        {
+          "id": 5,
+          "region": "Middle East & North Africa"
+        }
+      ]
+    },
+    "encoding": {
+      "color": {
+        "condition": {
+          "field": "region",
+          "param": "param_893e863ae1ff0503",
+          "type": "nominal"
+        },
+        "value": "lightgray"
+      },
+      "opacity": {
+        "condition": [
+          {
+            "param": "param_6241719414a17a82",
+            "value": 1
+          }
+        ],
+        "value": 0
+      },
+      "x": {
+        "field": "fertility",
+        "title": "Fertility",
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "life_expect",
+        "title": "Life Expectancy",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "opacity": 1,
+      "type": "circle"
+    },
+    "params": [
+      {
+        "bind": {
+          "input": "select",
+          "name": "Region ",
+          "options": [
+            "South Asia",
+            "Europe & Central Asia",
+            "Sub-Saharan Africa",
+            "America",
+            "East Asia & Pacific",
+            "Middle East & North Africa"
+          ]
+        },
+        "name": "param_893e863ae1ff0503",
+        "select": {
+          "fields": [
+            "region"
+          ],
+          "type": "point"
+        }
+      },
+      {
+        "bind": {
+          "input": "range",
+          "max": 2005,
+          "min": 1960,
+          "name": "Year ",
+          "step": 5
+        },
+        "name": "param_6241719414a17a82",
+        "select": {
+          "fields": [
+            "year"
+          ],
+          "type": "point"
+        },
+        "value": {
+          "year": 2000
+        }
+      }
+    ],
+    "transform": [
+      {
+        "from": {
+          "data": {
+            "name": "data-92bf09133372877210548ff74a246489"
+          },
+          "fields": [
+            "region"
+          ],
+          "key": "id"
+        },
+        "lookup": "cluster"
+      }
+    ]
+  },
+  "bk-dropdown-axis": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/cars.json"
+    },
+    "encoding": {
+      "x": {
+        "field": "x",
+        "title": "",
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "Miles_per_Gallon",
+        "title": "Miles per Gallon",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "type": "circle"
+    },
+    "params": [
+      {
+        "bind": {
+          "input": "select",
+          "name": "X axis ",
+          "options": [
+            "Horsepower",
+            "Displacement",
+            "Weight_in_lbs",
+            "Acceleration"
+          ]
+        },
+        "name": "param_f65d65565eeb9be8",
+        "value": "Horsepower"
+      }
+    ],
+    "transform": [
+      {
+        "as": "x",
+        "calculate": "datum[param_f65d65565eeb9be8]"
+      }
+    ]
+  },
+  "bk-checkbox-size": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/cars.json"
+    },
+    "encoding": {
+      "color": {
+        "field": "Origin",
+        "scale": {
+          "scheme": "accent"
+        },
+        "type": "nominal"
+      },
+      "size": {
+        "condition": [
+          {
+            "param": "param_b0a682611f30a51d",
+            "value": 100
+          }
+        ],
+        "value": 40
+      },
+      "x": {
+        "field": "Horsepower",
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "Acceleration",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "filled": true,
+      "opacity": 1,
+      "type": "circle"
+    },
+    "params": [
+      {
+        "bind": {
+          "input": "checkbox",
+          "name": "Large points"
+        },
+        "name": "param_b0a682611f30a51d"
+      }
+    ]
+  },
+  "bk-brush-histogram": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/flights-5k.json"
+    },
+    "params": [
+      {
+        "name": "param_c97a99acfc68b794",
+        "select": {
+          "encodings": [
+            "x"
+          ],
+          "type": "interval"
+        },
+        "views": [
+          "view_9f578c5b58d24be5_1"
+        ]
+      }
+    ],
+    "vconcat": [
+      {
+        "encoding": {
+          "x": {
+            "bin": {
+              "extent": {
+                "param": "param_c97a99acfc68b794"
+              },
+              "maxbins": 30
+            },
+            "field": "time",
+            "scale": {
+              "domain": {
+                "param": "param_c97a99acfc68b794"
+              }
+            },
+            "type": "quantitative"
+          },
+          "y": {
+            "aggregate": "count",
+            "type": "quantitative"
+          }
+        },
+        "height": 100,
+        "mark": {
+          "type": "bar"
+        },
+        "transform": [
+          {
+            "as": "time",
+            "calculate": "hours(datum.date) + minutes(datum.date) / 60"
+          }
+        ],
+        "width": 600
+      },
+      {
+        "encoding": {
+          "x": {
+            "bin": {
+              "maxbins": 30
+            },
+            "field": "time",
+            "type": "quantitative"
+          },
+          "y": {
+            "aggregate": "count",
+            "type": "quantitative"
+          }
+        },
+        "height": 100,
+        "mark": {
+          "type": "bar"
+        },
+        "name": "view_9f578c5b58d24be5_1",
+        "transform": [
+          {
+            "as": "time",
+            "calculate": "hours(datum.date) + minutes(datum.date) / 60"
+          }
+        ],
+        "width": 600
+      }
+    ]
+  },
+  "bk-hover-rule": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/seattle-weather.csv"
+    },
+    "layer": [
+      {
+        "encoding": {
+          "x": {
+            "field": "date",
+            "timeUnit": "month",
+            "title": "Month",
+            "type": "temporal"
+          },
+          "y": {
+            "aggregate": "mean",
+            "field": "temp_max",
+            "title": "Temperature",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "color": "crimson",
+          "type": "line"
+        },
+        "transform": [
+          {
+            "filter": "year(datum.date) == 2014"
+          }
+        ]
+      },
+      {
+        "encoding": {
+          "x": {
+            "field": "date",
+            "timeUnit": "month",
+            "title": "Month",
+            "type": "temporal"
+          },
+          "y": {
+            "aggregate": "mean",
+            "field": "temp_min",
+            "title": "Temperature",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "color": "steelblue",
+          "type": "line"
+        },
+        "transform": [
+          {
+            "filter": "year(datum.date) == 2014"
+          }
+        ]
+      },
+      {
+        "encoding": {
+          "opacity": {
+            "condition": [
+              {
+                "empty": false,
+                "param": "param_4a98c29607107dd6",
+                "value": 1
+              }
+            ],
+            "value": 0
+          },
+          "x": {
+            "field": "date",
+            "timeUnit": "month",
+            "title": "Month",
+            "type": "temporal"
+          },
+          "y": {
+            "aggregate": "mean",
+            "field": "temp_max",
+            "title": "Temperature",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "color": "crimson",
+          "type": "point"
+        },
+        "name": "view_e38c50261cc3ab37_2",
+        "transform": [
+          {
+            "filter": "year(datum.date) == 2014"
+          }
+        ]
+      },
+      {
+        "encoding": {
+          "opacity": {
+            "condition": [
+              {
+                "empty": false,
+                "param": "param_4a98c29607107dd6",
+                "value": 1
+              }
+            ],
+            "value": 0
+          },
+          "x": {
+            "field": "date",
+            "timeUnit": "month",
+            "title": "Month",
+            "type": "temporal"
+          },
+          "y": {
+            "aggregate": "min",
+            "field": "temp_min",
+            "type": "quantitative"
+          },
+          "y2": {
+            "aggregate": "max",
+            "field": "temp_max"
+          }
+        },
+        "mark": {
+          "color": "gray",
+          "type": "rule"
+        },
+        "transform": [
+          {
+            "filter": "year(datum.date) == 2014"
+          }
+        ]
+      },
+      {
+        "encoding": {
+          "text": {
+            "condition": {
+              "aggregate": "mean",
+              "empty": false,
+              "field": "temp_max",
+              "format": ".1f",
+              "param": "param_4a98c29607107dd6",
+              "type": "quantitative"
+            },
+            "value": " "
+          },
+          "x": {
+            "field": "date",
+            "timeUnit": "month",
+            "title": "Month",
+            "type": "temporal"
+          },
+          "y": {
+            "aggregate": "mean",
+            "field": "temp_max",
+            "title": "Temperature",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "align": "left",
+          "dx": 10,
+          "dy": -10,
+          "type": "text"
+        },
+        "transform": [
+          {
+            "filter": "year(datum.date) == 2014"
+          }
+        ]
+      }
+    ],
+    "params": [
+      {
+        "name": "param_4a98c29607107dd6",
+        "select": {
+          "encodings": [
+            "x"
+          ],
+          "nearest": true,
+          "on": "pointerover",
+          "type": "point"
+        },
+        "views": [
+          "view_e38c50261cc3ab37_2"
+        ]
+      }
+    ]
+  },
+  "bk-threshold-slider": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/seattle-weather.csv"
+    },
+    "encoding": {
+      "color": {
+        "condition": [
+          {
+            "test": "(datum.temp_max < param_9399aa1ce16d3c62)",
+            "value": "teal"
+          }
+        ],
+        "value": "salmon"
+      },
+      "x": {
+        "field": "date",
+        "timeUnit": "month",
+        "title": "Month",
+        "type": "temporal"
+      },
+      "y": {
+        "field": "temp_max",
+        "title": "Max temperature",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "type": "point"
+    },
+    "params": [
+      {
+        "bind": {
+          "input": "range",
+          "max": 40,
+          "min": 0,
+          "name": "Temp cut: ",
+          "step": 1
+        },
+        "name": "param_9399aa1ce16d3c62",
+        "value": 20
+      }
+    ],
+    "transform": [
+      {
+        "filter": "year(datum.date) == 2014"
+      }
+    ]
+  },
+  "nb1-barley-grouped": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "name": "data-9cc0564cb5591205eeeca8d2429dd11b"
+    },
+    "datasets": {
+      "data-9cc0564cb5591205eeeca8d2429dd11b": [
+        {
+          "site": "University Farm",
+          "variety": "Manchuria",
+          "year": 1931,
+          "yield": 27
+        },
+        {
+          "site": "Waseca",
+          "variety": "Manchuria",
+          "year": 1931,
+          "yield": 48.86667
+        },
+        {
+          "site": "Morris",
+          "variety": "Manchuria",
+          "year": 1931,
+          "yield": 27.43334
+        },
+        {
+          "site": "Crookston",
+          "variety": "Manchuria",
+          "year": 1931,
+          "yield": 39.93333
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "Manchuria",
+          "year": 1931,
+          "yield": 32.96667
+        },
+        {
+          "site": "Duluth",
+          "variety": "Manchuria",
+          "year": 1931,
+          "yield": 28.96667
+        },
+        {
+          "site": "University Farm",
+          "variety": "Glabron",
+          "year": 1931,
+          "yield": 43.06666
+        },
+        {
+          "site": "Waseca",
+          "variety": "Glabron",
+          "year": 1931,
+          "yield": 55.2
+        },
+        {
+          "site": "Morris",
+          "variety": "Glabron",
+          "year": 1931,
+          "yield": 28.76667
+        },
+        {
+          "site": "Crookston",
+          "variety": "Glabron",
+          "year": 1931,
+          "yield": 38.13333
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "Glabron",
+          "year": 1931,
+          "yield": 29.13333
+        },
+        {
+          "site": "Duluth",
+          "variety": "Glabron",
+          "year": 1931,
+          "yield": 29.66667
+        },
+        {
+          "site": "University Farm",
+          "variety": "Svansota",
+          "year": 1931,
+          "yield": 35.13333
+        },
+        {
+          "site": "Waseca",
+          "variety": "Svansota",
+          "year": 1931,
+          "yield": 47.33333
+        },
+        {
+          "site": "Morris",
+          "variety": "Svansota",
+          "year": 1931,
+          "yield": 25.76667
+        },
+        {
+          "site": "Crookston",
+          "variety": "Svansota",
+          "year": 1931,
+          "yield": 40.46667
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "Svansota",
+          "year": 1931,
+          "yield": 29.66667
+        },
+        {
+          "site": "Duluth",
+          "variety": "Svansota",
+          "year": 1931,
+          "yield": 25.7
+        },
+        {
+          "site": "University Farm",
+          "variety": "Velvet",
+          "year": 1931,
+          "yield": 39.9
+        },
+        {
+          "site": "Waseca",
+          "variety": "Velvet",
+          "year": 1931,
+          "yield": 50.23333
+        },
+        {
+          "site": "Morris",
+          "variety": "Velvet",
+          "year": 1931,
+          "yield": 26.13333
+        },
+        {
+          "site": "Crookston",
+          "variety": "Velvet",
+          "year": 1931,
+          "yield": 41.33333
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "Velvet",
+          "year": 1931,
+          "yield": 23.03333
+        },
+        {
+          "site": "Duluth",
+          "variety": "Velvet",
+          "year": 1931,
+          "yield": 26.3
+        },
+        {
+          "site": "University Farm",
+          "variety": "Trebi",
+          "year": 1931,
+          "yield": 36.56666
+        },
+        {
+          "site": "Waseca",
+          "variety": "Trebi",
+          "year": 1931,
+          "yield": 63.8333
+        },
+        {
+          "site": "Morris",
+          "variety": "Trebi",
+          "year": 1931,
+          "yield": 43.76667
+        },
+        {
+          "site": "Crookston",
+          "variety": "Trebi",
+          "year": 1931,
+          "yield": 46.93333
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "Trebi",
+          "year": 1931,
+          "yield": 29.76667
+        },
+        {
+          "site": "Duluth",
+          "variety": "Trebi",
+          "year": 1931,
+          "yield": 33.93333
+        },
+        {
+          "site": "University Farm",
+          "variety": "No. 457",
+          "year": 1931,
+          "yield": 43.26667
+        },
+        {
+          "site": "Waseca",
+          "variety": "No. 457",
+          "year": 1931,
+          "yield": 58.1
+        },
+        {
+          "site": "Morris",
+          "variety": "No. 457",
+          "year": 1931,
+          "yield": 28.7
+        },
+        {
+          "site": "Crookston",
+          "variety": "No. 457",
+          "year": 1931,
+          "yield": 45.66667
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "No. 457",
+          "year": 1931,
+          "yield": 32.16667
+        },
+        {
+          "site": "Duluth",
+          "variety": "No. 457",
+          "year": 1931,
+          "yield": 33.6
+        },
+        {
+          "site": "University Farm",
+          "variety": "No. 462",
+          "year": 1931,
+          "yield": 36.6
+        },
+        {
+          "site": "Waseca",
+          "variety": "No. 462",
+          "year": 1931,
+          "yield": 65.7667
+        },
+        {
+          "site": "Morris",
+          "variety": "No. 462",
+          "year": 1931,
+          "yield": 30.36667
+        },
+        {
+          "site": "Crookston",
+          "variety": "No. 462",
+          "year": 1931,
+          "yield": 48.56666
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "No. 462",
+          "year": 1931,
+          "yield": 24.93334
+        },
+        {
+          "site": "Duluth",
+          "variety": "No. 462",
+          "year": 1931,
+          "yield": 28.1
+        },
+        {
+          "site": "University Farm",
+          "variety": "Peatland",
+          "year": 1931,
+          "yield": 32.76667
+        },
+        {
+          "site": "Waseca",
+          "variety": "Peatland",
+          "year": 1931,
+          "yield": 48.56666
+        },
+        {
+          "site": "Morris",
+          "variety": "Peatland",
+          "year": 1931,
+          "yield": 29.86667
+        },
+        {
+          "site": "Crookston",
+          "variety": "Peatland",
+          "year": 1931,
+          "yield": 41.6
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "Peatland",
+          "year": 1931,
+          "yield": 34.7
+        },
+        {
+          "site": "Duluth",
+          "variety": "Peatland",
+          "year": 1931,
+          "yield": 32
+        },
+        {
+          "site": "University Farm",
+          "variety": "No. 475",
+          "year": 1931,
+          "yield": 24.66667
+        },
+        {
+          "site": "Waseca",
+          "variety": "No. 475",
+          "year": 1931,
+          "yield": 46.76667
+        },
+        {
+          "site": "Morris",
+          "variety": "No. 475",
+          "year": 1931,
+          "yield": 22.6
+        },
+        {
+          "site": "Crookston",
+          "variety": "No. 475",
+          "year": 1931,
+          "yield": 44.1
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "No. 475",
+          "year": 1931,
+          "yield": 19.7
+        },
+        {
+          "site": "Duluth",
+          "variety": "No. 475",
+          "year": 1931,
+          "yield": 33.06666
+        },
+        {
+          "site": "University Farm",
+          "variety": "Wisconsin No. 38",
+          "year": 1931,
+          "yield": 39.3
+        },
+        {
+          "site": "Waseca",
+          "variety": "Wisconsin No. 38",
+          "year": 1931,
+          "yield": 58.8
+        },
+        {
+          "site": "Morris",
+          "variety": "Wisconsin No. 38",
+          "year": 1931,
+          "yield": 29.46667
+        },
+        {
+          "site": "Crookston",
+          "variety": "Wisconsin No. 38",
+          "year": 1931,
+          "yield": 49.86667
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "Wisconsin No. 38",
+          "year": 1931,
+          "yield": 34.46667
+        },
+        {
+          "site": "Duluth",
+          "variety": "Wisconsin No. 38",
+          "year": 1931,
+          "yield": 31.6
+        },
+        {
+          "site": "University Farm",
+          "variety": "Manchuria",
+          "year": 1932,
+          "yield": 26.9
+        },
+        {
+          "site": "Waseca",
+          "variety": "Manchuria",
+          "year": 1932,
+          "yield": 33.46667
+        },
+        {
+          "site": "Morris",
+          "variety": "Manchuria",
+          "year": 1932,
+          "yield": 34.36666
+        },
+        {
+          "site": "Crookston",
+          "variety": "Manchuria",
+          "year": 1932,
+          "yield": 32.96667
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "Manchuria",
+          "year": 1932,
+          "yield": 22.13333
+        },
+        {
+          "site": "Duluth",
+          "variety": "Manchuria",
+          "year": 1932,
+          "yield": 22.56667
+        },
+        {
+          "site": "University Farm",
+          "variety": "Glabron",
+          "year": 1932,
+          "yield": 36.8
+        },
+        {
+          "site": "Waseca",
+          "variety": "Glabron",
+          "year": 1932,
+          "yield": 37.73333
+        },
+        {
+          "site": "Morris",
+          "variety": "Glabron",
+          "year": 1932,
+          "yield": 35.13333
+        },
+        {
+          "site": "Crookston",
+          "variety": "Glabron",
+          "year": 1932,
+          "yield": 26.16667
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "Glabron",
+          "year": 1932,
+          "yield": 14.43333
+        },
+        {
+          "site": "Duluth",
+          "variety": "Glabron",
+          "year": 1932,
+          "yield": 25.86667
+        },
+        {
+          "site": "University Farm",
+          "variety": "Svansota",
+          "year": 1932,
+          "yield": 27.43334
+        },
+        {
+          "site": "Waseca",
+          "variety": "Svansota",
+          "year": 1932,
+          "yield": 38.5
+        },
+        {
+          "site": "Morris",
+          "variety": "Svansota",
+          "year": 1932,
+          "yield": 35.03333
+        },
+        {
+          "site": "Crookston",
+          "variety": "Svansota",
+          "year": 1932,
+          "yield": 20.63333
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "Svansota",
+          "year": 1932,
+          "yield": 16.63333
+        },
+        {
+          "site": "Duluth",
+          "variety": "Svansota",
+          "year": 1932,
+          "yield": 22.23333
+        },
+        {
+          "site": "University Farm",
+          "variety": "Velvet",
+          "year": 1932,
+          "yield": 26.8
+        },
+        {
+          "site": "Waseca",
+          "variety": "Velvet",
+          "year": 1932,
+          "yield": 37.4
+        },
+        {
+          "site": "Morris",
+          "variety": "Velvet",
+          "year": 1932,
+          "yield": 38.83333
+        },
+        {
+          "site": "Crookston",
+          "variety": "Velvet",
+          "year": 1932,
+          "yield": 32.06666
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "Velvet",
+          "year": 1932,
+          "yield": 32.23333
+        },
+        {
+          "site": "Duluth",
+          "variety": "Velvet",
+          "year": 1932,
+          "yield": 22.46667
+        },
+        {
+          "site": "University Farm",
+          "variety": "Trebi",
+          "year": 1932,
+          "yield": 29.06667
+        },
+        {
+          "site": "Waseca",
+          "variety": "Trebi",
+          "year": 1932,
+          "yield": 49.2333
+        },
+        {
+          "site": "Morris",
+          "variety": "Trebi",
+          "year": 1932,
+          "yield": 46.63333
+        },
+        {
+          "site": "Crookston",
+          "variety": "Trebi",
+          "year": 1932,
+          "yield": 41.83333
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "Trebi",
+          "year": 1932,
+          "yield": 20.63333
+        },
+        {
+          "site": "Duluth",
+          "variety": "Trebi",
+          "year": 1932,
+          "yield": 30.6
+        },
+        {
+          "site": "University Farm",
+          "variety": "No. 457",
+          "year": 1932,
+          "yield": 26.43334
+        },
+        {
+          "site": "Waseca",
+          "variety": "No. 457",
+          "year": 1932,
+          "yield": 42.2
+        },
+        {
+          "site": "Morris",
+          "variety": "No. 457",
+          "year": 1932,
+          "yield": 43.53334
+        },
+        {
+          "site": "Crookston",
+          "variety": "No. 457",
+          "year": 1932,
+          "yield": 34.33333
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "No. 457",
+          "year": 1932,
+          "yield": 19.46667
+        },
+        {
+          "site": "Duluth",
+          "variety": "No. 457",
+          "year": 1932,
+          "yield": 22.7
+        },
+        {
+          "site": "University Farm",
+          "variety": "No. 462",
+          "year": 1932,
+          "yield": 25.56667
+        },
+        {
+          "site": "Waseca",
+          "variety": "No. 462",
+          "year": 1932,
+          "yield": 44.7
+        },
+        {
+          "site": "Morris",
+          "variety": "No. 462",
+          "year": 1932,
+          "yield": 47
+        },
+        {
+          "site": "Crookston",
+          "variety": "No. 462",
+          "year": 1932,
+          "yield": 30.53333
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "No. 462",
+          "year": 1932,
+          "yield": 19.9
+        },
+        {
+          "site": "Duluth",
+          "variety": "No. 462",
+          "year": 1932,
+          "yield": 22.5
+        },
+        {
+          "site": "University Farm",
+          "variety": "Peatland",
+          "year": 1932,
+          "yield": 28.06667
+        },
+        {
+          "site": "Waseca",
+          "variety": "Peatland",
+          "year": 1932,
+          "yield": 36.03333
+        },
+        {
+          "site": "Morris",
+          "variety": "Peatland",
+          "year": 1932,
+          "yield": 43.2
+        },
+        {
+          "site": "Crookston",
+          "variety": "Peatland",
+          "year": 1932,
+          "yield": 25.23333
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "Peatland",
+          "year": 1932,
+          "yield": 26.76667
+        },
+        {
+          "site": "Duluth",
+          "variety": "Peatland",
+          "year": 1932,
+          "yield": 31.36667
+        },
+        {
+          "site": "University Farm",
+          "variety": "No. 475",
+          "year": 1932,
+          "yield": 30
+        },
+        {
+          "site": "Waseca",
+          "variety": "No. 475",
+          "year": 1932,
+          "yield": 41.26667
+        },
+        {
+          "site": "Morris",
+          "variety": "No. 475",
+          "year": 1932,
+          "yield": 44.23333
+        },
+        {
+          "site": "Crookston",
+          "variety": "No. 475",
+          "year": 1932,
+          "yield": 32.13333
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "No. 475",
+          "year": 1932,
+          "yield": 15.23333
+        },
+        {
+          "site": "Duluth",
+          "variety": "No. 475",
+          "year": 1932,
+          "yield": 27.36667
+        },
+        {
+          "site": "University Farm",
+          "variety": "Wisconsin No. 38",
+          "year": 1932,
+          "yield": 38
+        },
+        {
+          "site": "Waseca",
+          "variety": "Wisconsin No. 38",
+          "year": 1932,
+          "yield": 58.16667
+        },
+        {
+          "site": "Morris",
+          "variety": "Wisconsin No. 38",
+          "year": 1932,
+          "yield": 47.16667
+        },
+        {
+          "site": "Crookston",
+          "variety": "Wisconsin No. 38",
+          "year": 1932,
+          "yield": 35.9
+        },
+        {
+          "site": "Grand Rapids",
+          "variety": "Wisconsin No. 38",
+          "year": 1932,
+          "yield": 20.66667
+        },
+        {
+          "site": "Duluth",
+          "variety": "Wisconsin No. 38",
+          "year": 1932,
+          "yield": 29.33333
+        }
+      ]
+    },
+    "encoding": {
+      "color": {
+        "field": "year",
+        "type": "nominal"
+      },
+      "column": {
+        "field": "site",
+        "type": "nominal"
+      },
+      "x": {
+        "field": "year",
+        "type": "ordinal"
+      },
+      "y": {
+        "aggregate": "sum",
+        "field": "yield",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "type": "bar"
+    }
+  },
+  "bk-trellis-area": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/iowa-electricity.csv"
+    },
+    "encoding": {
+      "color": {
+        "field": "source",
+        "type": "nominal"
+      },
+      "column": {
+        "field": "source",
+        "type": "nominal"
+      },
+      "x": {
+        "field": "year",
+        "type": "temporal"
+      },
+      "y": {
+        "field": "net_generation",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "opacity": 0.6,
+      "type": "area"
+    },
+    "width": 200
+  },
+  "bk-repeat-matrix": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "repeat": {
+      "column": [
+        "Horsepower",
+        "Miles_per_Gallon"
+      ],
+      "row": [
+        "Cylinders",
+        "Displacement"
+      ]
+    },
+    "spec": {
+      "data": {
+        "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/cars.json"
+      },
+      "encoding": {
+        "color": {
+          "field": "Origin",
+          "type": "nominal"
+        },
+        "x": {
+          "field": {
+            "repeat": "column"
+          },
+          "type": "quantitative"
+        },
+        "y": {
+          "field": {
+            "repeat": "row"
+          },
+          "type": "quantitative"
+        }
+      },
+      "height": 200,
+      "mark": {
+        "type": "point"
+      },
+      "width": 200
+    }
+  },
+  "bk-facet-hover": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/iris.json"
+    },
+    "facet": {
+      "field": "species",
+      "type": "nominal"
+    },
+    "params": [
+      {
+        "name": "param_36215ebccab4b940",
+        "select": {
+          "nearest": true,
+          "on": "pointerover",
+          "type": "point"
+        },
+        "views": [
+          "view_4c9050d10cf4a2a8_0"
+        ]
+      }
+    ],
+    "spec": {
+      "height": 180,
+      "layer": [
+        {
+          "encoding": {
+            "color": {
+              "condition": {
+                "empty": false,
+                "field": "species",
+                "param": "param_36215ebccab4b940",
+                "type": "nominal"
+              },
+              "value": "lightgray"
+            },
+            "x": {
+              "field": "sepalLength",
+              "scale": {
+                "zero": false
+              },
+              "type": "quantitative"
+            },
+            "y": {
+              "field": "sepalWidth",
+              "scale": {
+                "zero": false
+              },
+              "type": "quantitative"
+            }
+          },
+          "mark": {
+            "type": "point"
+          },
+          "name": "view_4c9050d10cf4a2a8_0"
+        },
+        {
+          "encoding": {
+            "color": {
+              "condition": {
+                "empty": false,
+                "field": "species",
+                "param": "param_36215ebccab4b940",
+                "type": "nominal"
+              },
+              "value": "lightgray"
+            },
+            "opacity": {
+              "condition": [
+                {
+                  "empty": false,
+                  "param": "param_36215ebccab4b940",
+                  "value": 1
+                }
+              ],
+              "value": 0
+            },
+            "text": {
+              "field": "petalLength",
+              "type": "quantitative"
+            },
+            "x": {
+              "field": "sepalLength",
+              "scale": {
+                "zero": false
+              },
+              "type": "quantitative"
+            },
+            "y": {
+              "field": "sepalWidth",
+              "scale": {
+                "zero": false
+              },
+              "type": "quantitative"
+            }
+          },
+          "mark": {
+            "align": "left",
+            "dx": 5,
+            "dy": -5,
+            "fontSize": 12,
+            "type": "text"
+          }
+        }
+      ],
+      "width": 180
+    }
+  },
+  "bk-marginal-hist": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/cars.json"
+    },
+    "vconcat": [
+      {
+        "encoding": {
+          "color": {
+            "field": "Origin",
+            "type": "nominal"
+          },
+          "x": {
+            "bin": {
+              "extent": [
+                0,
+                240
+              ],
+              "maxbins": 20
+            },
+            "field": "Horsepower",
+            "stack": null,
+            "title": "",
+            "type": "quantitative"
+          },
+          "y": {
+            "aggregate": "count",
+            "stack": null,
+            "title": "",
+            "type": "quantitative"
+          }
+        },
+        "height": 60,
+        "mark": {
+          "binSpacing": 0,
+          "opacity": 0.3,
+          "type": "bar"
+        }
+      },
+      {
+        "hconcat": [
+          {
+            "encoding": {
+              "color": {
+                "field": "Origin",
+                "type": "nominal"
+              },
+              "x": {
+                "field": "Horsepower",
+                "scale": {
+                  "domain": [
+                    0,
+                    240
+                  ]
+                },
+                "type": "quantitative"
+              },
+              "y": {
+                "field": "Displacement",
+                "scale": {
+                  "domain": [
+                    0,
+                    500
+                  ]
+                },
+                "type": "quantitative"
+              }
+            },
+            "mark": {
+              "type": "circle"
+            }
+          },
+          {
+            "encoding": {
+              "color": {
+                "field": "Origin",
+                "type": "nominal"
+              },
+              "x": {
+                "aggregate": "count",
+                "stack": null,
+                "title": "",
+                "type": "quantitative"
+              },
+              "y": {
+                "bin": {
+                  "extent": [
+                    0,
+                    500
+                  ],
+                  "maxbins": 20
+                },
+                "field": "Displacement",
+                "stack": null,
+                "title": "",
+                "type": "quantitative"
+              }
+            },
+            "mark": {
+              "binSpacing": 0,
+              "opacity": 0.3,
+              "type": "bar"
+            },
+            "width": 60
+          }
+        ]
+      }
+    ]
+  },
+  "nb2-us-airports-map": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "height": 300,
+    "layer": [
+      {
+        "data": {
+          "format": {
+            "feature": "states",
+            "type": "topojson"
+          },
+          "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/us-10m.json"
+        },
+        "mark": {
+          "fill": "lightgray",
+          "stroke": "white",
+          "type": "geoshape"
+        },
+        "projection": {
+          "type": "albersUsa"
+        }
+      },
+      {
+        "data": {
+          "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/airports.csv"
+        },
+        "encoding": {
+          "color": {
+            "value": "steelblue"
+          },
+          "latitude": {
+            "field": "latitude",
+            "type": "quantitative"
+          },
+          "longitude": {
+            "field": "longitude",
+            "type": "quantitative"
+          },
+          "size": {
+            "field": "count",
+            "title": "Number of Airports",
+            "type": "quantitative"
+          },
+          "tooltip": [
+            {
+              "field": "state",
+              "type": "nominal"
+            },
+            {
+              "field": "count",
+              "type": "quantitative"
+            }
+          ]
+        },
+        "mark": {
+          "type": "circle"
+        },
+        "title": "Number of airports in US",
+        "transform": [
+          {
+            "aggregate": [
+              {
+                "as": "latitude",
+                "field": "latitude",
+                "op": "mean"
+              },
+              {
+                "as": "longitude",
+                "field": "longitude",
+                "op": "mean"
+              },
+              {
+                "as": "count",
+                "op": "count"
+              }
+            ],
+            "groupby": [
+              "state"
+            ]
+          }
+        ]
+      }
+    ],
+    "width": 500
+  },
+  "bk-projections": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "columns": 2,
+    "concat": [
+      {
+        "height": 180,
+        "mark": {
+          "fill": "lightgray",
+          "stroke": "white",
+          "type": "geoshape"
+        },
+        "projection": {
+          "type": "equirectangular"
+        },
+        "title": "equirectangular",
+        "width": 250
+      },
+      {
+        "height": 180,
+        "mark": {
+          "fill": "lightgray",
+          "stroke": "white",
+          "type": "geoshape"
+        },
+        "projection": {
+          "type": "mercator"
+        },
+        "title": "mercator",
+        "width": 250
+      },
+      {
+        "height": 180,
+        "mark": {
+          "fill": "lightgray",
+          "stroke": "white",
+          "type": "geoshape"
+        },
+        "projection": {
+          "type": "orthographic"
+        },
+        "title": "orthographic",
+        "width": 250
+      },
+      {
+        "height": 180,
+        "mark": {
+          "fill": "lightgray",
+          "stroke": "white",
+          "type": "geoshape"
+        },
+        "projection": {
+          "type": "gnomonic"
+        },
+        "title": "gnomonic",
+        "width": 250
+      }
+    ],
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "format": {
+        "feature": "countries",
+        "type": "topojson"
+      },
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/world-110m.json"
+    }
+  },
+  "bk-choropleth": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "format": {
+        "feature": "counties",
+        "type": "topojson"
+      },
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/us-10m.json"
+    },
+    "encoding": {
+      "color": {
+        "field": "rate",
+        "scale": {
+          "scheme": "reds"
+        },
+        "type": "quantitative"
+      }
+    },
+    "height": 300,
+    "mark": {
+      "type": "geoshape"
+    },
+    "projection": {
+      "type": "albersUsa"
+    },
+    "transform": [
+      {
+        "from": {
+          "data": {
+            "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/unemployment.tsv"
+          },
+          "fields": [
+            "rate"
+          ],
+          "key": "id"
+        },
+        "lookup": "id"
+      }
+    ],
+    "width": 500
+  },
+  "bk-airports-graduated": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "height": 300,
+    "layer": [
+      {
+        "data": {
+          "format": {
+            "feature": "states",
+            "type": "topojson"
+          },
+          "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/us-10m.json"
+        },
+        "mark": {
+          "fill": "lightgray",
+          "stroke": "white",
+          "type": "geoshape"
+        },
+        "projection": {
+          "type": "albersUsa"
+        }
+      },
+      {
+        "data": {
+          "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/airports.csv"
+        },
+        "encoding": {
+          "color": {
+            "value": "steelblue"
+          },
+          "latitude": {
+            "field": "latitude",
+            "type": "quantitative"
+          },
+          "longitude": {
+            "field": "longitude",
+            "type": "quantitative"
+          },
+          "size": {
+            "field": "count",
+            "title": "Number of Airports",
+            "type": "quantitative"
+          },
+          "tooltip": [
+            {
+              "field": "state",
+              "type": "nominal"
+            },
+            {
+              "field": "count",
+              "type": "quantitative"
+            }
+          ]
+        },
+        "mark": {
+          "type": "circle"
+        },
+        "title": "Number of airports in US",
+        "transform": [
+          {
+            "aggregate": [
+              {
+                "as": "latitude",
+                "field": "latitude",
+                "op": "mean"
+              },
+              {
+                "as": "longitude",
+                "field": "longitude",
+                "op": "mean"
+              },
+              {
+                "as": "count",
+                "op": "count"
+              }
+            ],
+            "groupby": [
+              "state"
+            ]
+          }
+        ]
+      }
+    ],
+    "width": 500
+  },
   "exam-cars-condition": {
     "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
     "config": {
@@ -3508,10 +8252,12 @@
     },
     "encoding": {
       "color": {
-        "condition": {
-          "test": "(datum.Cylinders === 4)",
-          "value": "red"
-        },
+        "condition": [
+          {
+            "test": "(datum.Cylinders === 4)",
+            "value": "red"
+          }
+        ],
         "value": "blue"
       },
       "shape": {
@@ -3663,18 +8409,22 @@
       {
         "encoding": {
           "color": {
-            "condition": {
-              "test": "datum.Governing",
-              "value": "yellow"
-            },
+            "condition": [
+              {
+                "test": "datum.Governing",
+                "value": "yellow"
+              }
+            ],
             "field": "Party",
             "type": "nominal"
           },
           "size": {
-            "condition": {
-              "test": "datum.Governing",
-              "value": 60
-            },
+            "condition": [
+              {
+                "test": "datum.Governing",
+                "value": 60
+              }
+            ],
             "value": 30
           },
           "x": {

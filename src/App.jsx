@@ -58,6 +58,7 @@ export default function App() {
             exercises={exercises}
             state={state}
             activeId={exercise.id}
+            onToggleTopic={(topic) => update((s) => ({ ...s, openTopics: { ...(s.openTopics ?? {}), [topic]: !s.openTopics?.[topic] } }))}
             onNewExercise={onNewExercise}
             onReset={onReset}
           />

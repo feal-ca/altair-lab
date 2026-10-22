@@ -1,15 +1,31 @@
 // The curated exercises. `solution` runs under Pyodide + Altair 6.3 and is used to build target specs.
+// Solutions use the current API (alt.when, selection_point/interval); the checker compares
+// compiled specs, so older spellings such as alt.condition produce the same checks.
 // Plain ESM: importable from Node and from Vite.
 
-export const TOPICS = ['Basics', 'Transforms & scales', 'Layering', 'Multiple views', 'Advanced', 'Exam-style'];
+import { BOOK_EXERCISES } from './bookExercises.js';
 
-export const EXERCISES = [
+// Topic order follows "Data Visualization with Vega-Altair 5" (Vázquez, UPC 2024).
+export const TOPICS = [
+  'Data & types',
+  'Marks & channels',
+  'Encoding options',
+  'Layering & views',
+  'Chart types',
+  'Transforms',
+  'Customisation & annotation',
+  'Interaction',
+  'Repeat & facet',
+  'Maps',
+  'Exam-style'
+];
+
+const COURSE_EXERCISES = [
   {
     id: 'nb1-bar-color',
-    n: 1,
     title: 'Colored Category Bar Chart',
     level: 'Beginner',
-    topic: 'Basics',
+    topic: 'Marks & channels',
     task: 'Create a bar chart using Country_data with Country:N on X, Population (Millions):Q on Y, Color encoded by Country, and chart title "Population".',
     hints: [
       'Pass Country_data to alt.Chart(Country_data).mark_bar()',
@@ -35,10 +51,9 @@ alt.Chart(Country_data).mark_bar().encode(
   },
   {
     id: 'nb1-iphone-tooltip',
-    n: 2,
     title: 'Filled Square Scatterplot with Tooltip',
     level: 'Beginner',
-    topic: 'Basics',
+    topic: 'Marks & channels',
     task: 'Plot df (iPhone_data) using mark_point(shape="square", filled=True). Map year:O to X, price:Q to Y, name to tooltip, and set title to "Apple smartphones 2007-2020".',
     hints: [
       'Configure mark_point with shape="square" and filled=True.',
@@ -66,10 +81,9 @@ alt.Chart(df).mark_point(shape='square', filled=True).encode(
   },
   {
     id: 'nb1-cars-opacity',
-    n: 3,
     title: 'Multi-Channel Opacity Encoding',
     level: 'Beginner',
-    topic: 'Basics',
+    topic: 'Marks & channels',
     task: 'Using cars, create a point chart with size=50. Encode Acceleration:Q on X, Miles_per_Gallon:Q on Y, Origin:N on color, and Horsepower:Q on opacity.',
     hints: [
       'Use alt.Chart(cars).mark_point(size=50)',
@@ -93,10 +107,9 @@ alt.Chart(cars).mark_point(size=50).encode(
   },
   {
     id: 'nb1-line-stroke',
-    n: 4,
     title: 'Custom Dashed Line Properties',
     level: 'Beginner',
-    topic: 'Basics',
+    topic: 'Marks & channels',
     task: 'Plot US construction employment over month:T using mark_line with strokeDash=[10, 50], stroke="black", strokeWidth=5, strokeOpacity=0.5, and size=10.',
     hints: [
       'Pass strokeDash=[10, 50], stroke="black", strokeWidth=5, strokeOpacity=0.5, size=10 inside .mark_line().',
@@ -124,10 +137,9 @@ alt.Chart(df).mark_line(
   },
   {
     id: 'nb1-stocks-predicate',
-    n: 5,
     title: 'Transform Calculate & Predicate Filtering',
     level: 'Intermediate',
-    topic: 'Transforms & scales',
+    topic: 'Transforms',
     task: 'Plot a line chart of stocks (date:T vs price:Q, colored by symbol:N). Calculate year="year(datum.date)" and filter for symbols in ["GOOG", "MSFT"] where year > 2005.',
     hints: [
       'Chain .transform_calculate(year="year(datum.date)") on the chart.',
@@ -155,10 +167,9 @@ alt.Chart(df).mark_line().encode(
   },
   {
     id: 'nb1-jobs-scale',
-    n: 6,
     title: 'Percentage Axis & Custom Color Domain/Range',
     level: 'Intermediate',
-    topic: 'Transforms & scales',
+    topic: 'Customisation & annotation',
     task: 'Filter jobs for job == "Welder". Plot year:O on X and perc:Q on Y with "%" axis format. Map sex:N to color with domain ["men", "women"], range ["green", "blue"], and legend title "Gender".',
     hints: [
       'Use alt.Y("perc:Q", axis=alt.Axis(format="%")) for percentage formatting.',
@@ -188,10 +199,9 @@ alt.Chart(source).mark_line().encode(
   },
   {
     id: 'nb1-barley-grouped',
-    n: 7,
     title: 'Faceted Grouped Bar Chart (Barley)',
     level: 'Intermediate',
-    topic: 'Transforms & scales',
+    topic: 'Repeat & facet',
     task: 'Using barley data, build a grouped bar chart with year:O on X, sum(yield):Q on Y, year:N on color, and faceted into columns by site:N.',
     hints: [
       'Use mark_bar() and encode x="year:O", y="sum(yield):Q".',
@@ -215,10 +225,9 @@ alt.Chart(source).mark_bar().encode(
   },
   {
     id: 'nb2-pie-labels',
-    n: 8,
     title: 'Superposed Pie Chart with Radial Labels',
     level: 'Intermediate',
-    topic: 'Layering',
+    topic: 'Layering & views',
     task: 'Create a baseChart with theta=alt.Theta("value", stack=True) and descending order on "value". Superpose ch1 (mark_arc colored by fruit:N) and ch2 (mark_text(radius=100) with text="fruit:N").',
     hints: [
       'Define baseChart = alt.Chart(source).encode(theta=alt.Theta("value", stack=True), order=alt.Order("value", sort="descending")).',
@@ -253,10 +262,9 @@ ch1 + ch2`
   },
   {
     id: 'nb2-superposition-jobs',
-    n: 9,
     title: 'Superposed Jobs with Independent Palettes',
     level: 'Intermediate',
-    topic: 'Layering',
+    topic: 'Layering & views',
     task: 'Create a base line chart (year:O vs perc:Q with "%" format). Layer ch1 (filtered for "Welder", color scheme "accent", legend title "Welder") and ch2 (filtered for "Weaver", scheme "category10", legend title "Weaver") with independent color scales.',
     hints: [
       'Create base = alt.Chart(source).mark_line().encode(alt.X("year:O"), alt.Y("perc:Q", axis=alt.Axis(format="%"))).',
@@ -289,10 +297,9 @@ ch2 = base.transform_filter(alt.datum.job == 'Weaver').encode(
   },
   {
     id: 'nb2-lollipop-eu',
-    n: 10,
     title: 'Sorted Lollipop Chart (Europe Population)',
     level: 'Intermediate',
-    topic: 'Layering',
+    topic: 'Layering & views',
     task: 'Layer a thin bar chart (mark_bar(height=2)) and filled points (mark_point(size=50, filled=True, opacity=1.0)) showing population:Q on X, country:N on Y sorted by population (largest first), colored by EU_membership:N (domain ["Yes", "No"], range ["teal", "gray"]).',
     hints: [
       'Encode x=alt.X("population:Q", title="Population in Millions") and y=alt.Y("country:N", title="Country", sort=...).',
@@ -328,10 +335,9 @@ ch2 = alt.Chart(data).mark_point(size=50, filled=True, opacity=1.0).encode(
   },
   {
     id: 'nb2-connected-dot',
-    n: 11,
     title: 'Connected Dot Plot (Smoking by Gender)',
     level: 'Advanced',
-    topic: 'Layering',
+    topic: 'Layering & views',
     task: 'Create a 3-layer connected dot plot: ch3 is a gray line connecting each Country (detail="Country"), ch1 plots teal circles (size=50) filtered for Gender == "M", and ch2 plots lightsalmon circles filtered for Gender == "F". Sort the countries by their highest smoking rate, largest first, in all three layers.',
     hints: [
       'Create ch3 with mark_line(color="gray") and encode X("Smoking rate:Q"), Y("Country:N"), and detail="Country".',
@@ -372,10 +378,9 @@ ch3 + ch1 + ch2`
   },
   {
     id: 'nb2-regression-cars',
-    n: 12,
     title: 'Linear & Polynomial Regression Layers',
     level: 'Advanced',
-    topic: 'Layering',
+    topic: 'Layering & views',
     task: 'Create a circle scatterplot of Horsepower:Q vs Miles_per_Gallon:Q colored by Origin:N. Superpose a teal linear regression line and a crimson 2nd-order polynomial regression line.',
     hints: [
       'Create base ch = alt.Chart(cars).mark_circle().encode(alt.X("Horsepower:Q"), alt.Y("Miles_per_Gallon:Q")).',
@@ -412,10 +417,9 @@ polygonal_regression = ch.transform_regression(
   },
   {
     id: 'nb2-bump-tennis',
-    n: 13,
     title: 'Bump Chart with Window Ranking (Catalan Tennis)',
     level: 'Advanced',
-    topic: 'Advanced',
+    topic: 'Transforms',
     task: 'Use transform_window(rank="row_number()", groupby=["year"]) sorted by points descending and item ascending. Plot mark_line(point=True) with year:O on X, rank:Q (reversed domain [1, 5]) on Y, and item:N on Color.',
     hints: [
       'Use .transform_window(rank="row_number()", sort=[alt.SortField("points", order="descending"), alt.SortField("item", order="ascending")], groupby=["year"]).',
@@ -457,10 +461,9 @@ ranks.mark_line(point=True).encode(
   },
   {
     id: 'nb2-priestley-range',
-    n: 14,
     title: 'Priestley Range Chart (X & X2 with Text Offsets)',
     level: 'Advanced',
-    topic: 'Layering',
+    topic: 'Layering & views',
     task: 'Build a Priestley range bar chart encoding min(Income):Q on X (domain 1000 to 2800), max(Income):Q on X2, and Month:N on Y & Color. Superpose min text labels (xOffset=-20) and max text labels (xOffset=20).',
     hints: [
       'In ch1, use mark_bar() with alt.X("min(Income):Q", scale=alt.Scale(domain=(1000, 2800))) and alt.X2("max(Income):Q").',
@@ -513,10 +516,9 @@ ch1 + ch2Min + ch2Max`
   },
   {
     id: 'nb2-us-airports-map',
-    n: 15,
     title: 'US Airports Geo Dot Map (albersUsa)',
     level: 'Advanced',
-    topic: 'Advanced',
+    topic: 'Maps',
     task: 'Layer a US states geoshape map (fill="lightgray", stroke="white", project="albersUsa") with an aggregated circle layer of airports grouped by state (mean(latitude), mean(longitude), count()).',
     hints: [
       'Create usChart = alt.Chart(map).mark_geoshape(fill="lightgray", stroke="white").properties(width=500, height=300).project("albersUsa").',
@@ -558,10 +560,9 @@ usChart + airportsMap`
   },
   {
     id: 'nb2-parallel-coords',
-    n: 16,
     title: 'Normalized Parallel Coordinates (Cars)',
     level: 'Advanced',
-    topic: 'Advanced',
+    topic: 'Transforms',
     task: 'Create a normalized parallel coordinates plot of cars across ["Weight_in_lbs", "Miles_per_Gallon", "Cylinders", "Displacement", "Horsepower", "Acceleration"] using transform_window, transform_fold, transform_joinaggregate, and transform_calculate.',
     hints: [
       'Chain .transform_window(index="count()") and .transform_fold(["Weight_in_lbs", "Miles_per_Gallon", "Cylinders", "Displacement", "Horsepower", "Acceleration"]).',
@@ -599,10 +600,9 @@ alt.Chart(cars).mark_line().transform_window(
   },
   {
     id: 'mv-heatmap-text',
-    n: 17,
     title: 'Heatmap with Count Labels',
     level: 'Intermediate',
-    topic: 'Layering',
+    topic: 'Layering & views',
     task: 'Using the Seattle weather data, layer a heatmap and its labels. Both share a base: month(date):O on X and weather:N on Y. The heatmap is mark_rect() coloured by count():Q with the "blues" scheme; the labels are mark_text() showing count():Q. End with heat + labels.',
     hints: [
       'Build the shared part once: base = alt.Chart(df).encode(x="month(date):O", y="weather:N").',
@@ -635,10 +635,9 @@ heat + labels`
   },
   {
     id: 'mv-errorbar-barley',
-    n: 18,
     title: 'Mean Points with Error Bars (Barley)',
     level: 'Intermediate',
-    topic: 'Layering',
+    topic: 'Layering & views',
     task: 'Using barley, show each variety:N on Y with two layers: mark_errorbar(extent="stdev") over yield:Q, and black filled points at mean(yield):Q. The X scale of the points must not start at zero. End with bars + points.',
     hints: [
       'bars = alt.Chart(source).mark_errorbar(extent="stdev").encode(x="yield:Q", y="variety:N")',
@@ -668,10 +667,9 @@ bars + points`
   },
   {
     id: 'mv-dual-axis',
-    n: 19,
     title: 'Dual-Axis Bars and Line (Seattle)',
     level: 'Advanced',
-    topic: 'Layering',
+    topic: 'Layering & views',
     task: 'With a base on month(date):O for X, layer light steel blue bars of sum(precipitation):Q and a crimson line with points of mean(temp_max):Q. Give the Y axes the titles "Precipitation (mm)" and "Max temperature (°C)" and make the two Y scales independent.',
     hints: [
       'base = alt.Chart(df).encode(x="month(date):O")',
@@ -703,10 +701,9 @@ line = base.mark_line(color='crimson', point=True).encode(
   },
   {
     id: 'mv-area-normalize',
-    n: 20,
     title: 'Normalised Stacked Area (Iowa Electricity)',
     level: 'Intermediate',
-    topic: 'Transforms & scales',
+    topic: 'Encoding options',
     task: 'Draw a stacked area chart of the Iowa data: year:T on X, net_generation:Q on Y stacked as "normalize" with a ".0%" axis format, and colour by source:N.',
     hints: [
       'Use alt.Chart(df).mark_area().',
@@ -730,10 +727,9 @@ alt.Chart(df).mark_area().encode(
   },
   {
     id: 'mv-hconcat-weather',
-    n: 21,
     title: 'Side-by-Side Views (Weather Counts | Scatter)',
     level: 'Intermediate',
-    topic: 'Multiple views',
+    topic: 'Layering & views',
     task: 'Put two charts side by side. Left: bars with weather:N on X and count():Q on Y, coloured by weather:N. Right: filled points (opacity 0.5) with temp_max:Q on X and precipitation:Q on Y, coloured by weather:N. Store them as bars and points and end with bars | points.',
     hints: [
       'bars = alt.Chart(df).mark_bar().encode(x="weather:N", y="count():Q", color="weather:N")',
@@ -741,7 +737,7 @@ alt.Chart(df).mark_area().encode(
       'The | operator is alt.hconcat: bars | points.'
     ],
     concept: 'Juxtaposition (| for side by side, & for stacked) shows different views of the same data next to each other; a shared colour encoding links them.',
-    docs: 'https://altair-viz.github.io/user_guide/compound_charts.html#hconcat',
+    docs: 'https://altair-viz.github.io/user_guide/compound_charts.html#horizontal-concatenation',
     datasetId: 'seattle_weather',
     solution: `import altair as alt
 import pandas as pd
@@ -765,10 +761,9 @@ bars | points`
   },
   {
     id: 'mv-boxplot-strip',
-    n: 22,
     title: 'Box Plot | Strip Plot (Cars MPG)',
     level: 'Intermediate',
-    topic: 'Multiple views',
+    topic: 'Layering & views',
     task: 'Compare two views of the MPG distribution per origin, side by side. Left: mark_boxplot(extent="min-max"). Right: mark_tick(opacity=0.6). Both use Origin:N on X, Miles_per_Gallon:Q on Y and colour by Origin:N. End with box | strip.',
     hints: [
       'box = alt.Chart(cars).mark_boxplot(extent="min-max").encode(x="Origin:N", y="Miles_per_Gallon:Q", color="Origin:N")',
@@ -800,10 +795,9 @@ box | strip`
   },
   {
     id: 'mv-vconcat-stocks',
-    n: 23,
     title: 'Stacked Overview: Lines over Ranked Bars',
     level: 'Advanced',
-    topic: 'Multiple views',
+    topic: 'Layering & views',
     task: 'Stack two views of the stocks data vertically. Top: a line per symbol:N (colour) with date:T on X and price:Q on Y. Bottom: horizontal bars of mean(price):Q on X with symbol:N on Y sorted by descending X, coloured by symbol:N. End with lines & bars.',
     hints: [
       'lines = alt.Chart(df).mark_line().encode(x="date:T", y="price:Q", color="symbol:N")',
@@ -811,7 +805,7 @@ box | strip`
       'The & operator is alt.vconcat: lines & bars.'
     ],
     concept: 'Vertical concatenation stacks views that answer different questions (trend over time vs overall level) about the same entities.',
-    docs: 'https://altair-viz.github.io/user_guide/compound_charts.html#vconcat',
+    docs: 'https://altair-viz.github.io/user_guide/compound_charts.html#vertical-concatenation',
     datasetId: 'stocks',
     solution: `import altair as alt
 import pandas as pd
@@ -835,18 +829,17 @@ lines & bars`
   },
   {
     id: 'exam-cars-condition',
-    n: 24,
     title: 'Conditional Colour and Shapes (exam, Nov 2022)',
     level: 'Intermediate',
     topic: 'Exam-style',
-    task: 'Plot cars newer than 1975 (filter "year(datum.Year) > 1975") as filled points with a black stroke and size 200: Horsepower:Q on X, Miles_per_Gallon:Q on Y, shape by Origin:N. Cars with 4 cylinders are red and the rest blue, with alt.condition (so the colour has no legend).',
+    task: 'Plot cars newer than 1975 (filter "year(datum.Year) > 1975") as filled points with a black stroke and size 200: Horsepower:Q on X, Miles_per_Gallon:Q on Y, shape by Origin:N. Cars with 4 cylinders are red and the rest blue, with a condition (so the colour has no legend).',
     hints: [
       'mark_point(filled=True, stroke="black", size=200)',
-      'color=alt.condition(alt.datum.Cylinders == 4, alt.value("red"), alt.value("blue")) and shape="Origin:N"',
+      'color=alt.when(alt.datum.Cylinders == 4).then(alt.value("red")).otherwise(alt.value("blue")) and shape="Origin:N". The older alt.condition(test, a, b) gives the same chart.',
       'Filter with .transform_filter("year(datum.Year) > 1975").'
     ],
-    concept: 'alt.condition picks one of two values per row from a predicate; with constant values (alt.value) it adds no legend, unlike a field encoding.',
-    docs: 'https://altair-viz.github.io/user_guide/interactions/conditions.html',
+    concept: '`alt.when(test).then(a).otherwise(b)` picks one of two values per row (older code writes `alt.condition(test, a, b)`); with constant values (alt.value) it adds no legend, unlike a field encoding.',
+    docs: 'https://altair-viz.github.io/user_guide/interactions/parameters.html#conditions',
     datasetId: 'cars',
     solution: `import altair as alt
 import pandas as pd
@@ -858,22 +851,21 @@ alt.Chart(cars).mark_point(filled=True, stroke='black', size=200).encode(
     x='Horsepower:Q',
     y='Miles_per_Gallon:Q',
     shape='Origin:N',
-    color=alt.condition(alt.datum.Cylinders == 4, alt.value('red'), alt.value('blue'))
+    color=alt.when(alt.datum.Cylinders == 4).then(alt.value('red')).otherwise(alt.value('blue'))
 ).transform_filter(
     'year(datum.Year) > 1975'
 )`
   },
   {
     id: 'exam-slope-parliament',
-    n: 25,
     title: 'Slope Chart with Labels and Squares (exam, Nov 2024)',
     level: 'Advanced',
     topic: 'Exam-style',
     task: 'Build a slope chart of seats per party with three layers sharing Year:O on X and Seats:Q on Y. lines: mark_line coloured by Party:N. labels: gray mark_text(xOffset=15) showing Seats:Q, only for 2023. squares: filled square points (opacity 1) coloured yellow when Governing, else by Party:N, and sized 60 when Governing, else 30. End with (lines + labels + squares).properties(width=300).',
     hints: [
       'labels = alt.Chart(data).mark_text(color="gray", xOffset=15).encode(x="Year:O", y="Seats:Q", text="Seats:Q").transform_filter(alt.datum.Year == 2023)',
-      'squares use mark_point(shape="square", filled=True, opacity=1) and color=alt.condition(alt.datum.Governing, alt.value("yellow"), "Party:N").',
-      'size=alt.condition(alt.datum.Governing, alt.value(60), alt.value(30)); then (lines + labels + squares).properties(width=300).'
+      'squares use mark_point(shape="square", filled=True, opacity=1) and color=alt.when(alt.datum.Governing).then(alt.value("yellow")).otherwise("Party:N") (alt.condition also works).',
+      'size=alt.when(alt.datum.Governing).then(alt.value(60)).otherwise(alt.value(30)); then (lines + labels + squares).properties(width=300).'
     ],
     concept: 'Exam charts are usually layers of simple marks: each layer adds one element (lines, labels, end markers), and filters or conditions decide which rows a layer draws and how.',
     docs: 'https://altair-viz.github.io/user_guide/compound_charts.html#layered-charts',
@@ -905,15 +897,14 @@ labels = alt.Chart(data).mark_text(color='gray', xOffset=15).encode(
 squares = alt.Chart(data).mark_point(shape='square', filled=True, opacity=1).encode(
     x='Year:O',
     y='Seats:Q',
-    color=alt.condition(alt.datum.Governing, alt.value('yellow'), 'Party:N'),
-    size=alt.condition(alt.datum.Governing, alt.value(60), alt.value(30))
+    color=alt.when(alt.datum.Governing).then(alt.value('yellow')).otherwise('Party:N'),
+    size=alt.when(alt.datum.Governing).then(alt.value(60)).otherwise(alt.value(30))
 )
 
 (lines + labels + squares).properties(width=300)`
   },
   {
     id: 'exam-disasters-timeline',
-    n: 26,
     title: 'Disaster Timelines: Circles on Lines (exam, Nov 2021)',
     level: 'Advanced',
     topic: 'Exam-style',
@@ -951,7 +942,6 @@ lines = alt.Chart(source).mark_line().encode(
   },
   {
     id: 'exam-bullet-hospital',
-    n: 27,
     title: 'Six-Layer Bullet Chart (exam, Jan 2024)',
     level: 'Advanced',
     topic: 'Exam-style',
@@ -993,3 +983,32 @@ ch6 = base.mark_tick(color='purple', thickness=2, size=30).encode(x='historic:Q'
 alt.layer(ch3, ch2, ch1, ch4, ch5, ch6)`
   }
 ];
+
+// The main list: two to four representative exercises per topic. The rest are extras,
+// shown when a topic is expanded in the rail.
+export const CORE = [
+  'bk-wide-fold', 'bk-types-explicit',
+  'nb1-bar-color', 'nb1-iphone-tooltip', 'bk-donut-order', 'bk-detail-iowa',
+  'bk-hist-stacked', 'bk-timeunit-stocks', 'mv-area-normalize',
+  'mv-heatmap-text', 'nb2-superposition-jobs', 'nb2-lollipop-eu', 'mv-hconcat-weather',
+  'bk-streamgraph', 'bk-connected-scatter', 'bk-punchcard',
+  'nb1-stocks-predicate', 'bk-transform-aggregate', 'nb2-bump-tennis', 'bk-lookup-regions',
+  'nb1-jobs-scale', 'bk-axis-style', 'bk-annotate-minmax',
+  'bk-point-highlight', 'bk-slider-filter', 'bk-legend-selector', 'bk-brush-histogram',
+  'nb1-barley-grouped', 'bk-repeat-matrix', 'bk-marginal-hist',
+  'nb2-us-airports-map', 'bk-choropleth',
+  'exam-cars-condition', 'exam-slope-parliament', 'exam-disasters-timeline', 'exam-bullet-hospital'
+];
+
+// Ordered by topic, core exercises first within each. `n` is the position in this list;
+// `main` numbers the core exercises only (1, 2, …) and is null for extras.
+const ALL = [...COURSE_EXERCISES, ...BOOK_EXERCISES];
+const ordered = TOPICS.flatMap((t) => {
+  const inTopic = ALL.filter((e) => e.topic === t);
+  return [...inTopic.filter((e) => CORE.includes(e.id)), ...inTopic.filter((e) => !CORE.includes(e.id))];
+});
+let main = 0;
+export const EXERCISES = ordered.map((e, i) => {
+  const core = CORE.includes(e.id);
+  return { ...e, n: i + 1, core, main: core ? ++main : null };
+});

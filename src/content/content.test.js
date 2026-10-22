@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { DATASETS } from './datasets.js';
-import { EXERCISES, TOPICS } from './exercises.js';
+import { CORE, EXERCISES, TOPICS } from './exercises.js';
 import { CHART_METHODS, KWARGS, MARKS } from './altairApi.js';
 
 const EXPECTED_ROWS = {
@@ -14,11 +14,13 @@ const EXPECTED_ROWS = {
   fruit_pie: 5,
   parliament_seats: 10,
   hospital_occupancy: 3,
+  stocks_wide: 3,
+  mobile_os: 4,
 };
 
 describe('datasets', () => {
-  it('has 19 datasets keyed by their id', () => {
-    expect(Object.keys(DATASETS)).toHaveLength(19);
+  it('has 32 datasets keyed by their id', () => {
+    expect(Object.keys(DATASETS)).toHaveLength(32);
     for (const [key, d] of Object.entries(DATASETS)) expect(d.id).toBe(key);
   });
 
@@ -55,9 +57,35 @@ describe('datasets', () => {
 });
 
 describe('exercises', () => {
-  it('has 27 exercises numbered 1..27 with unique ids', () => {
-    expect(EXERCISES.map((e) => e.n)).toEqual(Array.from({ length: 27 }, (_, i) => i + 1));
-    expect(new Set(EXERCISES.map((e) => e.id)).size).toBe(27);
+  it('has 82 exercises numbered 1..82 with unique ids', () => {
+    expect(EXERCISES.map((e) => e.n)).toEqual(Array.from({ length: 82 }, (_, i) => i + 1));
+    expect(new Set(EXERCISES.map((e) => e.id)).size).toBe(82);
+  });
+
+  it('numbers exercises in topic order and leaves no topic empty', () => {
+    const order = EXERCISES.map((e) => TOPICS.indexOf(e.topic));
+    expect(order).toEqual([...order].sort((a, b) => a - b));
+    for (const t of TOPICS) expect(EXERCISES.some((e) => e.topic === t), t).toBe(true);
+  });
+
+  it('has a main list of two to four core exercises per topic, numbered 1..k', () => {
+    for (const id of CORE) expect(EXERCISES.find((e) => e.id === id), id).toBeDefined();
+    for (const t of TOPICS) {
+      const n = EXERCISES.filter((e) => e.topic === t && e.core).length;
+      expect(n, t).toBeGreaterThanOrEqual(2);
+      expect(n, t).toBeLessThanOrEqual(4);
+    }
+    const core = EXERCISES.filter((e) => e.core);
+    expect(core.map((e) => e.main)).toEqual(core.map((_, i) => i + 1));
+    expect(EXERCISES.filter((e) => !e.core).every((e) => e.main === null)).toBe(true);
+  });
+
+  it('a custom starter is the beginning of its solution', () => {
+    for (const e of EXERCISES.filter((x) => x.starter)) expect(e.solution.startsWith(e.starter), e.id).toBe(true);
+  });
+
+  it('solutions use alt.when rather than alt.condition', () => {
+    for (const e of EXERCISES) expect(e.solution, e.id).not.toMatch(/alt\.condition\(/);
   });
 
   it('references existing datasets and is fully filled in', () => {

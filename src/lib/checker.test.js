@@ -114,4 +114,78 @@ describe('checker', () => {
     const flipped = { mark: 'point', encoding: { color: { condition: { test: '(datum.Cylinders === 4)', value: 'blue' }, value: 'red' } } }
     expect(check(flipped, t).solved).toBe(false)
   })
+
+  it('accepts alt.condition where the target used alt.when', () => {
+    const t = targets['exam-cars-condition']
+    const u = clone(t)
+    // alt.condition writes the condition object; alt.when writes a one-item list.
+    expect(Array.isArray(t.encoding.color.condition)).toBe(true)
+    u.encoding.color.condition = u.encoding.color.condition[0]
+    expect(failed(check(u, t))).toEqual([])
+  })
+
+  it('matches selections by definition, not by name', () => {
+    const t = targets['bk-point-highlight']
+    const name = t.params[0].name
+    const u = JSON.parse(JSON.stringify(t).replaceAll(name, 'my_selection'))
+    const r = check(u, t)
+    expect(failed(r)).toEqual([])
+    expect(r.interactionOk).toBe(true)
+  })
+
+  it('renames parameters used inside expressions', () => {
+    const t = targets['bk-threshold-slider']
+    const name = t.params[0].name
+    expect(JSON.stringify(t.encoding.color)).toContain(name)
+    const u = JSON.parse(JSON.stringify(t).replaceAll(name, 'cut'))
+    expect(check(u, t).solved).toBe(true)
+  })
+
+  it('a chart without the selection fails the param check and interactionOk', () => {
+    const t = targets['bk-brush-x']
+    const u = clone(t)
+    delete u.params
+    const r = check(u, t)
+    expect(failed(r)).toContain('param-0')
+    expect(r.interactionOk).toBe(false)
+    expect(r.checks.find((c) => c.id === 'param-0').label).toBe("selection_interval(encodings=[\"x\"])")
+  })
+
+  it('labels widget-bound parameters by their widget', () => {
+    const r = check(clone(targets['bk-slider-filter']), targets['bk-slider-filter'])
+    expect(r.checks.find((c) => c.id === 'param-0').label).toBe('param(value=1960), bound to a slider 1960–2005')
+    const z = check(clone(targets['bk-interactive-zoom']), targets['bk-interactive-zoom'])
+    expect(z.checks.find((c) => c.id === 'param-0').label).toMatch(/^zoom & pan/)
+  })
+
+  it("treats on='mouseover' like on='pointerover'", () => {
+    const t = targets['bk-hover-rule']
+    const u = JSON.parse(JSON.stringify(t).replaceAll('"pointerover"', '"mouseover"'))
+    expect(JSON.stringify(u)).toContain('mouseover')
+    expect(check(u, t).solved).toBe(true)
+  })
+
+  it('checks repeat fields, projections and configure_* calls', () => {
+    const rep = targets['bk-repeat-matrix']
+    const u1 = clone(rep)
+    u1.repeat.row = ['Cylinders', 'Horsepower']
+    expect(failed(check(u1, rep))).toEqual(['repeat'])
+
+    const map = targets['bk-choropleth']
+    const u2 = clone(map)
+    delete u2.projection
+    expect(failed(check(u2, map))).toEqual(['proj-0'])
+
+    const cfg = targets['bk-legend-config']
+    const u3 = clone(cfg)
+    delete u3.config.legend.orient
+    expect(failed(check(u3, cfg))).toEqual(['config-legend-orient'])
+  })
+
+  it('checks each axis and legend option', () => {
+    const t = targets['bk-axis-style']
+    const u = clone(t)
+    delete u.encoding.x.axis.labelAngle
+    expect(failed(check(u, t))).toEqual(['opt-0-x-axis-labelAngle'])
+  })
 })

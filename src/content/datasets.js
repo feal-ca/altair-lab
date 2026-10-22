@@ -637,6 +637,317 @@ df = data.seattle_weather.url
       { date: '2012/01/04', precipitation: 20.3, temp_max: 12.2, temp_min: 5.6, wind: 4.7, weather: 'rain' },
       { date: '2012/01/05', precipitation: 1.3, temp_max: 8.9, temp_min: 2.8, wind: 6.1, weather: 'rain' }
     ]
+  },
+  stocks_wide: {
+    id: 'stocks_wide',
+    name: 'Stock Prices, Wide Form (wide_form)',
+    description: 'Three monthly closing prices with one column per company: the wide form that Altair has to fold before plotting.',
+    varName: 'wide_form',
+    source: 'inline',
+    setupCode: `import altair as alt
+import pandas as pd
+
+wide_form = pd.DataFrame({
+    'Date': ['2007-10-01', '2007-11-01', '2007-12-01'],
+    'AAPL': [189.95, 182.22, 198.08],
+    'AMZN': [89.15, 90.56, 92.64],
+    'GOOG': [707.00, 693.00, 691.48]
+})
+`,
+    columns: [
+      { name: 'Date', type: 'T', unique: 3, sample: '2007-10-01 .. 2007-12-01' },
+      { name: 'AAPL', type: 'Q', min: 182.22, max: 198.08, mean: 190.08 },
+      { name: 'AMZN', type: 'Q', min: 89.15, max: 92.64, mean: 90.78 },
+      { name: 'GOOG', type: 'Q', min: 691.48, max: 707, mean: 697.16 }
+    ],
+    rows: [
+      { Date: '2007-10-01', AAPL: 189.95, AMZN: 89.15, GOOG: 707.0 },
+      { Date: '2007-11-01', AAPL: 182.22, AMZN: 90.56, GOOG: 693.0 },
+      { Date: '2007-12-01', AAPL: 198.08, AMZN: 92.64, GOOG: 691.48 }
+    ]
+  },
+  mobile_os: {
+    id: 'mobile_os',
+    name: 'Mobile OS Market Share (source)',
+    description: 'Share of four mobile operating systems, for donut and polar area charts.',
+    varName: 'source',
+    source: 'inline',
+    setupCode: `import altair as alt
+import pandas as pd
+
+source = pd.DataFrame({
+    'mobile system': ['iOS', 'Android', 'Tizen', 'Other'],
+    'percentage': [60, 35, 4, 1]
+})
+`,
+    columns: [
+      { name: 'mobile system', type: 'N', unique: 4, sample: 'iOS, Android, Tizen, Other' },
+      { name: 'percentage', type: 'Q', min: 1, max: 60, mean: 25 }
+    ],
+    rows: [
+      { 'mobile system': 'iOS', percentage: 60 },
+      { 'mobile system': 'Android', percentage: 35 },
+      { 'mobile system': 'Tizen', percentage: 4 },
+      { 'mobile system': 'Other', percentage: 1 }
+    ]
+  },
+  angles: {
+    id: 'angles',
+    name: 'Angles 0-50 (angles)',
+    description: 'A single column of integers 0..50, the input for computing points on a circle with transform_calculate.',
+    varName: 'angles',
+    source: 'inline',
+    setupCode: `import altair as alt
+import pandas as pd
+
+angles = pd.DataFrame({'angle': range(51)})
+`,
+    columns: [
+      { name: 'angle', type: 'Q', min: 0, max: 50, mean: 25 }
+    ],
+    rows: Array.from({ length: 51 }, (_, angle) => ({ angle }))
+  },
+  pixel_grid: {
+    id: 'pixel_grid',
+    name: 'Pixel Grid -5..5 (df)',
+    description: 'Every integer (x, y) pair from (-5, -5) to (5, 5), built with numpy.meshgrid.',
+    varName: 'df',
+    source: 'inline',
+    setupCode: `import altair as alt
+import numpy as np
+import pandas as pd
+
+x, y = np.meshgrid(range(-5, 6), range(-5, 6))
+df = pd.DataFrame({'x': x.ravel(), 'y': y.ravel()})
+`,
+    columns: [
+      { name: 'x', type: 'Q', min: -5, max: 5, mean: 0 },
+      { name: 'y', type: 'Q', min: -5, max: 5, mean: 0 }
+    ],
+    rows: Array.from({ length: 121 }, (_, i) => ({ x: (i % 11) - 5, y: Math.floor(i / 11) - 5 }))
+  },
+  driving: {
+    id: 'driving',
+    name: 'Driving Habits 1956-2010 (data.driving)',
+    description: 'Miles driven per capita and gas price per gallon, one row per year.',
+    varName: 'df',
+    source: 'url',
+    url: 'https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/driving.json',
+    setupCode: `import altair as alt
+import pandas as pd
+from vega_datasets import data
+
+df = data.driving.url
+`,
+    columns: [
+      { name: 'side', type: 'N', unique: 4, sample: 'left, right, top, bottom' },
+      { name: 'year', type: 'O', unique: 55, sample: '1956 .. 2010' },
+      { name: 'miles', type: 'Q', min: 3675, max: 10067, mean: 7165 },
+      { name: 'gas', type: 'Q', min: 1.39, max: 3.31, mean: 2.17 }
+    ],
+    preview: [
+      { side: 'left', year: 1956, miles: 3675, gas: 2.38 },
+      { side: 'right', year: 1957, miles: 3706, gas: 2.4 },
+      { side: 'bottom', year: 1958, miles: 3766, gas: 2.26 }
+    ]
+  },
+  github: {
+    id: 'github',
+    name: 'GitHub Contributions 2015 (data.github)',
+    description: 'Hourly contribution counts for one GitHub user, January to May 2015.',
+    varName: 'source',
+    source: 'url',
+    url: 'https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/github.csv',
+    setupCode: `import altair as alt
+import pandas as pd
+from vega_datasets import data
+
+source = data.github.url
+`,
+    columns: [
+      { name: 'time', type: 'T', unique: 955, sample: '2015/01/01 01:00 .. 2015/05/30 11:00' },
+      { name: 'count', type: 'Q', min: 1, max: 54, mean: 2.6 }
+    ],
+    preview: [
+      { time: '2015/01/01 01:00:00', count: 2 },
+      { time: '2015/01/01 04:00:00', count: 3 },
+      { time: '2015/01/01 05:00:00', count: 1 }
+    ]
+  },
+  movies: {
+    id: 'movies',
+    name: 'Movies (data.movies)',
+    description: '3,201 films with gross, budget, genre, and IMDB and Rotten Tomatoes ratings.',
+    varName: 'movies',
+    source: 'url',
+    url: 'https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/movies.json',
+    setupCode: `import altair as alt
+import pandas as pd
+from vega_datasets import data
+
+movies = data.movies.url
+`,
+    columns: [
+      { name: 'Title', type: 'N', unique: 3177, sample: 'The Land Girls, Avatar' },
+      { name: 'Major_Genre', type: 'N', unique: 12, sample: 'Action, Comedy, Drama, Western' },
+      { name: 'MPAA_Rating', type: 'N', unique: 7, sample: 'G, PG, PG-13, R' },
+      { name: 'Production_Budget', type: 'Q', min: 218, max: 300000000, mean: 31069171 },
+      { name: 'Worldwide_Gross', type: 'Q', min: 0, max: 2767891499, mean: 85343400 },
+      { name: 'IMDB_Rating', type: 'Q', min: 1.4, max: 9.2, mean: 6.28 },
+      { name: 'Rotten_Tomatoes_Rating', type: 'Q', min: 1, max: 100, mean: 54.3 }
+    ],
+    preview: [
+      { Title: 'The Land Girls', Major_Genre: null, MPAA_Rating: 'R', Production_Budget: 8000000, Worldwide_Gross: 146083, IMDB_Rating: 6.1, Rotten_Tomatoes_Rating: null },
+      { Title: 'First Love, Last Rites', Major_Genre: 'Drama', MPAA_Rating: 'R', Production_Budget: 300000, Worldwide_Gross: 10876, IMDB_Rating: 6.9, Rotten_Tomatoes_Rating: null }
+    ]
+  },
+  flights_2k: {
+    id: 'flights_2k',
+    name: 'Flights, 2k Sample (data.flights_2k)',
+    description: '2,000 US domestic flights from early 2001 with delay, distance, origin and destination.',
+    varName: 'df',
+    source: 'url',
+    url: 'https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/flights-2k.json',
+    setupCode: `import altair as alt
+import pandas as pd
+from vega_datasets import data
+
+df = data.flights_2k.url
+`,
+    columns: [
+      { name: 'date', type: 'T', unique: 1920, sample: '2001/01/01 06:25 .. 2001/03/31 20:35' },
+      { name: 'delay', type: 'Q', min: -33, max: 250, mean: 8 },
+      { name: 'distance', type: 'Q', min: 108, max: 2277, mean: 497 },
+      { name: 'origin', type: 'N', unique: 59, sample: 'LAX, HOU, SAN, PHX' },
+      { name: 'destination', type: 'N', unique: 59, sample: 'SMF, SLC, OAK, LAS' }
+    ],
+    preview: [
+      { date: '2001/01/14 21:55', delay: 0, distance: 480, origin: 'SAN', destination: 'SMF' },
+      { date: '2001/03/26 20:15', delay: -11, distance: 507, origin: 'PHX', destination: 'SLC' }
+    ]
+  },
+  flights_5k: {
+    id: 'flights_5k',
+    name: 'Flights, 5k Sample (data.flights_5k)',
+    description: '5,000 US domestic flights from early 2001, enough for an interactive brushed histogram.',
+    varName: 'source',
+    source: 'url',
+    url: 'https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/flights-5k.json',
+    setupCode: `import altair as alt
+import pandas as pd
+from vega_datasets import data
+
+source = data.flights_5k.url
+`,
+    columns: [
+      { name: 'date', type: 'T', unique: 4497, sample: '2001/01/01 07:00 .. 2001/03/31 21:00' },
+      { name: 'delay', type: 'Q', min: -32, max: 273, mean: 7.4 },
+      { name: 'distance', type: 'Q', min: 108, max: 2298, mean: 502 },
+      { name: 'origin', type: 'N', unique: 59, sample: 'SAT, SNA, LAX, HOU' },
+      { name: 'destination', type: 'N', unique: 59, sample: 'HOU, OAK, PHX, LAS' }
+    ],
+    preview: [
+      { date: '2001/01/10 18:20', delay: 25, distance: 192, origin: 'SAT', destination: 'HOU' },
+      { date: '2001/01/31 16:45', delay: 17, distance: 371, origin: 'SNA', destination: 'OAK' }
+    ]
+  },
+  gapminder: {
+    id: 'gapminder',
+    name: 'Gapminder 1955-2005 (data.gapminder)',
+    description: 'Population, life expectancy and fertility for 63 countries every five years; cluster is a world-region id 0-5.',
+    varName: 'df',
+    source: 'url',
+    url: 'https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/gapminder.json',
+    setupCode: `import altair as alt
+import pandas as pd
+from vega_datasets import data
+
+df = data.gapminder.url
+`,
+    columns: [
+      { name: 'year', type: 'O', unique: 11, sample: '1955, 1960 .. 2005' },
+      { name: 'country', type: 'N', unique: 63, sample: 'Afghanistan, Argentina, Japan' },
+      { name: 'cluster', type: 'O', unique: 6, sample: '0 .. 5' },
+      { name: 'pop', type: 'Q', min: 53865, max: 1303182268, mean: 56234309 },
+      { name: 'life_expect', type: 'Q', min: 23.6, max: 82.6, mean: 66.1 },
+      { name: 'fertility', type: 'Q', min: 0.94, max: 8.5, mean: 3.61 }
+    ],
+    preview: [
+      { year: 1955, country: 'Afghanistan', cluster: 0, pop: 8891209, life_expect: 30.332, fertility: 7.7 },
+      { year: 1960, country: 'Afghanistan', cluster: 0, pop: 9829450, life_expect: 31.997, fertility: 7.7 },
+      { year: 1965, country: 'Afghanistan', cluster: 0, pop: 10997885, life_expect: 34.02, fertility: 7.7 }
+    ]
+  },
+  iris: {
+    id: 'iris',
+    name: 'Iris Flowers (data.iris)',
+    description: '150 iris flowers: sepal and petal sizes for three species.',
+    varName: 'source',
+    source: 'url',
+    url: 'https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/iris.json',
+    setupCode: `import altair as alt
+import pandas as pd
+from vega_datasets import data
+
+source = data.iris.url
+`,
+    columns: [
+      { name: 'sepalLength', type: 'Q', min: 4.3, max: 7.9, mean: 5.84 },
+      { name: 'sepalWidth', type: 'Q', min: 2, max: 4.4, mean: 3.06 },
+      { name: 'petalLength', type: 'Q', min: 1, max: 6.9, mean: 3.76 },
+      { name: 'petalWidth', type: 'Q', min: 0.1, max: 2.5, mean: 1.2 },
+      { name: 'species', type: 'N', unique: 3, sample: 'setosa, versicolor, virginica' }
+    ],
+    preview: [
+      { sepalLength: 5.1, sepalWidth: 3.5, petalLength: 1.4, petalWidth: 0.2, species: 'setosa' },
+      { sepalLength: 4.9, sepalWidth: 3, petalLength: 1.4, petalWidth: 0.2, species: 'setosa' }
+    ]
+  },
+  us_unemployment: {
+    id: 'us_unemployment',
+    name: 'US Unemployment by County (data.unemployment + us_10m)',
+    description: 'Unemployment rate per county id, to join with the us_10m county shapes via transform_lookup.',
+    varName: 'unemp',
+    source: 'url',
+    url: 'https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/unemployment.tsv',
+    setupCode: `import altair as alt
+import pandas as pd
+from vega_datasets import data
+
+counties = alt.topo_feature(data.us_10m.url, feature='counties')
+unemp = data.unemployment.url
+`,
+    columns: [
+      { name: 'id', type: 'N', unique: 3218, sample: '1001, 1003, 6037' },
+      { name: 'rate', type: 'Q', min: 0.012, max: 0.301, mean: 0.09 }
+    ],
+    preview: [
+      { id: 1001, rate: 0.097 },
+      { id: 1003, rate: 0.091 },
+      { id: 1005, rate: 0.134 }
+    ]
+  },
+  world_110m: {
+    id: 'world_110m',
+    name: 'World Countries TopoJSON (data.world_110m)',
+    description: 'Country outlines at 1:110m scale, for trying map projections.',
+    varName: 'countries',
+    source: 'url',
+    url: 'https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/world-110m.json',
+    setupCode: `import altair as alt
+import pandas as pd
+from vega_datasets import data
+
+countries = alt.topo_feature(data.world_110m.url, 'countries')
+`,
+    columns: [
+      { name: 'id', type: 'N', unique: 177, sample: '4, 8, 12, 724' }
+    ],
+    preview: [
+      { id: 4 },
+      { id: 8 },
+      { id: 12 }
+    ]
   }
 };
 

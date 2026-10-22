@@ -27,10 +27,13 @@ export const ALT_CLASSES = [
   ['FieldGTPredicate', "FieldGTPredicate(field='', gt=…)"],
   ['FieldLTPredicate', "FieldLTPredicate(field='', lt=…)"],
   ['topo_feature', "topo_feature(url, feature='states') — TopoJSON shapes"],
-  ['selection_point', 'selection_point(fields=[…], bind=…) — click selection'],
-  ['selection_interval', 'selection_interval(encodings=[…]) — brush selection'],
+  ['selection_point', 'selection_point(fields=[…], on=…, nearest=…) — click / hover selection'],
+  ['selection_interval', 'selection_interval(encodings=[…], empty=…) — brush selection'],
+  ['param', 'param(value=…, bind=…) — a variable the reader can change'],
   ['binding_select', 'binding_select(options=[…], name=…) — dropdown'],
   ['binding_range', 'binding_range(min, max, step) — slider'],
+  ['binding_radio', 'binding_radio(options=[…], labels=[…]) — radio buttons'],
+  ['binding_checkbox', 'binding_checkbox(name=…) — checkbox'],
 ]
 
 // Encoding channel classes, offered after `alt.` and as channel values.
@@ -66,7 +69,8 @@ export const CHANNELS = [
 // Functions offered after `alt.` that are not classes.
 export const ALT_FUNCTIONS = [
   ['value', "value('red') — a constant instead of a field"],
-  ['condition', 'condition(test, if_true, if_false)'],
+  ['when', 'when(test).then(a).otherwise(b) — conditional value'],
+  ['condition', 'condition(test, a, b) — older form of alt.when'],
   ['datum', 'datum.field — refer to a field in a predicate'],
   ['expr', 'expr(…) — Vega expression'],
 ]
@@ -293,9 +297,12 @@ export const KWARGS = {
   'alt.FieldLTPredicate': [['field', 'field', 'str'], ['lt', 'value']],
   'alt.concat': [['columns', 'charts per row']],
   'alt.topo_feature': [['feature', "'states', 'counties', …", 'str']],
-  'alt.selection_point': [['fields', 'fields to select on'], ['value', 'initial value'], ['bind', 'binding (dropdown, …)'], ['name', 'name', 'str']],
-  'alt.selection_interval': [['encodings', "['x'] or ['x', 'y']"], ['name', 'name', 'str']],
-  'alt.binding_select': [['options', 'values'], ['name', 'label', 'str']],
+  'alt.selection_point': [['fields', 'fields to select on'], ['encodings', "e.g. ['color']"], ['on', "'click' or 'pointerover'", 'str'], ['nearest', 'True selects the closest mark'], ['empty', 'False: nothing selected at start'], ['value', 'initial value'], ['bind', "a binding or 'legend'"], ['name', 'name', 'str']],
+  'alt.selection_interval': [['encodings', "['x'] or ['x', 'y']"], ['empty', 'False: nothing selected at start'], ['bind', "'scales' for pan & zoom"], ['name', 'name', 'str']],
+  'alt.param': [['value', 'initial value'], ['bind', 'alt.binding_*(…)'], ['name', 'name', 'str'], ['expr', 'Vega expression', 'str']],
+  'alt.binding_select': [['options', 'values'], ['labels', 'labels shown'], ['name', 'label', 'str']],
+  'alt.binding_radio': [['options', 'values (None for all)'], ['labels', 'labels shown'], ['name', 'label', 'str']],
+  'alt.binding_checkbox': [['name', 'label', 'str']],
   'alt.binding_range': [['min', 'min'], ['max', 'max'], ['step', 'step'], ['name', 'label', 'str']],
   transform_aggregate: [['groupby', 'fields to group by']],
   transform_joinaggregate: [['groupby', 'fields to group by']],
@@ -342,14 +349,15 @@ export const STRING_VALUES = {
   order: ['ascending', 'descending'],
   stack: ['zero', 'normalize', 'center'],
   aggregate: ['count', 'sum', 'mean', 'average', 'median', 'min', 'max', 'stdev', 'variance', 'distinct', 'q1', 'q3'],
-  timeUnit: ['year', 'quarter', 'month', 'yearmonth', 'date', 'day', 'hours', 'monthdate'],
+  timeUnit: ['year', 'quarter', 'month', 'yearmonth', 'yearmonthdate', 'date', 'day', 'hours', 'minutes', 'monthdate'],
+  on: ['click', 'pointerover', 'dblclick'],
   format: [',.0f', ',.2f', '.0%', '.1%', '$,.0f', '.2s', '%Y', '%b %Y', '%d %b'],
   color: COLORS,
   fill: COLORS,
   stroke: COLORS,
   background: COLORS,
   feature: ['states', 'counties', 'countries', 'land'],
-  projection: ['albersUsa', 'mercator', 'equalEarth', 'naturalEarth1', 'orthographic', 'equirectangular'],
+  projection: ['albersUsa', 'mercator', 'equalEarth', 'naturalEarth1', 'orthographic', 'equirectangular', 'gnomonic'],
   independent: ['independent', 'shared'],
 }
 STRING_VALUES['scale.type'] = ['linear', 'log', 'sqrt', 'pow', 'symlog', 'time', 'utc', 'ordinal', 'band', 'point']

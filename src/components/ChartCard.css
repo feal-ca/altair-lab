@@ -40,3 +40,28 @@
   font: italic 400 15px var(--font-head);
   color: var(--muted);
 }
+
+/* Widgets from bound parameters (sliders, dropdowns, radios, checkboxes). */
+.chart-card-body .vega-bindings {
+  margin-top: 6px;
+  font: 12.5px var(--font-ui);
+  color: var(--ink2);
+  text-align: left;
+}
+.chart-card-body .vega-bind {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 0;
+}
+.chart-card-body .vega-bind label { display: inline-flex; align-items: center; gap: 4px; }
+.chart-card-body .vega-bind-name { color: var(--muted); }
+.chart-card-body .vega-bind select,
+.chart-card-body .vega-bind input[type='text'] {
+  font: 12.5px var(--font-ui);
+  color: var(--ink);
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  padding: 2px 4px;
+}
+.chart-card-body .vega-bind input { accent-color: var(--accent); }
