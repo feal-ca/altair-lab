@@ -48,4 +48,10 @@ describe('CheckList', () => {
     await render({ open: false, onToggle: () => {}, solved: true })
     expect(container.querySelector('button.check-heading').textContent).toContain('Chart matches · 1 of 2 checks')
   })
+
+  it('says the chart still differs when every check passes but the drawing does not match', async () => {
+    const passing = checks.map((c) => ({ ...c, passed: true }))
+    await act(() => root.render(<CheckList checks={passing} open={false} onToggle={() => {}} solved={false} differs />))
+    expect(container.querySelector('button.check-heading').textContent).toContain('All 2 checks pass · chart still differs')
+  })
 })

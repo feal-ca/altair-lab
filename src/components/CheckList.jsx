@@ -1,12 +1,15 @@
 import './CheckList.css'
 
-// Collapsed by default: the summary line toggles the list. `solved` can come from the
-// visual match while some checks still fail (the chart looks right, the code differs).
-export function CheckList({ checks = [], solved, open, onToggle }) {
+// Collapsed by default: the summary line toggles the list. `solved` comes from the visual
+// match, so it can disagree with the checks either way: the chart looks right while some
+// checks fail, or every check passes while the chart still differs (`differs`).
+export function CheckList({ checks = [], solved, differs, open, onToggle }) {
   const passed = checks.filter((c) => c.passed).length
   const all = passed === checks.length
   const summary = all
-    ? `All ${checks.length} checks pass`
+    ? differs
+      ? `All ${checks.length} checks pass · chart still differs`
+      : `All ${checks.length} checks pass`
     : solved
       ? `Chart matches · ${passed} of ${checks.length} checks`
       : `${passed} of ${checks.length} checks`

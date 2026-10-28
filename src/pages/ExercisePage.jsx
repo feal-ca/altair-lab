@@ -65,10 +65,11 @@ export function ExercisePage({ exercise, state, update }) {
     () => (out.spec && target?.spec ? check(out.spec, target.spec) : null),
     [out.spec, target]
   )
-  // Solved when the code passes every check, or when it draws exactly the target chart
-  // and declares the same selections and parameters (which a static drawing can't show).
+  // Solved when the code draws exactly the target chart and declares the same selections
+  // and parameters (which a static drawing can't show). The checks only decide when the
+  // drawing can't be compared; nothing counts while the comparison is still running.
   const visual = useVisualMatch(out.spec, target?.spec)
-  const solved = Boolean(result?.solved || (visual?.same && result?.interactionOk))
+  const solved = Boolean(visual && (visual.same === null ? result?.solved : visual.same && result?.interactionOk))
   const difference = !solved && visual?.difference ? visual.difference : null
 
   // The tutor reads the latest run when it sends, not when it renders.
@@ -138,6 +139,7 @@ export function ExercisePage({ exercise, state, update }) {
           <CheckList
             checks={result.checks}
             solved={solved}
+            differs={visual?.same === false}
             open={state.checksOpen === true}
             onToggle={() => update((s) => ({ ...s, checksOpen: s.checksOpen !== true }))}
           />

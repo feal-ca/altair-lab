@@ -29,8 +29,11 @@ function canonItem(item) {
 }
 
 // Flattens the scene graph into { role, marktype, axis, props, key } records.
-// `axis` ('X' | 'Y') is inherited from the enclosing axis group.
-function walk(node, axis, out) {
+// `axis` ('X' | 'Y') is inherited from the enclosing axis group. Each mark node also adds
+// one entry to `layers`, in the order Vega paints them, so layers drawn in a different
+// order (bars over points instead of points over bars) don't count as the same chart.
+function walk(node, axis, out, layers) {
+  const start = out.length
   for (const item of node?.items ?? []) {
     const props = canonItem(item)
     const rec = { role: node.role, marktype: node.marktype, axis, props }
@@ -38,22 +41,35 @@ function walk(node, axis, out) {
     out.push(rec)
     if (node.marktype === 'group') {
       const here = node.role === 'axis' ? (/^(top|bottom)$/.test(item.orient) ? 'X' : 'Y') : axis
-      for (const child of item.items ?? []) walk(child, here, out)
+      // Vega paints the children of a group by zindex, keeping their order among equals.
+      const children = [...(item.items ?? [])].sort((a, b) => (a.zindex ?? 0) - (b.zindex ?? 0))
+      for (const child of children) walk(child, here, out, layers)
     }
+  }
+  if (node?.role === 'mark' && node.items?.length) {
+    layers.push(JSON.stringify([node.marktype, sortedKeys(out.slice(start, start + node.items.length))]))
   }
 }
 
-// sceneOf(vegaLiteSpec) -> { width, height, items }. Throws if the spec can't be compiled.
+// sceneOf(vegaLiteSpec) -> { width, height, items, layers }. Throws if the spec can't be compiled.
 export async function sceneOf(spec) {
   const view = new View(parse(compile(spec, { logger: quiet }).spec), { renderer: 'none', logger: quiet })
   try {
     await view.runAsync()
     const items = []
-    walk(view.scenegraph().root, undefined, items)
-    return { width: round(view.width()), height: round(view.height()), items }
+    const layers = []
+    walk(view.scenegraph().root, undefined, items, layers)
+    return { width: round(view.width()), height: round(view.height()), items, layers }
   } finally {
     view.finalize()
   }
+}
+
+// stableSceneOf(vegaLiteSpec) -> the scene, or null when two renders differ (random jitter,
+// bootstrapped intervals): such a chart can't be matched by how it looks.
+export async function stableSceneOf(spec) {
+  const [a, b] = await Promise.all([sceneOf(spec), sceneOf(structuredClone(spec))])
+  return compareScenes(a, b).same ? a : null
 }
 
 const sortedKeys = (items) => items.map((i) => i.key).sort()
@@ -139,7 +155,11 @@ function describe(role, axis, marktype, t, m) {
 // noticeable visible difference, or null when both draw the same chart.
 export function compareScenes(target, mine) {
   const sized = target.width === mine.width && target.height === mine.height
-  if (sized && sameList(sortedKeys(target.items), sortedKeys(mine.items))) return { same: true, difference: null }
+  if (sized && sameList(sortedKeys(target.items), sortedKeys(mine.items))) {
+    return sameList(target.layers, mine.layers)
+      ? { same: true, difference: null }
+      : { same: false, difference: 'Layers are drawn in a different order than in the target.' }
+  }
 
   const groups = new Map()
   const add = (side, i) => {

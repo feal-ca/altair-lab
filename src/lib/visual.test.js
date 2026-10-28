@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { sceneOf, compareScenes } from './visual.js'
+import { sceneOf, compareScenes, stableSceneOf } from './visual.js'
 import targets from '../content/targets.json'
 
 const values = [
@@ -67,6 +67,14 @@ describe('compareScenes', () => {
     expect((await compare(tip, bar())).difference).toBe('Bar tooltips differ from the target.')
   })
 
+  it('reports layers drawn in a different order', async () => {
+    const layered = (...marks) => ({ data: { values }, encoding: bar().encoding, layer: marks.map((mark) => ({ mark })) })
+    expect(await compare(layered('circle', 'square'), layered('square', 'circle'))).toEqual({
+      same: false,
+      difference: 'Layers are drawn in a different order than in the target.',
+    })
+  })
+
   it('reports a different chart size first', async () => {
     expect((await compare(bar({ width: 400 }), bar({ width: 300, title: 'x' }))).difference).toBe('Chart size: yours 300×300, target 400×300.')
   })
@@ -85,4 +93,9 @@ describe('curated targets', () => {
       expect(compareScenes(scene, await sceneOf(structuredClone(spec))).same, id).toBe(!RANDOM.includes(id))
     }
   }, 60000)
+
+  it('flags the targets that draw differently on every render', async () => {
+    for (const id of RANDOM) expect(await stableSceneOf(targets[id]), id).toBeNull()
+    expect(await stableSceneOf(bar())).not.toBeNull()
+  })
 })
