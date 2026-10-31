@@ -25,6 +25,26 @@ describe('compareScenes', () => {
     expect(await compare(bar(), redundant)).toEqual({ same: true, difference: null })
   })
 
+  it('tells pie labels at different angles apart', async () => {
+    const pie = (theta) => ({
+      data: { values },
+      encoding: { theta: { field: 'price', type: 'quantitative', ...theta }, color: { field: 'brand', type: 'nominal' } },
+      layer: [{ mark: { type: 'arc', outerRadius: 80 } }, { mark: { type: 'text', radius: 60 }, encoding: { text: { field: 'brand' } } }],
+    })
+    // Without stack: true on the text layer, every label sits at the start of its value instead of in its slice.
+    expect((await compare(pie({ stack: true }), pie({ stack: true }))).same).toBe(true)
+    expect((await compare(pie({ stack: true }), pie())).same).toBe(false)
+  })
+
+  it('lets the pixels decide, even when the scene graphs agree', async () => {
+    const target = await sceneOf(bar())
+    expect(target.pixels.data.length).toBeGreaterThan(0)
+    const data = new Uint8ClampedArray(target.pixels.data)
+    data[data.length / 2] ^= 1
+    const mine = { ...target, pixels: { ...target.pixels, data } }
+    expect(compareScenes(target, mine)).toEqual({ same: false, difference: 'Something in the chart still differs from the target.' })
+  })
+
   it('ignores the order of the data rows', async () => {
     expect((await compare(bar(), bar({ data: { values: [...values].reverse() } }))).same).toBe(true)
   })

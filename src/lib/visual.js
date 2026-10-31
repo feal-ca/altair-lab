@@ -1,13 +1,15 @@
 // Visual comparison of two Vega-Lite specs: render both off-screen with Vega and
-// compare what gets drawn (marks, text, colours, tooltips), not how the spec is written.
-// Plain ESM: runs in the browser and in Node.
+// compare what gets drawn, not how the spec is written. The rasterised pixels (plus the
+// tooltips, which pixels can't show) decide whether two charts are the same; the scene
+// graph (marks, text, colours) only explains what differs.
+// Plain ESM: runs in the browser and in Node (where Vega rasterises with the `canvas` package).
 import { View, parse } from 'vega'
 import { compile } from 'vega-lite'
 
 // Item properties that change what the learner sees (or gets on hover).
 const NUM = ['x', 'y', 'x2', 'y2', 'xc', 'yc', 'width', 'height', 'opacity', 'fillOpacity', 'strokeOpacity',
   'strokeWidth', 'size', 'angle', 'fontSize', 'radius', 'innerRadius', 'startAngle', 'endAngle', 'cornerRadius',
-  'limit', 'dx', 'dy']
+  'limit', 'dx', 'dy', 'theta']
 const RAW = ['fill', 'stroke', 'shape', 'text', 'font', 'fontWeight', 'fontStyle', 'align', 'baseline', 'path',
   'strokeDash', 'interpolate', 'tooltip']
 
@@ -51,7 +53,19 @@ function walk(node, axis, out, layers) {
   }
 }
 
-// sceneOf(vegaLiteSpec) -> { width, height, items, layers }. Throws if the spec can't be compiled.
+// The chart as RGBA pixels: { width, height, data }, or null where no canvas is available.
+async function pixelsOf(view) {
+  let canvas
+  try {
+    canvas = await view.toCanvas()
+  } catch {
+    return null
+  }
+  const { width, height } = canvas
+  return { width, height, data: canvas.getContext('2d').getImageData(0, 0, width, height).data }
+}
+
+// sceneOf(vegaLiteSpec) -> { width, height, items, layers, pixels }. Throws if the spec can't be compiled.
 export async function sceneOf(spec) {
   const view = new View(parse(compile(spec, { logger: quiet }).spec), { renderer: 'none', logger: quiet })
   try {
@@ -59,7 +73,7 @@ export async function sceneOf(spec) {
     const items = []
     const layers = []
     walk(view.scenegraph().root, undefined, items, layers)
-    return { width: round(view.width()), height: round(view.height()), items, layers }
+    return { width: round(view.width()), height: round(view.height()), items, layers, pixels: await pixelsOf(view) }
   } finally {
     view.finalize()
   }
@@ -74,6 +88,20 @@ export async function stableSceneOf(spec) {
 
 const sortedKeys = (items) => items.map((i) => i.key).sort()
 const sameList = (a, b) => a.length === b.length && a.every((v, i) => v === b[i])
+
+function samePixels(a, b) {
+  if (a.width !== b.width || a.height !== b.height || a.data.length !== b.data.length) return false
+  for (let i = 0; i < a.data.length; i++) if (a.data[i] !== b.data[i]) return false
+  return true
+}
+const tooltips = (scene) => scene.items.filter((i) => i.props.tooltip !== undefined).map((i) => JSON.stringify([i.role, i.props.tooltip])).sort()
+
+// Whether two scenes draw the same chart. Without pixels (no canvas), the scene graphs decide.
+function sameChart(target, mine) {
+  if (target.pixels && mine.pixels) return samePixels(target.pixels, mine.pixels) && sameList(tooltips(target), tooltips(mine))
+  return target.width === mine.width && target.height === mine.height &&
+    sameList(sortedKeys(target.items), sortedKeys(mine.items)) && sameList(target.layers, mine.layers)
+}
 
 const MARK_NAMES = { rect: 'bar', symbol: 'point', line: 'line point', area: 'area point', rule: 'rule', text: 'text mark', arc: 'arc', trail: 'trail point', shape: 'shape', image: 'image' }
 const PROP_WORDS = { fill: 'colours', stroke: 'colours', opacity: 'opacity', fillOpacity: 'fill opacity', strokeOpacity: 'stroke opacity',
@@ -154,10 +182,11 @@ function describe(role, axis, marktype, t, m) {
 // compareScenes(target, mine) -> { same, difference }: one sentence naming the most
 // noticeable visible difference, or null when both draw the same chart.
 export function compareScenes(target, mine) {
+  if (sameChart(target, mine)) return { same: true, difference: null }
   const sized = target.width === mine.width && target.height === mine.height
   if (sized && sameList(sortedKeys(target.items), sortedKeys(mine.items))) {
     return sameList(target.layers, mine.layers)
-      ? { same: true, difference: null }
+      ? { same: false, difference: 'Something in the chart still differs from the target.' }
       : { same: false, difference: 'Layers are drawn in a different order than in the target.' }
   }
 
