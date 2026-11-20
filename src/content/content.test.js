@@ -57,9 +57,9 @@ describe('datasets', () => {
 });
 
 describe('exercises', () => {
-  it('has 82 exercises numbered 1..82 with unique ids', () => {
-    expect(EXERCISES.map((e) => e.n)).toEqual(Array.from({ length: 82 }, (_, i) => i + 1));
-    expect(new Set(EXERCISES.map((e) => e.id)).size).toBe(82);
+  it('has 92 exercises numbered 1..92 with unique ids', () => {
+    expect(EXERCISES.map((e) => e.n)).toEqual(Array.from({ length: 92 }, (_, i) => i + 1));
+    expect(new Set(EXERCISES.map((e) => e.id)).size).toBe(92);
   });
 
   it('numbers exercises in topic order and leaves no topic empty', () => {

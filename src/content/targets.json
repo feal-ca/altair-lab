@@ -63,6 +63,39 @@
       }
     ]
   },
+  "bk-types-explicit": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/cars.json"
+    },
+    "encoding": {
+      "color": {
+        "field": "Cylinders",
+        "type": "ordinal"
+      },
+      "shape": {
+        "field": "Origin",
+        "type": "nominal"
+      },
+      "x": {
+        "field": "Acceleration",
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "Miles_per_Gallon",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "type": "point"
+    }
+  },
   "bk-wide-layers": {
     "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
     "config": {
@@ -152,39 +185,6 @@
         }
       }
     ]
-  },
-  "bk-types-explicit": {
-    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
-    "config": {
-      "view": {
-        "continuousHeight": 300,
-        "continuousWidth": 300
-      }
-    },
-    "data": {
-      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/cars.json"
-    },
-    "encoding": {
-      "color": {
-        "field": "Cylinders",
-        "type": "ordinal"
-      },
-      "shape": {
-        "field": "Origin",
-        "type": "nominal"
-      },
-      "x": {
-        "field": "Acceleration",
-        "type": "quantitative"
-      },
-      "y": {
-        "field": "Miles_per_Gallon",
-        "type": "quantitative"
-      }
-    },
-    "mark": {
-      "type": "point"
-    }
   },
   "nb1-bar-color": {
     "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
@@ -366,73 +366,6 @@
     },
     "title": "Apple smartphones 2007-2020"
   },
-  "nb1-cars-opacity": {
-    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
-    "config": {
-      "view": {
-        "continuousHeight": 300,
-        "continuousWidth": 300
-      }
-    },
-    "data": {
-      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/cars.json"
-    },
-    "encoding": {
-      "color": {
-        "field": "Origin",
-        "type": "nominal"
-      },
-      "opacity": {
-        "field": "Horsepower",
-        "type": "quantitative"
-      },
-      "x": {
-        "field": "Acceleration",
-        "type": "quantitative"
-      },
-      "y": {
-        "field": "Miles_per_Gallon",
-        "type": "quantitative"
-      }
-    },
-    "mark": {
-      "size": 50,
-      "type": "point"
-    }
-  },
-  "nb1-line-stroke": {
-    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
-    "config": {
-      "view": {
-        "continuousHeight": 300,
-        "continuousWidth": 300
-      }
-    },
-    "data": {
-      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/us-employment.csv"
-    },
-    "encoding": {
-      "x": {
-        "field": "month",
-        "type": "temporal"
-      },
-      "y": {
-        "field": "construction",
-        "type": "quantitative"
-      }
-    },
-    "mark": {
-      "size": 10,
-      "stroke": "black",
-      "strokeDash": [
-        10,
-        50
-      ],
-      "strokeOpacity": 0.5,
-      "strokeWidth": 5,
-      "type": "line"
-    }
-  },
   "bk-donut-order": {
     "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
     "config": {
@@ -513,6 +446,73 @@
       }
     },
     "mark": {
+      "type": "line"
+    }
+  },
+  "nb1-cars-opacity": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/cars.json"
+    },
+    "encoding": {
+      "color": {
+        "field": "Origin",
+        "type": "nominal"
+      },
+      "opacity": {
+        "field": "Horsepower",
+        "type": "quantitative"
+      },
+      "x": {
+        "field": "Acceleration",
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "Miles_per_Gallon",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "size": 50,
+      "type": "point"
+    }
+  },
+  "nb1-line-stroke": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/us-employment.csv"
+    },
+    "encoding": {
+      "x": {
+        "field": "month",
+        "type": "temporal"
+      },
+      "y": {
+        "field": "construction",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "size": 10,
+      "stroke": "black",
+      "strokeDash": [
+        10,
+        50
+      ],
+      "strokeOpacity": 0.5,
+      "strokeWidth": 5,
       "type": "line"
     }
   },
@@ -1682,87 +1682,6 @@
       "type": "errorband"
     }
   },
-  "nb2-pie-labels": {
-    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
-    "config": {
-      "view": {
-        "continuousHeight": 300,
-        "continuousWidth": 300
-      }
-    },
-    "data": {
-      "name": "data-21db903108aafc2d54fe266d6c284c53"
-    },
-    "datasets": {
-      "data-21db903108aafc2d54fe266d6c284c53": [
-        {
-          "fruit": "orange",
-          "value": 4
-        },
-        {
-          "fruit": "pear",
-          "value": 6
-        },
-        {
-          "fruit": "apple",
-          "value": 10
-        },
-        {
-          "fruit": "lemon",
-          "value": 3
-        },
-        {
-          "fruit": "plum",
-          "value": 7
-        }
-      ]
-    },
-    "layer": [
-      {
-        "encoding": {
-          "color": {
-            "field": "fruit",
-            "type": "nominal"
-          },
-          "order": {
-            "field": "value",
-            "sort": "descending",
-            "type": "quantitative"
-          },
-          "theta": {
-            "field": "value",
-            "stack": true,
-            "type": "quantitative"
-          }
-        },
-        "mark": {
-          "type": "arc"
-        }
-      },
-      {
-        "encoding": {
-          "order": {
-            "field": "value",
-            "sort": "descending",
-            "type": "quantitative"
-          },
-          "text": {
-            "field": "fruit",
-            "type": "nominal"
-          },
-          "theta": {
-            "field": "value",
-            "stack": true,
-            "type": "quantitative"
-          }
-        },
-        "mark": {
-          "radius": 100,
-          "type": "text"
-        }
-      }
-    ]
-  },
   "nb2-superposition-jobs": {
     "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
     "config": {
@@ -1999,6 +1918,198 @@
     ],
     "title": "10 most populated countries in Europe in 2023",
     "width": 400
+  },
+  "mv-heatmap-text": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/seattle-weather.csv"
+    },
+    "layer": [
+      {
+        "encoding": {
+          "color": {
+            "aggregate": "count",
+            "scale": {
+              "scheme": "blues"
+            },
+            "type": "quantitative"
+          },
+          "x": {
+            "field": "date",
+            "timeUnit": "month",
+            "type": "ordinal"
+          },
+          "y": {
+            "field": "weather",
+            "type": "nominal"
+          }
+        },
+        "mark": {
+          "type": "rect"
+        }
+      },
+      {
+        "encoding": {
+          "text": {
+            "aggregate": "count",
+            "type": "quantitative"
+          },
+          "x": {
+            "field": "date",
+            "timeUnit": "month",
+            "type": "ordinal"
+          },
+          "y": {
+            "field": "weather",
+            "type": "nominal"
+          }
+        },
+        "mark": {
+          "type": "text"
+        }
+      }
+    ]
+  },
+  "mv-hconcat-weather": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/seattle-weather.csv"
+    },
+    "hconcat": [
+      {
+        "encoding": {
+          "color": {
+            "field": "weather",
+            "type": "nominal"
+          },
+          "x": {
+            "field": "weather",
+            "type": "nominal"
+          },
+          "y": {
+            "aggregate": "count",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "type": "bar"
+        }
+      },
+      {
+        "encoding": {
+          "color": {
+            "field": "weather",
+            "type": "nominal"
+          },
+          "x": {
+            "field": "temp_max",
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "precipitation",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "filled": true,
+          "opacity": 0.5,
+          "type": "point"
+        }
+      }
+    ]
+  },
+  "nb2-pie-labels": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "name": "data-21db903108aafc2d54fe266d6c284c53"
+    },
+    "datasets": {
+      "data-21db903108aafc2d54fe266d6c284c53": [
+        {
+          "fruit": "orange",
+          "value": 4
+        },
+        {
+          "fruit": "pear",
+          "value": 6
+        },
+        {
+          "fruit": "apple",
+          "value": 10
+        },
+        {
+          "fruit": "lemon",
+          "value": 3
+        },
+        {
+          "fruit": "plum",
+          "value": 7
+        }
+      ]
+    },
+    "layer": [
+      {
+        "encoding": {
+          "color": {
+            "field": "fruit",
+            "type": "nominal"
+          },
+          "order": {
+            "field": "value",
+            "sort": "descending",
+            "type": "quantitative"
+          },
+          "theta": {
+            "field": "value",
+            "stack": true,
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "type": "arc"
+        }
+      },
+      {
+        "encoding": {
+          "order": {
+            "field": "value",
+            "sort": "descending",
+            "type": "quantitative"
+          },
+          "text": {
+            "field": "fruit",
+            "type": "nominal"
+          },
+          "theta": {
+            "field": "value",
+            "stack": true,
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "radius": 100,
+          "type": "text"
+        }
+      }
+    ]
   },
   "nb2-connected-dot": {
     "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
@@ -2528,63 +2639,6 @@
         "mark": {
           "type": "text",
           "xOffset": 20
-        }
-      }
-    ]
-  },
-  "mv-heatmap-text": {
-    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
-    "config": {
-      "view": {
-        "continuousHeight": 300,
-        "continuousWidth": 300
-      }
-    },
-    "data": {
-      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/seattle-weather.csv"
-    },
-    "layer": [
-      {
-        "encoding": {
-          "color": {
-            "aggregate": "count",
-            "scale": {
-              "scheme": "blues"
-            },
-            "type": "quantitative"
-          },
-          "x": {
-            "field": "date",
-            "timeUnit": "month",
-            "type": "ordinal"
-          },
-          "y": {
-            "field": "weather",
-            "type": "nominal"
-          }
-        },
-        "mark": {
-          "type": "rect"
-        }
-      },
-      {
-        "encoding": {
-          "text": {
-            "aggregate": "count",
-            "type": "quantitative"
-          },
-          "x": {
-            "field": "date",
-            "timeUnit": "month",
-            "type": "ordinal"
-          },
-          "y": {
-            "field": "weather",
-            "type": "nominal"
-          }
-        },
-        "mark": {
-          "type": "text"
         }
       }
     ]
@@ -3422,60 +3476,6 @@
       }
     }
   },
-  "mv-hconcat-weather": {
-    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
-    "config": {
-      "view": {
-        "continuousHeight": 300,
-        "continuousWidth": 300
-      }
-    },
-    "data": {
-      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/seattle-weather.csv"
-    },
-    "hconcat": [
-      {
-        "encoding": {
-          "color": {
-            "field": "weather",
-            "type": "nominal"
-          },
-          "x": {
-            "field": "weather",
-            "type": "nominal"
-          },
-          "y": {
-            "aggregate": "count",
-            "type": "quantitative"
-          }
-        },
-        "mark": {
-          "type": "bar"
-        }
-      },
-      {
-        "encoding": {
-          "color": {
-            "field": "weather",
-            "type": "nominal"
-          },
-          "x": {
-            "field": "temp_max",
-            "type": "quantitative"
-          },
-          "y": {
-            "field": "precipitation",
-            "type": "quantitative"
-          }
-        },
-        "mark": {
-          "filled": true,
-          "opacity": 0.5,
-          "type": "point"
-        }
-      }
-    ]
-  },
   "mv-boxplot-strip": {
     "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
     "config": {
@@ -3672,6 +3672,41 @@
       "type": "line"
     }
   },
+  "bk-punchcard": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/github.csv"
+    },
+    "encoding": {
+      "color": {
+        "aggregate": "sum",
+        "field": "count",
+        "legend": {
+          "title": "Contributions"
+        },
+        "type": "quantitative"
+      },
+      "x": {
+        "field": "time",
+        "timeUnit": "hours",
+        "type": "ordinal"
+      },
+      "y": {
+        "field": "time",
+        "timeUnit": "day",
+        "type": "ordinal"
+      }
+    },
+    "mark": {
+      "type": "rect"
+    }
+  },
   "bk-trail": {
     "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
     "config": {
@@ -3736,41 +3771,6 @@
         "filter": "(datum.symbol === 'GOOG')"
       }
     ]
-  },
-  "bk-punchcard": {
-    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
-    "config": {
-      "view": {
-        "continuousHeight": 300,
-        "continuousWidth": 300
-      }
-    },
-    "data": {
-      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/github.csv"
-    },
-    "encoding": {
-      "color": {
-        "aggregate": "sum",
-        "field": "count",
-        "legend": {
-          "title": "Contributions"
-        },
-        "type": "quantitative"
-      },
-      "x": {
-        "field": "time",
-        "timeUnit": "hours",
-        "type": "ordinal"
-      },
-      "y": {
-        "field": "time",
-        "timeUnit": "day",
-        "type": "ordinal"
-      }
-    },
-    "mark": {
-      "type": "rect"
-    }
   },
   "bk-binned-heatmap": {
     "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
@@ -4332,6 +4332,130 @@
     ],
     "width": 500
   },
+  "bk-transform-aggregate": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/cars.json"
+    },
+    "encoding": {
+      "x": {
+        "field": "avgMPG",
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "Cylinders",
+        "type": "ordinal"
+      }
+    },
+    "mark": {
+      "type": "bar"
+    },
+    "transform": [
+      {
+        "aggregate": [
+          {
+            "as": "avgMPG",
+            "field": "Miles_per_Gallon",
+            "op": "mean"
+          }
+        ],
+        "groupby": [
+          "Cylinders"
+        ]
+      }
+    ]
+  },
+  "bk-lookup-regions": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/gapminder.json"
+    },
+    "datasets": {
+      "data-92bf09133372877210548ff74a246489": [
+        {
+          "id": 0,
+          "region": "South Asia"
+        },
+        {
+          "id": 1,
+          "region": "Europe & Central Asia"
+        },
+        {
+          "id": 2,
+          "region": "Sub-Saharan Africa"
+        },
+        {
+          "id": 3,
+          "region": "America"
+        },
+        {
+          "id": 4,
+          "region": "East Asia & Pacific"
+        },
+        {
+          "id": 5,
+          "region": "Middle East & North Africa"
+        }
+      ]
+    },
+    "encoding": {
+      "color": {
+        "field": "region",
+        "type": "nominal"
+      },
+      "tooltip": [
+        {
+          "field": "country",
+          "type": "nominal"
+        },
+        {
+          "field": "region",
+          "type": "nominal"
+        }
+      ],
+      "x": {
+        "field": "fertility",
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "life_expect",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "size": 60,
+      "type": "circle"
+    },
+    "transform": [
+      {
+        "from": {
+          "data": {
+            "name": "data-92bf09133372877210548ff74a246489"
+          },
+          "fields": [
+            "region"
+          ],
+          "key": "id"
+        },
+        "lookup": "cluster"
+      },
+      {
+        "filter": "(datum.year === 2005)"
+      }
+    ]
+  },
   "nb2-parallel-coords": {
     "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
     "config": {
@@ -4417,45 +4541,6 @@
       }
     ],
     "width": 500
-  },
-  "bk-transform-aggregate": {
-    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
-    "config": {
-      "view": {
-        "continuousHeight": 300,
-        "continuousWidth": 300
-      }
-    },
-    "data": {
-      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/cars.json"
-    },
-    "encoding": {
-      "x": {
-        "field": "avgMPG",
-        "type": "quantitative"
-      },
-      "y": {
-        "field": "Cylinders",
-        "type": "ordinal"
-      }
-    },
-    "mark": {
-      "type": "bar"
-    },
-    "transform": [
-      {
-        "aggregate": [
-          {
-            "as": "avgMPG",
-            "field": "Miles_per_Gallon",
-            "op": "mean"
-          }
-        ],
-        "groupby": [
-          "Cylinders"
-        ]
-      }
-    ]
   },
   "bk-transform-bin": {
     "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
@@ -5343,91 +5428,6 @@
       }
     ]
   },
-  "bk-lookup-regions": {
-    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
-    "config": {
-      "view": {
-        "continuousHeight": 300,
-        "continuousWidth": 300
-      }
-    },
-    "data": {
-      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/gapminder.json"
-    },
-    "datasets": {
-      "data-92bf09133372877210548ff74a246489": [
-        {
-          "id": 0,
-          "region": "South Asia"
-        },
-        {
-          "id": 1,
-          "region": "Europe & Central Asia"
-        },
-        {
-          "id": 2,
-          "region": "Sub-Saharan Africa"
-        },
-        {
-          "id": 3,
-          "region": "America"
-        },
-        {
-          "id": 4,
-          "region": "East Asia & Pacific"
-        },
-        {
-          "id": 5,
-          "region": "Middle East & North Africa"
-        }
-      ]
-    },
-    "encoding": {
-      "color": {
-        "field": "region",
-        "type": "nominal"
-      },
-      "tooltip": [
-        {
-          "field": "country",
-          "type": "nominal"
-        },
-        {
-          "field": "region",
-          "type": "nominal"
-        }
-      ],
-      "x": {
-        "field": "fertility",
-        "type": "quantitative"
-      },
-      "y": {
-        "field": "life_expect",
-        "type": "quantitative"
-      }
-    },
-    "mark": {
-      "size": 60,
-      "type": "circle"
-    },
-    "transform": [
-      {
-        "from": {
-          "data": {
-            "name": "data-92bf09133372877210548ff74a246489"
-          },
-          "fields": [
-            "region"
-          ],
-          "key": "id"
-        },
-        "lookup": "cluster"
-      },
-      {
-        "filter": "(datum.year === 2005)"
-      }
-    ]
-  },
   "nb1-jobs-scale": {
     "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
     "config": {
@@ -5513,48 +5513,6 @@
     "mark": {
       "type": "bar"
     }
-  },
-  "bk-legend-config": {
-    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
-    "config": {
-      "legend": {
-        "cornerRadius": 5,
-        "fillColor": "#EEEEFF",
-        "orient": "top-right",
-        "padding": 5,
-        "strokeColor": "gray"
-      },
-      "view": {
-        "continuousHeight": 300,
-        "continuousWidth": 300
-      }
-    },
-    "data": {
-      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/stocks.csv"
-    },
-    "encoding": {
-      "color": {
-        "field": "symbol",
-        "title": "Stock",
-        "type": "nominal"
-      },
-      "x": {
-        "aggregate": "max",
-        "field": "price",
-        "type": "quantitative"
-      },
-      "y": {
-        "field": "symbol",
-        "title": "",
-        "type": "nominal"
-      }
-    },
-    "height": 300,
-    "mark": {
-      "type": "bar"
-    },
-    "title": "Max stock prices",
-    "width": 350
   },
   "bk-annotate-minmax": {
     "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
@@ -5664,6 +5622,48 @@
       }
     ]
   },
+  "bk-legend-config": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "legend": {
+        "cornerRadius": 5,
+        "fillColor": "#EEEEFF",
+        "orient": "top-right",
+        "padding": 5,
+        "strokeColor": "gray"
+      },
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/stocks.csv"
+    },
+    "encoding": {
+      "color": {
+        "field": "symbol",
+        "title": "Stock",
+        "type": "nominal"
+      },
+      "x": {
+        "aggregate": "max",
+        "field": "price",
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "symbol",
+        "title": "",
+        "type": "nominal"
+      }
+    },
+    "height": 300,
+    "mark": {
+      "type": "bar"
+    },
+    "title": "Max stock prices",
+    "width": 350
+  },
   "bk-emoji-weather": {
     "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
     "config": {
@@ -5705,7 +5705,7 @@
       }
     ]
   },
-  "bk-interactive-zoom": {
+  "nb3-brush-both": {
     "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
     "config": {
       "view": {
@@ -5716,53 +5716,82 @@
     "data": {
       "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/gapminder.json"
     },
-    "encoding": {
-      "color": {
-        "field": "country",
-        "title": "Country",
-        "type": "nominal"
-      },
-      "size": {
-        "field": "pop",
-        "title": "Population",
-        "type": "quantitative"
-      },
-      "x": {
-        "field": "fertility",
-        "scale": {
-          "domain": [
-            0,
-            9
-          ]
-        },
-        "title": "Fertility rate",
-        "type": "quantitative"
-      },
-      "y": {
-        "field": "life_expect",
-        "title": "Life expectancy",
-        "type": "quantitative"
-      }
-    },
-    "mark": {
-      "type": "circle"
-    },
-    "params": [
+    "hconcat": [
       {
-        "bind": "scales",
-        "name": "param_1e9efca18e7a2868",
-        "select": {
-          "encodings": [
-            "x",
-            "y"
-          ],
-          "type": "interval"
-        }
+        "encoding": {
+          "color": {
+            "condition": {
+              "empty": false,
+              "field": "country",
+              "param": "param_866362bba88859b2",
+              "type": "nominal"
+            },
+            "value": "lightgray"
+          },
+          "x": {
+            "field": "life_expect",
+            "title": "Life expectancy",
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "pop",
+            "title": "Population",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "type": "circle"
+        },
+        "name": "view_e113944d3bdc155b_0",
+        "transform": [
+          {
+            "filter": "((datum.year > 1980) && (datum.pop > 100000000))"
+          }
+        ]
+      },
+      {
+        "encoding": {
+          "color": {
+            "condition": {
+              "empty": false,
+              "field": "country",
+              "param": "param_866362bba88859b2",
+              "type": "nominal"
+            },
+            "value": "lightgray"
+          },
+          "x": {
+            "field": "life_expect",
+            "title": "Life expectancy",
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "fertility",
+            "title": "Fertility",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "type": "circle"
+        },
+        "name": "view_d7e295907d11f7e3_1",
+        "transform": [
+          {
+            "filter": "((datum.year > 1980) && (datum.pop > 100000000))"
+          }
+        ]
       }
     ],
-    "transform": [
+    "params": [
       {
-        "filter": "((datum.year > 1980) && ((datum.country === 'Argentina') || (datum.country === 'Afghanistan')))"
+        "name": "param_866362bba88859b2",
+        "select": {
+          "type": "interval"
+        },
+        "views": [
+          "view_e113944d3bdc155b_0",
+          "view_d7e295907d11f7e3_1"
+        ]
       }
     ]
   },
@@ -5889,6 +5918,1145 @@
     "transform": [
       {
         "filter": "((datum.year > 1980) && ((datum.country === 'Afghanistan') || (datum.country === 'Argentina')))"
+      }
+    ]
+  },
+  "bk-legend-selector": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/cars.json"
+    },
+    "hconcat": [
+      {
+        "encoding": {
+          "color": {
+            "condition": {
+              "field": "Origin",
+              "legend": null,
+              "param": "param_f650f34d656e1ca0",
+              "type": "nominal"
+            },
+            "value": "lightgray"
+          },
+          "tooltip": {
+            "field": "Name",
+            "type": "nominal"
+          },
+          "x": {
+            "field": "Horsepower",
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "Miles_per_Gallon",
+            "title": "Miles per gallon",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "type": "point"
+        }
+      },
+      {
+        "encoding": {
+          "color": {
+            "condition": {
+              "field": "Origin",
+              "legend": null,
+              "param": "param_f650f34d656e1ca0",
+              "type": "nominal"
+            },
+            "value": "lightgray"
+          },
+          "y": {
+            "axis": {
+              "orient": "right"
+            },
+            "field": "Origin",
+            "type": "nominal"
+          }
+        },
+        "mark": {
+          "size": 120,
+          "type": "circle"
+        },
+        "name": "view_e0cb02889315a5cc_1"
+      }
+    ],
+    "params": [
+      {
+        "name": "param_f650f34d656e1ca0",
+        "select": {
+          "encodings": [
+            "color"
+          ],
+          "type": "point"
+        },
+        "views": [
+          "view_e0cb02889315a5cc_1"
+        ]
+      }
+    ]
+  },
+  "nb3-opacity-slider": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/gapminder.json"
+    },
+    "encoding": {
+      "color": {
+        "field": "country",
+        "type": "nominal"
+      },
+      "x": {
+        "field": "fertility",
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "life_expect",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "opacity": {
+        "expr": "param_830b791faf4d4286"
+      },
+      "type": "circle"
+    },
+    "params": [
+      {
+        "bind": {
+          "input": "range",
+          "max": 1,
+          "min": 0,
+          "name": "opacity: ",
+          "step": 0.05
+        },
+        "name": "param_830b791faf4d4286",
+        "value": 0.3
+      }
+    ],
+    "transform": [
+      {
+        "filter": "((datum.year > 1960) && ((datum.country === 'Afghanistan') || (datum.country === 'Argentina')))"
+      }
+    ]
+  },
+  "nb3-hover-highlight": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/gapminder.json"
+    },
+    "encoding": {
+      "color": {
+        "field": "country",
+        "type": "nominal"
+      },
+      "opacity": {
+        "condition": [
+          {
+            "param": "param_40835c424a2d0e25",
+            "value": 1
+          }
+        ],
+        "value": 0.2
+      },
+      "x": {
+        "field": "fertility",
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "life_expect",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "type": "circle"
+    },
+    "params": [
+      {
+        "name": "param_40835c424a2d0e25",
+        "select": {
+          "nearest": true,
+          "on": "pointerover",
+          "type": "point"
+        }
+      }
+    ],
+    "transform": [
+      {
+        "filter": "((datum.year > 1980) && ((datum.country === 'Afghanistan') || (datum.country === 'Argentina')))"
+      }
+    ]
+  },
+  "nb3-legend-filter": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/cars.json"
+    },
+    "encoding": {
+      "color": {
+        "field": "Origin",
+        "type": "nominal"
+      },
+      "opacity": {
+        "condition": [
+          {
+            "param": "param_7b0ea7291150acf9",
+            "value": 1
+          }
+        ],
+        "value": 0.1
+      },
+      "tooltip": {
+        "field": "Name",
+        "type": "nominal"
+      },
+      "x": {
+        "field": "Horsepower",
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "Miles_per_Gallon",
+        "title": "Miles per gallon",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "filled": true,
+      "type": "point"
+    },
+    "params": [
+      {
+        "bind": "legend",
+        "name": "param_7b0ea7291150acf9",
+        "select": {
+          "fields": [
+            "Origin"
+          ],
+          "type": "point"
+        }
+      }
+    ]
+  },
+  "nb3-multiline-hover": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/stocks.csv"
+    },
+    "height": 300,
+    "layer": [
+      {
+        "encoding": {
+          "color": {
+            "field": "symbol",
+            "type": "nominal"
+          },
+          "x": {
+            "field": "date",
+            "type": "temporal"
+          },
+          "y": {
+            "field": "price",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "interpolate": "basis",
+          "type": "line"
+        }
+      },
+      {
+        "encoding": {
+          "opacity": {
+            "value": 0
+          },
+          "x": {
+            "field": "date",
+            "type": "temporal"
+          }
+        },
+        "mark": {
+          "type": "point"
+        },
+        "name": "view_18e8945d6790727b_1"
+      },
+      {
+        "encoding": {
+          "color": {
+            "field": "symbol",
+            "type": "nominal"
+          },
+          "opacity": {
+            "condition": [
+              {
+                "empty": false,
+                "param": "param_ee5dd68014745b8d",
+                "value": 1
+              }
+            ],
+            "value": 0
+          },
+          "x": {
+            "field": "date",
+            "type": "temporal"
+          },
+          "y": {
+            "field": "price",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "type": "point"
+        }
+      },
+      {
+        "encoding": {
+          "x": {
+            "field": "date",
+            "type": "temporal"
+          }
+        },
+        "mark": {
+          "color": "gray",
+          "type": "rule"
+        },
+        "transform": [
+          {
+            "filter": {
+              "empty": false,
+              "param": "param_ee5dd68014745b8d"
+            }
+          }
+        ]
+      },
+      {
+        "encoding": {
+          "color": {
+            "field": "symbol",
+            "type": "nominal"
+          },
+          "text": {
+            "condition": {
+              "empty": false,
+              "field": "price",
+              "param": "param_ee5dd68014745b8d",
+              "type": "quantitative"
+            },
+            "value": " "
+          },
+          "x": {
+            "field": "date",
+            "type": "temporal"
+          },
+          "y": {
+            "field": "price",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "align": "left",
+          "dx": 5,
+          "dy": -5,
+          "type": "text"
+        }
+      }
+    ],
+    "params": [
+      {
+        "name": "param_ee5dd68014745b8d",
+        "select": {
+          "fields": [
+            "date"
+          ],
+          "nearest": true,
+          "on": "pointerover",
+          "type": "point"
+        },
+        "views": [
+          "view_18e8945d6790727b_1"
+        ]
+      }
+    ],
+    "width": 600
+  },
+  "nb3-search-hover": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/gapminder.json"
+    },
+    "encoding": {
+      "color": {
+        "field": "cluster",
+        "title": "Region",
+        "type": "nominal"
+      },
+      "opacity": {
+        "condition": [
+          {
+            "test": {
+              "and": [
+                {
+                  "param": "param_89dcd7337afc26bd"
+                },
+                "test(regexp(param_82df1923d868131d,'i'),datum.country)"
+              ]
+            },
+            "value": 0.8
+          }
+        ],
+        "value": 0.1
+      },
+      "tooltip": {
+        "field": "country",
+        "type": "nominal"
+      },
+      "x": {
+        "field": "fertility",
+        "scale": {
+          "zero": false
+        },
+        "title": "Babies per woman",
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "life_expect",
+        "scale": {
+          "zero": false
+        },
+        "title": "Life expectancy",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "size": 100,
+      "type": "circle"
+    },
+    "params": [
+      {
+        "bind": {
+          "input": "search",
+          "name": "Search ",
+          "placeholder": "Country"
+        },
+        "name": "param_82df1923d868131d",
+        "value": ""
+      },
+      {
+        "name": "param_89dcd7337afc26bd",
+        "select": {
+          "fields": [
+            "country"
+          ],
+          "on": "pointerover",
+          "type": "point"
+        }
+      }
+    ],
+    "transform": [
+      {
+        "filter": "(datum.year === 2005)"
+      }
+    ]
+  },
+  "nb3-year-background": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/gapminder.json"
+    },
+    "height": 500,
+    "layer": [
+      {
+        "encoding": {
+          "text": {
+            "field": "year",
+            "type": "ordinal"
+          }
+        },
+        "mark": {
+          "baseline": "middle",
+          "fontSize": 96,
+          "opacity": 0.2,
+          "type": "text"
+        },
+        "transform": [
+          {
+            "filter": {
+              "param": "param_ecbcba4b1ee7b267"
+            }
+          },
+          {
+            "aggregate": [
+              {
+                "as": "year",
+                "field": "year",
+                "op": "max"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "encoding": {
+          "color": {
+            "field": "region",
+            "scale": {
+              "scheme": "dark2"
+            },
+            "title": "Region",
+            "type": "nominal"
+          },
+          "tooltip": {
+            "field": "country",
+            "type": "nominal"
+          },
+          "x": {
+            "field": "fertility",
+            "scale": {
+              "domain": [
+                0,
+                9
+              ]
+            },
+            "title": "Babies per woman",
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "life_expect",
+            "scale": {
+              "domain": [
+                20,
+                85
+              ]
+            },
+            "title": "Life expectancy",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "opacity": 0.8,
+          "size": 100,
+          "type": "circle"
+        },
+        "name": "view_cb49464b9c02362d_1",
+        "transform": [
+          {
+            "as": "region",
+            "calculate": "{\n    '0': 'South Asia',\n    '1': 'Europe & Central Asia',\n    '2': 'Sub-Saharan Africa',\n    '3': 'The Americas',\n    '4': 'East Asia & Pacific',\n    '5': 'Middle East & North Africa'\n}[datum.cluster]"
+          },
+          {
+            "filter": {
+              "param": "param_ecbcba4b1ee7b267"
+            }
+          }
+        ]
+      }
+    ],
+    "params": [
+      {
+        "bind": {
+          "input": "range",
+          "max": 2005,
+          "min": 1955,
+          "name": "Year ",
+          "step": 5
+        },
+        "name": "param_ecbcba4b1ee7b267",
+        "select": {
+          "fields": [
+            "year"
+          ],
+          "type": "point"
+        },
+        "value": 1980,
+        "views": [
+          "view_cb49464b9c02362d_1"
+        ]
+      }
+    ],
+    "width": 500
+  },
+  "nb3-hover-trail": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/gapminder.json"
+    },
+    "layer": [
+      {
+        "encoding": {
+          "detail": {
+            "field": "country",
+            "type": "nominal"
+          },
+          "opacity": {
+            "condition": [
+              {
+                "empty": false,
+                "param": "param_2216c638d57b9d68",
+                "value": 0.3
+              }
+            ],
+            "value": 0
+          },
+          "order": {
+            "field": "year",
+            "type": "quantitative"
+          },
+          "size": {
+            "field": "year",
+            "legend": null,
+            "scale": {
+              "domain": [
+                1955,
+                2005
+              ],
+              "range": [
+                1,
+                12
+              ]
+            },
+            "type": "quantitative"
+          },
+          "x": {
+            "field": "fertility",
+            "scale": {
+              "domain": [
+                0,
+                9
+              ]
+            },
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "life_expect",
+            "scale": {
+              "domain": [
+                20,
+                85
+              ]
+            },
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "color": "#222222",
+          "type": "trail"
+        }
+      },
+      {
+        "encoding": {
+          "color": {
+            "field": "cluster",
+            "type": "nominal"
+          },
+          "detail": {
+            "field": "country",
+            "type": "nominal"
+          },
+          "x": {
+            "field": "fertility",
+            "scale": {
+              "domain": [
+                0,
+                9
+              ]
+            },
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "life_expect",
+            "scale": {
+              "domain": [
+                20,
+                85
+              ]
+            },
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "opacity": 0.8,
+          "size": 100,
+          "type": "circle"
+        },
+        "name": "view_39fe686c1148caf7_1",
+        "transform": [
+          {
+            "filter": "(datum.year === 2005)"
+          }
+        ]
+      },
+      {
+        "encoding": {
+          "detail": {
+            "field": "country",
+            "type": "nominal"
+          },
+          "text": {
+            "field": "year",
+            "type": "ordinal"
+          },
+          "x": {
+            "field": "fertility",
+            "scale": {
+              "domain": [
+                0,
+                9
+              ]
+            },
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "life_expect",
+            "scale": {
+              "domain": [
+                20,
+                85
+              ]
+            },
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "align": "left",
+          "dx": 5,
+          "dy": -5,
+          "type": "text"
+        },
+        "transform": [
+          {
+            "filter": {
+              "empty": false,
+              "param": "param_2216c638d57b9d68"
+            }
+          }
+        ]
+      }
+    ],
+    "params": [
+      {
+        "name": "param_2216c638d57b9d68",
+        "select": {
+          "fields": [
+            "country"
+          ],
+          "on": "pointerover",
+          "type": "point"
+        },
+        "views": [
+          "view_39fe686c1148caf7_1"
+        ]
+      }
+    ]
+  },
+  "nb3-hover-detail": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/gapminder.json"
+    },
+    "hconcat": [
+      {
+        "encoding": {
+          "color": {
+            "field": "cluster",
+            "type": "nominal"
+          },
+          "opacity": {
+            "condition": [
+              {
+                "param": "param_7a290044e6bc2158",
+                "value": 1
+              }
+            ],
+            "value": 0.3
+          },
+          "tooltip": {
+            "field": "country",
+            "type": "nominal"
+          },
+          "x": {
+            "field": "fertility",
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "life_expect",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "size": 80,
+          "type": "circle"
+        },
+        "name": "view_a0f10e5e34523b09_0",
+        "transform": [
+          {
+            "filter": "(datum.year === 2005)"
+          }
+        ]
+      },
+      {
+        "layer": [
+          {
+            "encoding": {
+              "x": {
+                "field": "year",
+                "title": null,
+                "type": "ordinal"
+              },
+              "y": {
+                "field": "life_expect",
+                "scale": {
+                  "zero": false
+                },
+                "title": "Life expectancy",
+                "type": "quantitative"
+              }
+            },
+            "mark": {
+              "color": "#1f77b4",
+              "type": "line"
+            },
+            "transform": [
+              {
+                "filter": {
+                  "param": "param_7a290044e6bc2158"
+                }
+              }
+            ]
+          },
+          {
+            "encoding": {
+              "x": {
+                "field": "year",
+                "title": null,
+                "type": "ordinal"
+              },
+              "y": {
+                "axis": {
+                  "orient": "right"
+                },
+                "field": "fertility",
+                "scale": {
+                  "zero": false
+                },
+                "title": "Fertility",
+                "type": "quantitative"
+              }
+            },
+            "mark": {
+              "color": "#d62728",
+              "strokeDash": [
+                4,
+                3
+              ],
+              "type": "line"
+            },
+            "transform": [
+              {
+                "filter": {
+                  "param": "param_7a290044e6bc2158"
+                }
+              }
+            ]
+          }
+        ],
+        "resolve": {
+          "scale": {
+            "y": "independent"
+          }
+        }
+      }
+    ],
+    "params": [
+      {
+        "name": "param_7a290044e6bc2158",
+        "select": {
+          "fields": [
+            "country"
+          ],
+          "on": "pointerover",
+          "type": "point"
+        },
+        "value": [
+          {
+            "country": "Spain"
+          }
+        ],
+        "views": [
+          "view_a0f10e5e34523b09_0"
+        ]
+      }
+    ]
+  },
+  "nb3-raincloud-toggles": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/gapminder.json"
+    },
+    "height": 400,
+    "layer": [
+      {
+        "encoding": {
+          "opacity": {
+            "condition": [
+              {
+                "param": "param_3be7dfc44f4977b8",
+                "value": 0.6
+              }
+            ],
+            "value": 0
+          },
+          "x": {
+            "axis": null,
+            "field": "x",
+            "scale": {
+              "domain": [
+                -0.06,
+                0.06
+              ]
+            },
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "life_expect",
+            "title": "Life expectancy",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "orient": "horizontal",
+          "type": "area"
+        },
+        "transform": [
+          {
+            "as": [
+              "life_expect",
+              "density"
+            ],
+            "density": "life_expect"
+          },
+          {
+            "as": "x",
+            "calculate": "param_4aa7a0bebef70c71 == 'right' ? datum.density : -datum.density"
+          }
+        ]
+      },
+      {
+        "encoding": {
+          "opacity": {
+            "condition": [
+              {
+                "param": "param_c3875eb9285dd8f9",
+                "value": 0.4
+              }
+            ],
+            "value": 0
+          },
+          "x": {
+            "axis": null,
+            "field": "jitter",
+            "scale": {
+              "domain": [
+                -1.2,
+                1.2
+              ]
+            },
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "life_expect",
+            "title": "Life expectancy",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "size": 8,
+          "type": "circle"
+        },
+        "transform": [
+          {
+            "window": [
+              {
+                "as": "row",
+                "field": "",
+                "op": "row_number"
+              }
+            ]
+          },
+          {
+            "as": "jitter",
+            "calculate": "(param_4aa7a0bebef70c71 == 'right' ? -1 : 1) * (0.2 + 0.6 * ((datum.row * 0.618034) % 1))"
+          }
+        ]
+      },
+      {
+        "encoding": {
+          "y": {
+            "field": "life_expect",
+            "title": "Life expectancy",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "size": 24,
+          "type": "boxplot"
+        }
+      }
+    ],
+    "params": [
+      {
+        "bind": {
+          "input": "checkbox",
+          "name": "Violin "
+        },
+        "name": "param_3be7dfc44f4977b8",
+        "value": true
+      },
+      {
+        "bind": {
+          "input": "checkbox",
+          "name": "Strip "
+        },
+        "name": "param_c3875eb9285dd8f9",
+        "value": true
+      },
+      {
+        "bind": {
+          "input": "radio",
+          "name": "Violin side ",
+          "options": [
+            "right",
+            "left"
+          ]
+        },
+        "name": "param_4aa7a0bebef70c71",
+        "value": "right"
+      }
+    ],
+    "resolve": {
+      "scale": {
+        "x": "independent"
+      }
+    },
+    "width": 300
+  },
+  "bk-interactive-zoom": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/gapminder.json"
+    },
+    "encoding": {
+      "color": {
+        "field": "country",
+        "title": "Country",
+        "type": "nominal"
+      },
+      "size": {
+        "field": "pop",
+        "title": "Population",
+        "type": "quantitative"
+      },
+      "x": {
+        "field": "fertility",
+        "scale": {
+          "domain": [
+            0,
+            9
+          ]
+        },
+        "title": "Fertility rate",
+        "type": "quantitative"
+      },
+      "y": {
+        "field": "life_expect",
+        "title": "Life expectancy",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "type": "circle"
+    },
+    "params": [
+      {
+        "bind": "scales",
+        "name": "param_1e9efca18e7a2868",
+        "select": {
+          "encodings": [
+            "x",
+            "y"
+          ],
+          "type": "interval"
+        }
+      }
+    ],
+    "transform": [
+      {
+        "filter": "((datum.year > 1980) && ((datum.country === 'Argentina') || (datum.country === 'Afghanistan')))"
       }
     ]
   },
@@ -6051,88 +7219,6 @@
         },
         "views": [
           "view_e0ac19143878b266_0"
-        ]
-      }
-    ]
-  },
-  "bk-legend-selector": {
-    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
-    "config": {
-      "view": {
-        "continuousHeight": 300,
-        "continuousWidth": 300
-      }
-    },
-    "data": {
-      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/cars.json"
-    },
-    "hconcat": [
-      {
-        "encoding": {
-          "color": {
-            "condition": {
-              "field": "Origin",
-              "legend": null,
-              "param": "param_f650f34d656e1ca0",
-              "type": "nominal"
-            },
-            "value": "lightgray"
-          },
-          "tooltip": {
-            "field": "Name",
-            "type": "nominal"
-          },
-          "x": {
-            "field": "Horsepower",
-            "type": "quantitative"
-          },
-          "y": {
-            "field": "Miles_per_Gallon",
-            "title": "Miles per gallon",
-            "type": "quantitative"
-          }
-        },
-        "mark": {
-          "type": "point"
-        }
-      },
-      {
-        "encoding": {
-          "color": {
-            "condition": {
-              "field": "Origin",
-              "legend": null,
-              "param": "param_f650f34d656e1ca0",
-              "type": "nominal"
-            },
-            "value": "lightgray"
-          },
-          "y": {
-            "axis": {
-              "orient": "right"
-            },
-            "field": "Origin",
-            "type": "nominal"
-          }
-        },
-        "mark": {
-          "size": 120,
-          "type": "circle"
-        },
-        "name": "view_e0cb02889315a5cc_1"
-      }
-    ],
-    "params": [
-      {
-        "name": "param_f650f34d656e1ca0",
-        "select": {
-          "encodings": [
-            "color"
-          ],
-          "type": "point"
-        },
-        "views": [
-          "view_e0cb02889315a5cc_1"
         ]
       }
     ]
@@ -7630,41 +8716,6 @@
       "type": "bar"
     }
   },
-  "bk-trellis-area": {
-    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
-    "config": {
-      "view": {
-        "continuousHeight": 300,
-        "continuousWidth": 300
-      }
-    },
-    "data": {
-      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/iowa-electricity.csv"
-    },
-    "encoding": {
-      "color": {
-        "field": "source",
-        "type": "nominal"
-      },
-      "column": {
-        "field": "source",
-        "type": "nominal"
-      },
-      "x": {
-        "field": "year",
-        "type": "temporal"
-      },
-      "y": {
-        "field": "net_generation",
-        "type": "quantitative"
-      }
-    },
-    "mark": {
-      "opacity": 0.6,
-      "type": "area"
-    },
-    "width": 200
-  },
   "bk-repeat-matrix": {
     "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
     "config": {
@@ -7710,120 +8761,6 @@
         "type": "point"
       },
       "width": 200
-    }
-  },
-  "bk-facet-hover": {
-    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
-    "config": {
-      "view": {
-        "continuousHeight": 300,
-        "continuousWidth": 300
-      }
-    },
-    "data": {
-      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/iris.json"
-    },
-    "facet": {
-      "field": "species",
-      "type": "nominal"
-    },
-    "params": [
-      {
-        "name": "param_36215ebccab4b940",
-        "select": {
-          "nearest": true,
-          "on": "pointerover",
-          "type": "point"
-        },
-        "views": [
-          "view_4c9050d10cf4a2a8_0"
-        ]
-      }
-    ],
-    "spec": {
-      "height": 180,
-      "layer": [
-        {
-          "encoding": {
-            "color": {
-              "condition": {
-                "empty": false,
-                "field": "species",
-                "param": "param_36215ebccab4b940",
-                "type": "nominal"
-              },
-              "value": "lightgray"
-            },
-            "x": {
-              "field": "sepalLength",
-              "scale": {
-                "zero": false
-              },
-              "type": "quantitative"
-            },
-            "y": {
-              "field": "sepalWidth",
-              "scale": {
-                "zero": false
-              },
-              "type": "quantitative"
-            }
-          },
-          "mark": {
-            "type": "point"
-          },
-          "name": "view_4c9050d10cf4a2a8_0"
-        },
-        {
-          "encoding": {
-            "color": {
-              "condition": {
-                "empty": false,
-                "field": "species",
-                "param": "param_36215ebccab4b940",
-                "type": "nominal"
-              },
-              "value": "lightgray"
-            },
-            "opacity": {
-              "condition": [
-                {
-                  "empty": false,
-                  "param": "param_36215ebccab4b940",
-                  "value": 1
-                }
-              ],
-              "value": 0
-            },
-            "text": {
-              "field": "petalLength",
-              "type": "quantitative"
-            },
-            "x": {
-              "field": "sepalLength",
-              "scale": {
-                "zero": false
-              },
-              "type": "quantitative"
-            },
-            "y": {
-              "field": "sepalWidth",
-              "scale": {
-                "zero": false
-              },
-              "type": "quantitative"
-            }
-          },
-          "mark": {
-            "align": "left",
-            "dx": 5,
-            "dy": -5,
-            "fontSize": 12,
-            "type": "text"
-          }
-        }
-      ],
-      "width": 180
     }
   },
   "bk-marginal-hist": {
@@ -7941,6 +8878,155 @@
       }
     ]
   },
+  "bk-trellis-area": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/iowa-electricity.csv"
+    },
+    "encoding": {
+      "color": {
+        "field": "source",
+        "type": "nominal"
+      },
+      "column": {
+        "field": "source",
+        "type": "nominal"
+      },
+      "x": {
+        "field": "year",
+        "type": "temporal"
+      },
+      "y": {
+        "field": "net_generation",
+        "type": "quantitative"
+      }
+    },
+    "mark": {
+      "opacity": 0.6,
+      "type": "area"
+    },
+    "width": 200
+  },
+  "bk-facet-hover": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/iris.json"
+    },
+    "facet": {
+      "field": "species",
+      "type": "nominal"
+    },
+    "params": [
+      {
+        "name": "param_36215ebccab4b940",
+        "select": {
+          "nearest": true,
+          "on": "pointerover",
+          "type": "point"
+        },
+        "views": [
+          "view_4c9050d10cf4a2a8_0"
+        ]
+      }
+    ],
+    "spec": {
+      "height": 180,
+      "layer": [
+        {
+          "encoding": {
+            "color": {
+              "condition": {
+                "empty": false,
+                "field": "species",
+                "param": "param_36215ebccab4b940",
+                "type": "nominal"
+              },
+              "value": "lightgray"
+            },
+            "x": {
+              "field": "sepalLength",
+              "scale": {
+                "zero": false
+              },
+              "type": "quantitative"
+            },
+            "y": {
+              "field": "sepalWidth",
+              "scale": {
+                "zero": false
+              },
+              "type": "quantitative"
+            }
+          },
+          "mark": {
+            "type": "point"
+          },
+          "name": "view_4c9050d10cf4a2a8_0"
+        },
+        {
+          "encoding": {
+            "color": {
+              "condition": {
+                "empty": false,
+                "field": "species",
+                "param": "param_36215ebccab4b940",
+                "type": "nominal"
+              },
+              "value": "lightgray"
+            },
+            "opacity": {
+              "condition": [
+                {
+                  "empty": false,
+                  "param": "param_36215ebccab4b940",
+                  "value": 1
+                }
+              ],
+              "value": 0
+            },
+            "text": {
+              "field": "petalLength",
+              "type": "quantitative"
+            },
+            "x": {
+              "field": "sepalLength",
+              "scale": {
+                "zero": false
+              },
+              "type": "quantitative"
+            },
+            "y": {
+              "field": "sepalWidth",
+              "scale": {
+                "zero": false
+              },
+              "type": "quantitative"
+            }
+          },
+          "mark": {
+            "align": "left",
+            "dx": 5,
+            "dy": -5,
+            "fontSize": 12,
+            "type": "text"
+          }
+        }
+      ],
+      "width": 180
+    }
+  },
   "nb2-us-airports-map": {
     "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
     "config": {
@@ -8031,6 +9117,53 @@
     ],
     "width": 500
   },
+  "bk-choropleth": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "format": {
+        "feature": "counties",
+        "type": "topojson"
+      },
+      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/us-10m.json"
+    },
+    "encoding": {
+      "color": {
+        "field": "rate",
+        "scale": {
+          "scheme": "reds"
+        },
+        "type": "quantitative"
+      }
+    },
+    "height": 300,
+    "mark": {
+      "type": "geoshape"
+    },
+    "projection": {
+      "type": "albersUsa"
+    },
+    "transform": [
+      {
+        "from": {
+          "data": {
+            "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/unemployment.tsv"
+          },
+          "fields": [
+            "rate"
+          ],
+          "key": "id"
+        },
+        "lookup": "id"
+      }
+    ],
+    "width": 500
+  },
   "bk-projections": {
     "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
     "columns": 2,
@@ -8101,53 +9234,6 @@
       },
       "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/world-110m.json"
     }
-  },
-  "bk-choropleth": {
-    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
-    "config": {
-      "view": {
-        "continuousHeight": 300,
-        "continuousWidth": 300
-      }
-    },
-    "data": {
-      "format": {
-        "feature": "counties",
-        "type": "topojson"
-      },
-      "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/us-10m.json"
-    },
-    "encoding": {
-      "color": {
-        "field": "rate",
-        "scale": {
-          "scheme": "reds"
-        },
-        "type": "quantitative"
-      }
-    },
-    "height": 300,
-    "mark": {
-      "type": "geoshape"
-    },
-    "projection": {
-      "type": "albersUsa"
-    },
-    "transform": [
-      {
-        "from": {
-          "data": {
-            "url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/unemployment.tsv"
-          },
-          "fields": [
-            "rate"
-          ],
-          "key": "id"
-        },
-        "lookup": "id"
-      }
-    ],
-    "width": 500
   },
   "bk-airports-graduated": {
     "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",

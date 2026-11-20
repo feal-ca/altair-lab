@@ -1146,7 +1146,8 @@ scatter | matrix`
     hints: [
       'options = ["Europe", "Japan", "USA"]; radio = alt.binding_radio(options=options + [None], labels=[o + " " for o in options] + ["All"], name="Region: ")',
       'selection = alt.selection_point(fields=["Origin"], bind=radio)',
-      'Fix both scale domains and the colour domain, then .add_params(selection).transform_filter(selection).'
+      'Fix both scale domains and the colour domain, then .add_params(selection).transform_filter(selection).',
+      'The course notebook uses a plain parameter instead: origin = alt.param(value="Europe", bind=radio) and .transform_filter(alt.datum.Origin == origin). That works too, but has no "All" option.'
     ],
     concept: 'Filtering by a selection removes rows, so scales would re-fit and axes jump between choices. Fixing the domains keeps every state comparable, and a fixed colour domain keeps each origin\'s colour.',
     docs: DOCS + 'interactions/bindings_widgets.html',

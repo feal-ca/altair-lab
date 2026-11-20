@@ -215,7 +215,7 @@ function structureLabel(t) {
   }
 }
 
-const INPUTS = { range: 'a slider', select: 'a dropdown', radio: 'radio buttons', checkbox: 'a checkbox' }
+const INPUTS = { range: 'a slider', select: 'a dropdown', radio: 'radio buttons', checkbox: 'a checkbox', search: 'a search box' }
 
 function paramLabel(p) {
   const sel = isObj(p.select) ? p.select : null

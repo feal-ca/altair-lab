@@ -20,6 +20,29 @@ export const TOPICS = [
   'Exam-style'
 ];
 
+const DOCS = 'https://altair-viz.github.io/user_guide/';
+
+const datasetHeader = (name, expr) => `import altair as alt
+import pandas as pd
+from vega_datasets import data
+
+${name} = ${expr}
+`;
+
+const GAPMINDER = datasetHeader('df', 'data.gapminder.url');
+
+// Part 3 of the course notebooks (Interaction) maps cluster ids to region names this way.
+const REGION_EXPR = `"""{
+    '0': 'South Asia',
+    '1': 'Europe & Central Asia',
+    '2': 'Sub-Saharan Africa',
+    '3': 'The Americas',
+    '4': 'East Asia & Pacific',
+    '5': 'Middle East & North Africa'
+}[datum.cluster]"""`;
+
+const AFG_ARG = `(alt.datum.country == 'Afghanistan') | (alt.datum.country == 'Argentina')`;
+
 const COURSE_EXERCISES = [
   {
     id: 'nb1-bar-color',
@@ -827,6 +850,357 @@ bars = alt.Chart(df).mark_bar().encode(
 
 lines & bars`
   },
+  // ── Notebook 3: Interaction ─────────────────────────────────────────────
+  {
+    id: 'nb3-opacity-slider',
+    title: 'A Slider that Sets the Mark Opacity',
+    level: 'Beginner',
+    topic: 'Interaction',
+    task: 'Scatter fertility:Q (X) against life_expect:Q (Y) as circles coloured by country:N, for Afghanistan and Argentina after 1960. A slider named "opacity: " (0 to 1, step 0.05, starting at 0.3) sets the opacity of every circle.',
+    hints: [
+      'slider = alt.binding_range(min=0, max=1, step=0.05, name="opacity: ")',
+      'opacity = alt.param(value=0.3, bind=slider)',
+      'Pass the parameter straight to the mark: mark_circle(opacity=opacity), then .add_params(opacity).'
+    ],
+    concept: 'A parameter can stand wherever a constant would go, including a mark property. The slider then restyles every mark without filtering any data.',
+    docs: DOCS + 'interactions/parameters.html',
+    datasetId: 'gapminder',
+    solution: `${GAPMINDER}
+slider = alt.binding_range(min=0, max=1, step=0.05, name='opacity: ')
+opacity = alt.param(value=0.3, bind=slider)
+
+alt.Chart(df).mark_circle(opacity=opacity).encode(
+    alt.X('fertility:Q'),
+    alt.Y('life_expect:Q'),
+    alt.Color('country:N')
+).transform_filter(
+    (alt.datum.year > 1960) & (${AFG_ARG})
+).add_params(opacity)`
+  },
+  {
+    id: 'nb3-hover-highlight',
+    title: 'Highlight the Point under the Pointer',
+    level: 'Beginner',
+    topic: 'Interaction',
+    task: 'Scatter fertility:Q (X) against life_expect:Q (Y) as circles coloured by country:N, for Afghanistan and Argentina after 1980. Hovering selects the nearest circle: it stays fully opaque (1.0) and the others fade to 0.2.',
+    hints: [
+      'hover = alt.selection_point(on="pointerover", nearest=True); the notebook writes on="mouseover", which does the same.',
+      'opacity=alt.when(hover).then(alt.value(1.0)).otherwise(alt.value(0.2))',
+      'Filter (alt.datum.year > 1980) & (Afghanistan or Argentina), then .add_params(hover).'
+    ],
+    concept: 'on= picks the event that fills a point selection: a click by default, pointerover for hovering. nearest=True selects the closest mark, so the pointer does not have to land exactly on a small circle.',
+    docs: DOCS + 'interactions/parameters.html#point-selections',
+    datasetId: 'gapminder',
+    solution: `${GAPMINDER}
+hover = alt.selection_point(on='pointerover', nearest=True)
+
+alt.Chart(df).mark_circle().encode(
+    alt.X('fertility:Q'),
+    alt.Y('life_expect:Q'),
+    alt.Color('country:N'),
+    opacity=alt.when(hover).then(alt.value(1.0)).otherwise(alt.value(0.2))
+).transform_filter(
+    (alt.datum.year > 1980) & (${AFG_ARG})
+).add_params(hover)`
+  },
+  {
+    id: 'nb3-brush-both',
+    title: 'Brush in Either View, Highlight in Both',
+    level: 'Intermediate',
+    topic: 'Interaction',
+    task: 'Two circle scatters of countries above 100 million people after 1980, side by side, both with life_expect:Q on X (title "Life expectancy"): pop:Q on Y (title "Population") on the left, fertility:Q on Y (title "Fertility") on the right. One interval selection that starts empty is added to both charts, so you can brush in either: brushed points take their country colour, the rest are lightgray.',
+    hints: [
+      'brush = alt.selection_interval(empty=False)',
+      'color = alt.when(brush).then(alt.Color("country:N")).otherwise(alt.value("lightgray"))',
+      'Build a base chart with X, color, the filter and .add_params(brush), then left = base.encode(alt.Y("pop:Q", ...)), right = base.encode(alt.Y("fertility:Q", ...)) and left | right.'
+    ],
+    concept: 'Adding the same selection to two views lets the reader brush in either one, and every view that tests it reacts (cross-highlighting). Both views draw their own brush, but only the last one brushed holds the selection.',
+    docs: DOCS + 'interactions/index.html',
+    datasetId: 'gapminder',
+    solution: `${GAPMINDER}
+brush = alt.selection_interval(empty=False)
+color = alt.when(brush).then(alt.Color('country:N')).otherwise(alt.value('lightgray'))
+
+base = alt.Chart(df).mark_circle().encode(
+    alt.X('life_expect:Q', title='Life expectancy'),
+    color=color
+).transform_filter(
+    (alt.datum.year > 1980) & (alt.datum.pop > 100000000)
+).add_params(brush)
+
+left = base.encode(alt.Y('pop:Q', title='Population'))
+right = base.encode(alt.Y('fertility:Q', title='Fertility'))
+
+left | right`
+  },
+  {
+    id: 'nb3-legend-filter',
+    title: 'Click the Legend to Pick an Origin',
+    level: 'Intermediate',
+    topic: 'Interaction',
+    task: 'Scatter Horsepower:Q vs Miles_per_Gallon:Q (Y title "Miles per gallon") as filled points coloured by Origin:N, with Name:N in the tooltip. Bind a point selection on the Origin field to the legend: cars of the clicked origin stay opaque (1) and the rest fade to 0.1.',
+    hints: [
+      'pick = alt.selection_point(fields=["Origin"], bind="legend")',
+      'opacity=alt.when(pick).then(alt.value(1)).otherwise(alt.value(0.1))',
+      'mark_point(filled=True) and .add_params(pick). Shift-click adds a second origin.'
+    ],
+    concept: 'bind="legend" turns the chart\'s own legend into the control, with no extra chart. Fading works better than filtering here: a filter would drop the other origins from the colour scale, and their legend entries with them, so the reader could not click back.',
+    docs: DOCS + 'interactions/legend.html',
+    datasetId: 'cars',
+    solution: `${datasetHeader('cars', 'data.cars.url')}
+pick = alt.selection_point(fields=['Origin'], bind='legend')
+
+alt.Chart(cars).mark_point(filled=True).encode(
+    alt.X('Horsepower:Q'),
+    alt.Y('Miles_per_Gallon:Q', title='Miles per gallon'),
+    alt.Color('Origin:N'),
+    opacity=alt.when(pick).then(alt.value(1)).otherwise(alt.value(0.1)),
+    tooltip='Name:N'
+).add_params(pick)`
+  },
+  {
+    id: 'nb3-multiline-hover',
+    title: 'Multi-Line Hover: Rule, Points and Values',
+    level: 'Advanced',
+    topic: 'Interaction',
+    task: 'Draw price:Q over date:T as smoothed lines (interpolate="basis") coloured by symbol:N. Hovering picks the nearest date (a point selection on the date field, empty=False). Layer, in this order: the lines; transparent points (opacity 0) on date that hold the selection; a point on every line at the selected date (opacity 1, else 0); a gray rule at that date (filtered by the selection); and a left-aligned label (dx=5, dy=-5) with each price there, else a single space. Make it 600 × 300.',
+    hints: [
+      'nearest = alt.selection_point(nearest=True, on="pointerover", fields=["date"], empty=False)',
+      'selectors = alt.Chart(source).mark_point().encode(x="date:T", opacity=alt.value(0)).add_params(nearest); points = line.mark_point().encode(opacity=alt.when(nearest).then(alt.value(1)).otherwise(alt.value(0)))',
+      'text = line.mark_text(align="left", dx=5, dy=-5).encode(text=alt.when(nearest).then("price:Q").otherwise(alt.value(" "))); rules = alt.Chart(source).mark_rule(color="gray").encode(x="date:T").transform_filter(nearest)',
+      'alt.layer(line, selectors, points, rules, text).properties(width=600, height=300)'
+    ],
+    concept: 'The invisible selector layer covers every date, so hovering anywhere picks the nearest one, even far from a line. The other layers only read the selection: conditions show or hide points and labels, and a filter draws the rule (details on demand).',
+    docs: DOCS + 'interactions/index.html',
+    datasetId: 'stocks',
+    solution: `${datasetHeader('source', 'data.stocks.url')}
+nearest = alt.selection_point(nearest=True, on='pointerover', fields=['date'], empty=False)
+
+line = alt.Chart(source).mark_line(interpolate='basis').encode(
+    x='date:T',
+    y='price:Q',
+    color='symbol:N'
+)
+
+selectors = alt.Chart(source).mark_point().encode(
+    x='date:T',
+    opacity=alt.value(0)
+).add_params(nearest)
+
+points = line.mark_point().encode(
+    opacity=alt.when(nearest).then(alt.value(1)).otherwise(alt.value(0))
+)
+
+text = line.mark_text(align='left', dx=5, dy=-5).encode(
+    text=alt.when(nearest).then('price:Q').otherwise(alt.value(' '))
+)
+
+rules = alt.Chart(source).mark_rule(color='gray').encode(
+    x='date:T'
+).transform_filter(nearest)
+
+alt.layer(line, selectors, points, rules, text).properties(width=600, height=300)`
+  },
+  {
+    id: 'nb3-search-hover',
+    title: 'Search Box and Hover Together',
+    level: 'Intermediate',
+    topic: 'Interaction',
+    task: 'For 2005, scatter fertility:Q (X, title "Babies per woman") against life_expect:Q (Y, title "Life expectancy"), both with zero=False, as size-100 circles coloured by cluster:N (title "Region") with country:N in the tooltip. Add a search box parameter (placeholder "Country", named "Search ", empty to start) and a hover point selection on country. A circle is 0.8 opaque when it is hovered and its country matches the search (case-insensitive regular expression), else 0.1.',
+    hints: [
+      'search = alt.param(value="", bind=alt.binding(input="search", placeholder="Country", name="Search "))',
+      'matches = alt.expr.test(alt.expr.regexp(search, "i"), alt.datum.country); hover = alt.selection_point(on="pointerover", fields=["country"])',
+      'opacity=alt.when(hover, matches).then(alt.value(0.8)).otherwise(alt.value(0.1)); filter alt.datum.year == 2005 and .add_params(search, hover).'
+    ],
+    concept: 'alt.binding(input=...) gives any HTML input, here a search box. alt.when accepts several tests and requires all of them. An empty search matches every country and an empty hover selects everything, so the chart starts fully visible.',
+    docs: DOCS + 'interactions/bindings_widgets.html',
+    datasetId: 'gapminder',
+    solution: `${GAPMINDER}
+search = alt.param(
+    value='',
+    bind=alt.binding(input='search', placeholder='Country', name='Search ')
+)
+hover = alt.selection_point(on='pointerover', fields=['country'])
+matches = alt.expr.test(alt.expr.regexp(search, 'i'), alt.datum.country)
+
+alt.Chart(df).mark_circle(size=100).encode(
+    alt.X('fertility:Q', scale=alt.Scale(zero=False), title='Babies per woman'),
+    alt.Y('life_expect:Q', scale=alt.Scale(zero=False), title='Life expectancy'),
+    alt.Color('cluster:N', title='Region'),
+    tooltip='country:N',
+    opacity=alt.when(hover, matches).then(alt.value(0.8)).otherwise(alt.value(0.1))
+).transform_filter(
+    alt.datum.year == 2005
+).add_params(search, hover)`
+  },
+  {
+    id: 'nb3-year-background',
+    title: 'Year Slider with a Background Year',
+    level: 'Advanced',
+    topic: 'Interaction',
+    task: 'Name each cluster with transform_calculate (the region expression in the editor) and scatter fertility:Q (X, title "Babies per woman", domain 0 to 9) against life_expect:Q (Y, title "Life expectancy", domain 20 to 85) as size-100 circles (opacity 0.8) coloured by region:N (title "Region", dark2 scheme), with country:N in the tooltip. A point selection on year bound to a slider named "Year " (1955 to 2005, step 5) starts at 1980 and filters the circles. Behind them, a gray year label (fontSize 96, opacity 0.2, baseline middle) shows the selected year. Make it 500 × 500.',
+    hints: [
+      'year = alt.selection_point(fields=["year"], bind=alt.binding_range(min=1955, max=2005, step=5, name="Year "), value=1980)',
+      'points = alt.Chart(df).mark_circle(size=100, opacity=0.8).encode(...).transform_calculate(region=region).transform_filter(year).add_params(year)',
+      'background = alt.Chart(df).mark_text(baseline="middle", fontSize=96, opacity=0.2).encode(text="year:O").transform_filter(year).transform_aggregate(year="max(year)")',
+      'alt.layer(background, points).properties(width=500, height=500): the first layer is drawn underneath.'
+    ],
+    concept: 'value= gives a selection its starting state, so the chart opens on a meaningful year instead of every year at once. Fixed domains keep the axes still as the slider moves; the aggregated text layer turns the selection into one big label.',
+    docs: DOCS + 'interactions/parameters.html',
+    datasetId: 'gapminder',
+    starter: `${GAPMINDER}
+region = ${REGION_EXPR}
+`,
+    solution: `${GAPMINDER}
+region = ${REGION_EXPR}
+
+year = alt.selection_point(
+    fields=['year'],
+    bind=alt.binding_range(min=1955, max=2005, step=5, name='Year '),
+    value=1980
+)
+
+points = alt.Chart(df).mark_circle(size=100, opacity=0.8).encode(
+    alt.X('fertility:Q', title='Babies per woman', scale=alt.Scale(domain=[0, 9])),
+    alt.Y('life_expect:Q', title='Life expectancy', scale=alt.Scale(domain=[20, 85])),
+    alt.Color('region:N', title='Region').scale(scheme='dark2'),
+    tooltip='country:N'
+).transform_calculate(
+    region=region
+).transform_filter(year).add_params(year)
+
+background = alt.Chart(df).mark_text(
+    baseline='middle', fontSize=96, opacity=0.2
+).encode(
+    text='year:O'
+).transform_filter(year).transform_aggregate(year='max(year)')
+
+alt.layer(background, points).properties(width=500, height=500)`
+  },
+  {
+    id: 'nb3-hover-trail',
+    title: 'Hover a Country to Draw Its Path',
+    level: 'Advanced',
+    topic: 'Interaction',
+    task: 'From a base with fertility:Q (X, domain 0 to 9) and life_expect:Q (Y, domain 20 to 85) and detail country:N, layer three charts. trail: a #222222 mark_trail through every year in year order, its size by year:Q (domain 1955 to 2005, range 1 to 12, no legend), opacity 0.3 for the hovered country and 0 otherwise. points: size-100 circles (opacity 0.8) coloured by cluster:N for 2005 only, holding a hover selection on country that starts empty. labels: year:O as left-aligned text (dx=5, dy=-5) for the hovered country only.',
+    hints: [
+      'hover = alt.selection_point(on="pointerover", fields=["country"], empty=False)',
+      'trail = base.mark_trail(color="#222222").encode(order=alt.Order("year:Q"), size=alt.Size("year:Q", scale=alt.Scale(domain=[1955, 2005], range=[1, 12]), legend=None), opacity=alt.when(hover).then(alt.value(0.3)).otherwise(alt.value(0)))',
+      'points = base.mark_circle(size=100, opacity=0.8).encode(color="cluster:N").transform_filter(alt.datum.year == 2005).add_params(hover); labels = base.mark_text(align="left", dx=5, dy=-5).encode(text="year:O").transform_filter(hover)',
+      'alt.layer(trail, points, labels)'
+    ],
+    concept: 'The selection holds a country, not a row, so layers that keep every year can react to it: the trail fades in and the labels are filtered to that country. A trail is a line whose width varies, which shows the direction of time.',
+    docs: DOCS + 'interactions/index.html',
+    datasetId: 'gapminder',
+    solution: `${GAPMINDER}
+hover = alt.selection_point(on='pointerover', fields=['country'], empty=False)
+
+base = alt.Chart(df).encode(
+    alt.X('fertility:Q', scale=alt.Scale(domain=[0, 9])),
+    alt.Y('life_expect:Q', scale=alt.Scale(domain=[20, 85])),
+    detail='country:N'
+)
+
+trail = base.mark_trail(color='#222222').encode(
+    order=alt.Order('year:Q'),
+    size=alt.Size('year:Q', scale=alt.Scale(domain=[1955, 2005], range=[1, 12]), legend=None),
+    opacity=alt.when(hover).then(alt.value(0.3)).otherwise(alt.value(0))
+)
+
+points = base.mark_circle(size=100, opacity=0.8).encode(
+    color='cluster:N'
+).transform_filter(alt.datum.year == 2005).add_params(hover)
+
+labels = base.mark_text(align='left', dx=5, dy=-5).encode(
+    text='year:O'
+).transform_filter(hover)
+
+alt.layer(trail, points, labels)`
+  },
+  {
+    id: 'nb3-hover-detail',
+    title: 'Hover a Country, See Its History',
+    level: 'Advanced',
+    topic: 'Interaction',
+    task: 'Left: 2005 scatter of fertility:Q against life_expect:Q as size-80 circles coloured by cluster:N, country:N in the tooltip, with a hover point selection on country that starts on Spain. Hovered circles are opaque (1), the rest 0.3. Right: the selected country over time, X year:O without a title. A #1f77b4 line of life_expect:Q (title "Life expectancy", zero=False) and a dashed (strokeDash [4, 3]) #d62728 line of fertility:Q (title "Fertility", zero=False, axis on the right), layered with independent Y scales. Show left | right.',
+    hints: [
+      'pick = alt.selection_point(on="pointerover", fields=["country"], value=[{"country": "Spain"}])',
+      'history = alt.Chart(df).transform_filter(pick).encode(alt.X("year:O", title=None)); life = history.mark_line(color="#1f77b4").encode(alt.Y("life_expect:Q", ...))',
+      'fert = history.mark_line(color="#d62728", strokeDash=[4, 3]).encode(alt.Y("fertility:Q", title="Fertility", scale=alt.Scale(zero=False)).axis(orient="right")); right = (life + fert).resolve_scale(y="independent")'
+    ],
+    concept: 'A selection made in one view can filter the data of another: the right panel only keeps rows of the hovered country. Starting the selection on a country means the panel is never empty on load, and resolve_scale(y="independent") gives each line its own axis.',
+    docs: DOCS + 'interactions/index.html',
+    datasetId: 'gapminder',
+    solution: `${GAPMINDER}
+pick = alt.selection_point(on='pointerover', fields=['country'], value=[{'country': 'Spain'}])
+
+left = alt.Chart(df).mark_circle(size=80).encode(
+    alt.X('fertility:Q'),
+    alt.Y('life_expect:Q'),
+    alt.Color('cluster:N'),
+    tooltip='country:N',
+    opacity=alt.when(pick).then(alt.value(1)).otherwise(alt.value(0.3))
+).transform_filter(alt.datum.year == 2005).add_params(pick)
+
+history = alt.Chart(df).transform_filter(pick).encode(alt.X('year:O', title=None))
+
+life = history.mark_line(color='#1f77b4').encode(
+    alt.Y('life_expect:Q', title='Life expectancy', scale=alt.Scale(zero=False))
+)
+fert = history.mark_line(color='#d62728', strokeDash=[4, 3]).encode(
+    alt.Y('fertility:Q', title='Fertility', scale=alt.Scale(zero=False)).axis(orient='right')
+)
+
+left | (life + fert).resolve_scale(y='independent')`
+  },
+  {
+    id: 'nb3-raincloud-toggles',
+    title: 'Configurable Raincloud: Toggles and Side',
+    level: 'Advanced',
+    topic: 'Interaction',
+    task: 'A vertical raincloud of every life_expect:Q value (Y title "Life expectancy") in three layers with independent X scales and no X axes, 300 × 400. Parameters: checkboxes "Violin " and "Strip " (both start True) and radio buttons "Violin side " with options right and left (start right). violin: transform_density of life_expect, then x = density on the right side or -density on the left, drawn as mark_area(orient="horizontal") with X domain -0.06 to 0.06, opacity 0.6 if Violin is on, else 0. strip: number rows with row_number(), jitter = (right ? -1 : 1) * (0.2 + 0.6 * ((row * 0.618034) % 1)), size-8 circles on X jitter (domain -1.2 to 1.2), opacity 0.4 if Strip is on, else 0. box: mark_boxplot(size=24), always shown. Layer violin, strip, box.',
+    hints: [
+      'show_violin = alt.param(value=True, bind=alt.binding_checkbox(name="Violin ")); side = alt.param(value="right", bind=alt.binding_radio(options=["right", "left"], name="Violin side "))',
+      'violin: .transform_density("life_expect", as_=["life_expect", "density"]).transform_calculate(x=f"{side.name} == \'right\' ? datum.density : -datum.density")',
+      'strip: .transform_window(row="row_number()").transform_calculate(jitter=f"({side.name} == \'right\' ? -1 : 1) * (0.2 + 0.6 * ((datum.row * 0.618034) % 1))")',
+      'alt.layer(violin, strip, box).resolve_scale(x="independent").properties(width=300, height=400).add_params(show_violin, show_strip, side)'
+    ],
+    concept: 'Checkboxes can hide whole layers by driving their opacity, and a radio parameter used inside a calculate expression can move a layer. Fixed X domains keep the box in the middle whichever side the violin is on. The jitter comes from the row number rather than random(), so the strip looks the same on every run.',
+    docs: DOCS + 'interactions/bindings_widgets.html',
+    datasetId: 'gapminder',
+    solution: `${GAPMINDER}
+show_violin = alt.param(value=True, bind=alt.binding_checkbox(name='Violin '))
+show_strip = alt.param(value=True, bind=alt.binding_checkbox(name='Strip '))
+side = alt.param(value='right', bind=alt.binding_radio(options=['right', 'left'], name='Violin side '))
+
+y = alt.Y('life_expect:Q', title='Life expectancy')
+
+violin = alt.Chart(df).transform_density(
+    'life_expect', as_=['life_expect', 'density']
+).transform_calculate(
+    x=f"{side.name} == 'right' ? datum.density : -datum.density"
+).mark_area(orient='horizontal').encode(
+    alt.X('x:Q', axis=None, scale=alt.Scale(domain=[-0.06, 0.06])),
+    y,
+    opacity=alt.when(show_violin).then(alt.value(0.6)).otherwise(alt.value(0))
+)
+
+strip = alt.Chart(df).transform_window(
+    row='row_number()'
+).transform_calculate(
+    jitter=f"({side.name} == 'right' ? -1 : 1) * (0.2 + 0.6 * ((datum.row * 0.618034) % 1))"
+).mark_circle(size=8).encode(
+    alt.X('jitter:Q', axis=None, scale=alt.Scale(domain=[-1.2, 1.2])),
+    y,
+    opacity=alt.when(show_strip).then(alt.value(0.4)).otherwise(alt.value(0))
+)
+
+box = alt.Chart(df).mark_boxplot(size=24).encode(y)
+
+alt.layer(violin, strip, box).resolve_scale(
+    x='independent'
+).properties(width=300, height=400).add_params(show_violin, show_strip, side)`
+  },
   {
     id: 'exam-cars-condition',
     title: 'Conditional Colour and Shapes (exam, Nov 2022)',
@@ -994,7 +1368,7 @@ export const CORE = [
   'bk-streamgraph', 'bk-connected-scatter', 'bk-punchcard',
   'nb1-stocks-predicate', 'bk-transform-aggregate', 'nb2-bump-tennis', 'bk-lookup-regions',
   'nb1-jobs-scale', 'bk-axis-style', 'bk-annotate-minmax',
-  'bk-point-highlight', 'bk-slider-filter', 'bk-legend-selector', 'bk-brush-histogram',
+  'bk-point-highlight', 'bk-slider-filter', 'nb3-brush-both', 'bk-legend-selector',
   'nb1-barley-grouped', 'bk-repeat-matrix', 'bk-marginal-hist',
   'nb2-us-airports-map', 'bk-choropleth',
   'exam-cars-condition', 'exam-slope-parliament', 'exam-disasters-timeline', 'exam-bullet-hospital'
