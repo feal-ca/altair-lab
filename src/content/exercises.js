@@ -1355,6 +1355,176 @@ ch5 = base.mark_point(filled=True, fill='yellow', stroke='black', size=70).encod
 ch6 = base.mark_tick(color='purple', thickness=2, size=30).encode(x='historic:Q')
 
 alt.layer(ch3, ch2, ch1, ch4, ch5, ch6)`
+  },
+  {
+    id: 'exam-slope-italy',
+    title: 'Slope Chart Highlighting a Decline (exam, Jan 2022)',
+    level: 'Intermediate',
+    topic: 'Exam-style',
+    task: 'Rebuild the "Population 2015-2020" slope chart from two layers sharing year:N on X, population:Q on Y and country on colour. ch1: mark_line with the Y axis titled "Population in millions" and its domain set to 40-90. ch2: filled points (opacity 1) that are big squares (size 150) for Italy, the only country that shrank, and small circles (size 50) for the rest. End with (ch1 + ch2).properties(width=200, title="Population 2015-2020").',
+    hints: [
+      "ch1 = alt.Chart(data).mark_line().encode(x='year:N', y=alt.Y('population:Q', title='Population in millions', scale=alt.Scale(domain=(40, 90))), color='country')",
+      "ch2 uses mark_point(filled=True, opacity=1.0) with the same x and y, and color='country:N'.",
+      "size=alt.when(alt.datum.country == 'Italy').then(alt.value(150)).otherwise(alt.value(50)); shape works the same way with alt.value('square') and alt.value('circle'). The exam solution wrote alt.condition(test, a, b), which gives the same chart."
+    ],
+    concept: 'A condition with constant values changes the marks it matches without adding a legend, so one row can stand out by size and shape while colour keeps identifying every country.',
+    docs: 'https://altair-viz.github.io/user_guide/interactions/parameters.html#conditions',
+    datasetId: 'eu_population_2015_2020',
+    solution: `import altair as alt
+import pandas as pd
+
+data = pd.DataFrame({
+    'country': ['France', 'Germany', 'UK', 'Italy', 'Spain', 'France', 'Germany', 'UK', 'Italy', 'Spain'],
+    'population': [66.55, 81.69, 65.12, 60.73, 46.44, 67.39, 83.24, 67.22, 59.55, 47.35],
+    'year': [2015, 2015, 2015, 2015, 2015, 2020, 2020, 2020, 2020, 2020]
+})
+
+ch1 = alt.Chart(data).mark_line().encode(
+    x='year:N',
+    y=alt.Y('population:Q', title='Population in millions', scale=alt.Scale(domain=(40., 90.))),
+    color='country'
+)
+
+ch2 = alt.Chart(data).mark_point(size=50, filled=True, opacity=1.0).encode(
+    x='year:N',
+    y=alt.Y('population:Q'),
+    color='country:N',
+    size=alt.when(alt.datum.country == 'Italy').then(alt.value(150.0)).otherwise(alt.value(50.0)),
+    shape=alt.when(alt.datum.country == 'Italy').then(alt.value('square')).otherwise(alt.value('circle'))
+)
+
+(ch1 + ch2).properties(width=200, title='Population 2015-2020')`
+  },
+  {
+    id: 'exam-bullet-dropdown',
+    title: 'Bullet Chart with a Month Dropdown (exam, Jan 2024)',
+    level: 'Advanced',
+    topic: 'Exam-style',
+    task: 'Rebuild the exam\'s hospital bullet chart, which shows one month at a time. Bind a point selection on month (starting at "January") to a dropdown named "Month". From data, layer red, yellow and green bars (opacity 0.5, size 24) at level3, level2 and level1, a black bar (size 4) at value, a yellow point with a black stroke (size 70) at value, and the month name as text (align right, dx=-160, dy=1); every X uses title=None and domain 0-160. Add the selection to that layer and filter it by the selection. Then add a purple tick (size 30, thickness 2) at the mean historic occupation per month, computed from historic with transform_aggregate, joined to data with transform_lookup on month, and filtered by the same selection.',
+    hints: [
+      "months_dropdown = alt.binding_select(options=months, name='Month') and months_select = alt.selection_point(fields=['month'], value='January', bind=months_dropdown)",
+      "Each data layer is alt.Chart(data).mark_bar(...) or mark_point(...) with x=alt.X('level3:Q', title=None, scale=alt.Scale(domain=[0, 160])) and so on; the text layer only encodes text=alt.Text('month:N').",
+      "ch7 = alt.Chart(historic).mark_tick(size=30, thickness=2, opacity=1, color='purple').encode(x=alt.X('historic_occupation:Q', title=None)), then .transform_aggregate(historic_occupation='mean(occupation)', groupby=['month']).transform_lookup(lookup='month', from_=alt.LookupData(data=data, key='month', fields=['level1', 'level2', 'level3', 'value'])).transform_filter(months_select)",
+      'viz = alt.layer(ch3, ch2, ch1, ch4, ch5, ch6).add_params(months_select).transform_filter(months_select), and the answer is viz + ch7. The exam listed fields as one string, "level1, level2, level3, value"; Vega-Lite needs a list of separate names.'
+    ],
+    concept: 'A selection bound to a dropdown works as a filter: every layer that calls transform_filter(selection) keeps only the chosen month. The aggregate runs in the browser, so the historic mean updates without precomputing it in pandas.',
+    docs: 'https://altair-viz.github.io/user_guide/interactions/bindings_widgets.html',
+    datasetId: 'hospital_dropdown',
+    solution: `import altair as alt
+import pandas as pd
+
+data = pd.DataFrame({
+    'level1': 75,
+    'level2': 100,
+    'level3': 150,
+    'value': [115, 120, 80],
+    'month': ['January', 'February', 'March']
+})
+
+historic = pd.DataFrame({
+    'occupation': [80, 95, 60, 40, 95, 70],
+    'month': ['January', 'February', 'March', 'January', 'February', 'March'],
+    'year': [2022, 2022, 2022, 2021, 2021, 2021]
+})
+
+months = ['January', 'February', 'March']
+
+months_dropdown = alt.binding_select(options=months, name='Month')
+months_select = alt.selection_point(fields=['month'], value='January', bind=months_dropdown)
+
+ch1 = alt.Chart(data).mark_bar(color='green', opacity=0.5, size=24).encode(
+    x=alt.X('level1:Q', title=None, scale=alt.Scale(domain=[0, 160]))
+)
+ch2 = alt.Chart(data).mark_bar(color='yellow', opacity=0.5, size=24).encode(
+    x=alt.X('level2:Q', title=None, scale=alt.Scale(domain=[0, 160]))
+)
+ch3 = alt.Chart(data).mark_bar(color='red', opacity=0.5, size=24).encode(
+    x=alt.X('level3:Q', title=None, scale=alt.Scale(domain=[0, 160]))
+)
+ch4 = alt.Chart(data).mark_bar(color='black', opacity=1, size=4).encode(
+    x=alt.X('value:Q', title=None, scale=alt.Scale(domain=[0, 160]))
+)
+ch5 = alt.Chart(data).mark_point(size=70, fill='yellow', filled=True, strokeWidth=1, stroke='black', opacity=1).encode(
+    x=alt.X('value:Q', title=None, scale=alt.Scale(domain=[0, 160]))
+)
+ch6 = alt.Chart(data).mark_text(align='right', dx=-160, dy=1).encode(
+    text=alt.Text('month:N')
+)
+
+ch7 = alt.Chart(historic).mark_tick(size=30, thickness=2, opacity=1, color='purple').encode(
+    x=alt.X('historic_occupation:Q', title=None)
+).transform_aggregate(
+    historic_occupation='mean(occupation)',
+    groupby=['month']
+).transform_lookup(
+    lookup='month',
+    from_=alt.LookupData(data=data, key='month', fields=['level1', 'level2', 'level3', 'value'])
+).transform_filter(months_select)
+
+viz = alt.layer(ch3, ch2, ch1, ch4, ch5, ch6).add_params(months_select).transform_filter(months_select)
+
+viz + ch7`
+  },
+  {
+    id: 'exam-priestley-aggregate',
+    title: 'Priestley Chart with Aggregated Labels (exam, Jan 2025)',
+    level: 'Advanced',
+    topic: 'Exam-style',
+    task: 'Draw the exam\'s "Priestley chart" a second way. ch1: mark_line(strokeWidth=20) with Income:Q on X (title "Income", domain 1000-2800), Month:N on Y in calendar order, and Month:N on colour with the category20 scheme. For the labels, compute minIncome and maxIncome per Month with transform_aggregate and show each as mark_text at its own X (xOffset -20 for the minimum, 20 for the maximum, axis title ""). Combine ch1 + ch2Min + ch2Max.',
+    hints: [
+      "months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] and alt.Y('Month:N', sort=months) in all three charts.",
+      "One line per month: the two Income values of a month become its ends. Use alt.Color('Month:N', scale=alt.Scale(scheme='category20')), since the default palette has only 10 colours and would repeat.",
+      "ch2Min = alt.Chart(df).mark_text(xOffset=-20).encode(alt.X('minIncome:Q', title=''), alt.Y('Month:N', sort=months), alt.Text('minIncome:Q')).transform_aggregate(minIncome='min(Income)', groupby=['Month'])",
+      "ch2Max is the same with maxIncome='max(Income)' and xOffset=20; finish with .properties(title='Priestley chart') on ch1."
+    ],
+    concept: '`transform_aggregate` builds new fields (minIncome, maxIncome) with one row per group, so a text layer can use them for both position and label. New field names appear as axis titles, which is why the exam solution sets title="".',
+    docs: 'https://altair-viz.github.io/user_guide/transform/aggregate.html',
+    datasetId: 'priestley_exam',
+    solution: `import altair as alt
+import pandas as pd
+
+data = [
+    {"Month": "Jan", "Income": 1569, "Year": 2024, "Day": 1}, {"Month": "Jan", "Income": 2149, "Year": 2024, "Day": 1},
+    {"Month": "Feb", "Income": 1634, "Year": 2024, "Day": 1}, {"Month": "Feb", "Income": 2308, "Year": 2024, "Day": 1},
+    {"Month": "Mar", "Income": 1926, "Year": 2024, "Day": 1}, {"Month": "Mar", "Income": 2191, "Year": 2024, "Day": 1},
+    {"Month": "Apr", "Income": 2026, "Year": 2024, "Day": 1}, {"Month": "Apr", "Income": 2214, "Year": 2024, "Day": 1},
+    {"Month": "May", "Income": 1677, "Year": 2024, "Day": 1}, {"Month": "May", "Income": 2355, "Year": 2024, "Day": 1},
+    {"Month": "Jun", "Income": 1600, "Year": 2024, "Day": 1}, {"Month": "Jun", "Income": 1676, "Year": 2024, "Day": 1},
+    {"Month": "Jul", "Income": 1846, "Year": 2024, "Day": 1}, {"Month": "Jul", "Income": 2420, "Year": 2024, "Day": 1},
+    {"Month": "Aug", "Income": 2100, "Year": 2024, "Day": 1}, {"Month": "Aug", "Income": 2242, "Year": 2024, "Day": 1},
+    {"Month": "Sep", "Income": 1768, "Year": 2024, "Day": 1}, {"Month": "Sep", "Income": 2467, "Year": 2024, "Day": 1},
+    {"Month": "Oct", "Income": 1732, "Year": 2024, "Day": 1}, {"Month": "Oct", "Income": 1784, "Year": 2024, "Day": 1},
+    {"Month": "Nov", "Income": 2094, "Year": 2024, "Day": 1}, {"Month": "Nov", "Income": 2117, "Year": 2024, "Day": 1},
+    {"Month": "Dec", "Income": 1787, "Year": 2024, "Day": 1}, {"Month": "Dec", "Income": 1940, "Year": 2024, "Day": 1}
+]
+df = pd.DataFrame(data)
+months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+ch1 = alt.Chart(df).mark_line(strokeWidth=20).encode(
+    alt.X('Income:Q', title='Income', scale=alt.Scale(domain=(1000, 2800))),
+    alt.Y('Month:N', sort=months),
+    alt.Color('Month:N', scale=alt.Scale(scheme='category20'))
+).properties(title='Priestley chart')
+
+ch2Min = alt.Chart(df).mark_text(xOffset=-20).encode(
+    alt.X('minIncome:Q', title=''),
+    alt.Y('Month:N', sort=months),
+    alt.Text('minIncome:Q')
+).transform_aggregate(
+    minIncome='min(Income)',
+    groupby=['Month']
+)
+
+ch2Max = alt.Chart(df).mark_text(xOffset=20).encode(
+    alt.X('maxIncome:Q', title=''),
+    alt.Y('Month:N', sort=months),
+    alt.Text('maxIncome:Q')
+).transform_aggregate(
+    maxIncome='max(Income)',
+    groupby=['Month']
+)
+
+ch1 + ch2Min + ch2Max`
   }
 ];
 

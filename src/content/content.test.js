@@ -14,13 +14,16 @@ const EXPECTED_ROWS = {
   fruit_pie: 5,
   parliament_seats: 10,
   hospital_occupancy: 3,
+  hospital_dropdown: 3,
+  eu_population_2015_2020: 10,
+  priestley_exam: 24,
   stocks_wide: 3,
   mobile_os: 4,
 };
 
 describe('datasets', () => {
-  it('has 32 datasets keyed by their id', () => {
-    expect(Object.keys(DATASETS)).toHaveLength(32);
+  it('has 35 datasets keyed by their id', () => {
+    expect(Object.keys(DATASETS)).toHaveLength(35);
     for (const [key, d] of Object.entries(DATASETS)) expect(d.id).toBe(key);
   });
 
@@ -57,9 +60,9 @@ describe('datasets', () => {
 });
 
 describe('exercises', () => {
-  it('has 92 exercises numbered 1..92 with unique ids', () => {
-    expect(EXERCISES.map((e) => e.n)).toEqual(Array.from({ length: 92 }, (_, i) => i + 1));
-    expect(new Set(EXERCISES.map((e) => e.id)).size).toBe(92);
+  it('has 95 exercises numbered 1..95 with unique ids', () => {
+    expect(EXERCISES.map((e) => e.n)).toEqual(Array.from({ length: 95 }, (_, i) => i + 1));
+    expect(new Set(EXERCISES.map((e) => e.id)).size).toBe(95);
   });
 
   it('numbers exercises in topic order and leaves no topic empty', () => {

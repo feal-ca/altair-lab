@@ -583,6 +583,134 @@ df = pd.DataFrame({
       { month: 'March', level1: 75, level2: 100, level3: 150, value: 80, historic: 65 }
     ]
   },
+  hospital_dropdown: {
+    id: 'hospital_dropdown',
+    name: 'Hospital Occupancy 2023 + Historic Records (final exam, Jan 2024)',
+    description: 'Two tables: data holds 2023 occupancy and the three capacity levels per month; historic holds occupation per month for 2021 and 2022.',
+    varName: 'data',
+    source: 'inline',
+    setupCode: `import altair as alt
+import pandas as pd
+
+data = pd.DataFrame({
+    'level1': 75,
+    'level2': 100,
+    'level3': 150,
+    'value': [115, 120, 80],
+    'month': ['January', 'February', 'March']
+})
+
+historic = pd.DataFrame({
+    'occupation': [80, 95, 60, 40, 95, 70],
+    'month': ['January', 'February', 'March', 'January', 'February', 'March'],
+    'year': [2022, 2022, 2022, 2021, 2021, 2021]
+})
+
+months = ['January', 'February', 'March']
+`,
+    columns: [
+      { name: 'level1', type: 'Q', min: 75, max: 75, mean: 75 },
+      { name: 'level2', type: 'Q', min: 100, max: 100, mean: 100 },
+      { name: 'level3', type: 'Q', min: 150, max: 150, mean: 150 },
+      { name: 'value', type: 'Q', min: 80, max: 120, mean: 105 },
+      { name: 'month', type: 'N', unique: 3, sample: 'January, February, March' }
+    ],
+    rows: [
+      { level1: 75, level2: 100, level3: 150, value: 115, month: 'January' },
+      { level1: 75, level2: 100, level3: 150, value: 120, month: 'February' },
+      { level1: 75, level2: 100, level3: 150, value: 80, month: 'March' }
+    ]
+  },
+  eu_population_2015_2020: {
+    id: 'eu_population_2015_2020',
+    name: 'Population of Five EU Countries, 2015 vs 2020 (final exam, Jan 2022)',
+    description: 'Population in millions of France, Germany, the UK, Italy and Spain in 2015 and 2020. Only Italy shrank.',
+    varName: 'data',
+    source: 'inline',
+    setupCode: `import altair as alt
+import pandas as pd
+
+data = pd.DataFrame({
+    'country': ['France', 'Germany', 'UK', 'Italy', 'Spain', 'France', 'Germany', 'UK', 'Italy', 'Spain'],
+    'population': [66.55, 81.69, 65.12, 60.73, 46.44, 67.39, 83.24, 67.22, 59.55, 47.35],
+    'year': [2015, 2015, 2015, 2015, 2015, 2020, 2020, 2020, 2020, 2020]
+})
+`,
+    columns: [
+      { name: 'country', type: 'N', unique: 5, sample: 'France, Germany, UK, Italy, Spain' },
+      { name: 'population', type: 'Q', min: 46.44, max: 83.24, mean: 64.5 },
+      { name: 'year', type: 'O', unique: 2, sample: '2015, 2020' }
+    ],
+    rows: [
+      { country: 'France', population: 66.55, year: 2015 },
+      { country: 'Germany', population: 81.69, year: 2015 },
+      { country: 'UK', population: 65.12, year: 2015 },
+      { country: 'Italy', population: 60.73, year: 2015 },
+      { country: 'Spain', population: 46.44, year: 2015 },
+      { country: 'France', population: 67.39, year: 2020 },
+      { country: 'Germany', population: 83.24, year: 2020 },
+      { country: 'UK', population: 67.22, year: 2020 },
+      { country: 'Italy', population: 59.55, year: 2020 },
+      { country: 'Spain', population: 47.35, year: 2020 }
+    ]
+  },
+  priestley_exam: {
+    id: 'priestley_exam',
+    name: 'Monthly Income 2024, Two Entries per Month (final exam, Jan 2025)',
+    description: 'Two income entries per month, with the values printed on the exam\'s Priestley chart.',
+    varName: 'df',
+    source: 'inline',
+    setupCode: `import altair as alt
+import pandas as pd
+
+data = [
+    {"Month": "Jan", "Income": 1569, "Year": 2024, "Day": 1}, {"Month": "Jan", "Income": 2149, "Year": 2024, "Day": 1},
+    {"Month": "Feb", "Income": 1634, "Year": 2024, "Day": 1}, {"Month": "Feb", "Income": 2308, "Year": 2024, "Day": 1},
+    {"Month": "Mar", "Income": 1926, "Year": 2024, "Day": 1}, {"Month": "Mar", "Income": 2191, "Year": 2024, "Day": 1},
+    {"Month": "Apr", "Income": 2026, "Year": 2024, "Day": 1}, {"Month": "Apr", "Income": 2214, "Year": 2024, "Day": 1},
+    {"Month": "May", "Income": 1677, "Year": 2024, "Day": 1}, {"Month": "May", "Income": 2355, "Year": 2024, "Day": 1},
+    {"Month": "Jun", "Income": 1600, "Year": 2024, "Day": 1}, {"Month": "Jun", "Income": 1676, "Year": 2024, "Day": 1},
+    {"Month": "Jul", "Income": 1846, "Year": 2024, "Day": 1}, {"Month": "Jul", "Income": 2420, "Year": 2024, "Day": 1},
+    {"Month": "Aug", "Income": 2100, "Year": 2024, "Day": 1}, {"Month": "Aug", "Income": 2242, "Year": 2024, "Day": 1},
+    {"Month": "Sep", "Income": 1768, "Year": 2024, "Day": 1}, {"Month": "Sep", "Income": 2467, "Year": 2024, "Day": 1},
+    {"Month": "Oct", "Income": 1732, "Year": 2024, "Day": 1}, {"Month": "Oct", "Income": 1784, "Year": 2024, "Day": 1},
+    {"Month": "Nov", "Income": 2094, "Year": 2024, "Day": 1}, {"Month": "Nov", "Income": 2117, "Year": 2024, "Day": 1},
+    {"Month": "Dec", "Income": 1787, "Year": 2024, "Day": 1}, {"Month": "Dec", "Income": 1940, "Year": 2024, "Day": 1}
+]
+df = pd.DataFrame(data)
+`,
+    columns: [
+      { name: 'Month', type: 'N', unique: 12, sample: 'Jan, Feb, Mar .. Dec' },
+      { name: 'Income', type: 'Q', min: 1569, max: 2467, mean: 1984 },
+      { name: 'Year', type: 'O', unique: 1, sample: '2024' }
+    ],
+    rows: [
+      { Month: 'Jan', Income: 1569, Year: 2024, Day: 1 },
+      { Month: 'Jan', Income: 2149, Year: 2024, Day: 1 },
+      { Month: 'Feb', Income: 1634, Year: 2024, Day: 1 },
+      { Month: 'Feb', Income: 2308, Year: 2024, Day: 1 },
+      { Month: 'Mar', Income: 1926, Year: 2024, Day: 1 },
+      { Month: 'Mar', Income: 2191, Year: 2024, Day: 1 },
+      { Month: 'Apr', Income: 2026, Year: 2024, Day: 1 },
+      { Month: 'Apr', Income: 2214, Year: 2024, Day: 1 },
+      { Month: 'May', Income: 1677, Year: 2024, Day: 1 },
+      { Month: 'May', Income: 2355, Year: 2024, Day: 1 },
+      { Month: 'Jun', Income: 1600, Year: 2024, Day: 1 },
+      { Month: 'Jun', Income: 1676, Year: 2024, Day: 1 },
+      { Month: 'Jul', Income: 1846, Year: 2024, Day: 1 },
+      { Month: 'Jul', Income: 2420, Year: 2024, Day: 1 },
+      { Month: 'Aug', Income: 2100, Year: 2024, Day: 1 },
+      { Month: 'Aug', Income: 2242, Year: 2024, Day: 1 },
+      { Month: 'Sep', Income: 1768, Year: 2024, Day: 1 },
+      { Month: 'Sep', Income: 2467, Year: 2024, Day: 1 },
+      { Month: 'Oct', Income: 1732, Year: 2024, Day: 1 },
+      { Month: 'Oct', Income: 1784, Year: 2024, Day: 1 },
+      { Month: 'Nov', Income: 2094, Year: 2024, Day: 1 },
+      { Month: 'Nov', Income: 2117, Year: 2024, Day: 1 },
+      { Month: 'Dec', Income: 1787, Year: 2024, Day: 1 },
+      { Month: 'Dec', Income: 1940, Year: 2024, Day: 1 }
+    ]
+  },
   disasters: {
     id: 'disasters',
     name: 'Natural Disasters 1900-2017 (data.disasters)',

@@ -9786,5 +9786,724 @@
         }
       }
     ]
+  },
+  "exam-slope-italy": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "name": "data-39d5ee95530392ecd8f8234b15601e3e"
+    },
+    "datasets": {
+      "data-39d5ee95530392ecd8f8234b15601e3e": [
+        {
+          "country": "France",
+          "population": 66.55,
+          "year": 2015
+        },
+        {
+          "country": "Germany",
+          "population": 81.69,
+          "year": 2015
+        },
+        {
+          "country": "UK",
+          "population": 65.12,
+          "year": 2015
+        },
+        {
+          "country": "Italy",
+          "population": 60.73,
+          "year": 2015
+        },
+        {
+          "country": "Spain",
+          "population": 46.44,
+          "year": 2015
+        },
+        {
+          "country": "France",
+          "population": 67.39,
+          "year": 2020
+        },
+        {
+          "country": "Germany",
+          "population": 83.24,
+          "year": 2020
+        },
+        {
+          "country": "UK",
+          "population": 67.22,
+          "year": 2020
+        },
+        {
+          "country": "Italy",
+          "population": 59.55,
+          "year": 2020
+        },
+        {
+          "country": "Spain",
+          "population": 47.35,
+          "year": 2020
+        }
+      ]
+    },
+    "layer": [
+      {
+        "encoding": {
+          "color": {
+            "field": "country",
+            "type": "nominal"
+          },
+          "x": {
+            "field": "year",
+            "type": "nominal"
+          },
+          "y": {
+            "field": "population",
+            "scale": {
+              "domain": [
+                40,
+                90
+              ]
+            },
+            "title": "Population in millions",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "type": "line"
+        }
+      },
+      {
+        "encoding": {
+          "color": {
+            "field": "country",
+            "type": "nominal"
+          },
+          "shape": {
+            "condition": [
+              {
+                "test": "(datum.country === 'Italy')",
+                "value": "square"
+              }
+            ],
+            "value": "circle"
+          },
+          "size": {
+            "condition": [
+              {
+                "test": "(datum.country === 'Italy')",
+                "value": 150
+              }
+            ],
+            "value": 50
+          },
+          "x": {
+            "field": "year",
+            "type": "nominal"
+          },
+          "y": {
+            "field": "population",
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "filled": true,
+          "opacity": 1,
+          "size": 50,
+          "type": "point"
+        }
+      }
+    ],
+    "title": "Population 2015-2020",
+    "width": 200
+  },
+  "exam-bullet-dropdown": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "name": "data-575b4a128f529f137f6c0c1d1380da49"
+    },
+    "datasets": {
+      "data-575b4a128f529f137f6c0c1d1380da49": [
+        {
+          "level1": 75,
+          "level2": 100,
+          "level3": 150,
+          "month": "January",
+          "value": 115
+        },
+        {
+          "level1": 75,
+          "level2": 100,
+          "level3": 150,
+          "month": "February",
+          "value": 120
+        },
+        {
+          "level1": 75,
+          "level2": 100,
+          "level3": 150,
+          "month": "March",
+          "value": 80
+        }
+      ],
+      "data-a6a1d9b3c18a278947907df52496e0da": [
+        {
+          "month": "January",
+          "occupation": 80,
+          "year": 2022
+        },
+        {
+          "month": "February",
+          "occupation": 95,
+          "year": 2022
+        },
+        {
+          "month": "March",
+          "occupation": 60,
+          "year": 2022
+        },
+        {
+          "month": "January",
+          "occupation": 40,
+          "year": 2021
+        },
+        {
+          "month": "February",
+          "occupation": 95,
+          "year": 2021
+        },
+        {
+          "month": "March",
+          "occupation": 70,
+          "year": 2021
+        }
+      ]
+    },
+    "layer": [
+      {
+        "encoding": {
+          "x": {
+            "field": "level3",
+            "scale": {
+              "domain": [
+                0,
+                160
+              ]
+            },
+            "title": null,
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "color": "red",
+          "opacity": 0.5,
+          "size": 24,
+          "type": "bar"
+        },
+        "name": "view_36bb21dbcb0b0828_0"
+      },
+      {
+        "encoding": {
+          "x": {
+            "field": "level2",
+            "scale": {
+              "domain": [
+                0,
+                160
+              ]
+            },
+            "title": null,
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "color": "yellow",
+          "opacity": 0.5,
+          "size": 24,
+          "type": "bar"
+        }
+      },
+      {
+        "encoding": {
+          "x": {
+            "field": "level1",
+            "scale": {
+              "domain": [
+                0,
+                160
+              ]
+            },
+            "title": null,
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "color": "green",
+          "opacity": 0.5,
+          "size": 24,
+          "type": "bar"
+        }
+      },
+      {
+        "encoding": {
+          "x": {
+            "field": "value",
+            "scale": {
+              "domain": [
+                0,
+                160
+              ]
+            },
+            "title": null,
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "color": "black",
+          "opacity": 1,
+          "size": 4,
+          "type": "bar"
+        }
+      },
+      {
+        "encoding": {
+          "x": {
+            "field": "value",
+            "scale": {
+              "domain": [
+                0,
+                160
+              ]
+            },
+            "title": null,
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "fill": "yellow",
+          "filled": true,
+          "opacity": 1,
+          "size": 70,
+          "stroke": "black",
+          "strokeWidth": 1,
+          "type": "point"
+        }
+      },
+      {
+        "encoding": {
+          "text": {
+            "field": "month",
+            "type": "nominal"
+          }
+        },
+        "mark": {
+          "align": "right",
+          "dx": -160,
+          "dy": 1,
+          "type": "text"
+        }
+      },
+      {
+        "data": {
+          "name": "data-a6a1d9b3c18a278947907df52496e0da"
+        },
+        "encoding": {
+          "x": {
+            "field": "historic_occupation",
+            "title": null,
+            "type": "quantitative"
+          }
+        },
+        "mark": {
+          "color": "purple",
+          "opacity": 1,
+          "size": 30,
+          "thickness": 2,
+          "type": "tick"
+        },
+        "transform": [
+          {
+            "aggregate": [
+              {
+                "as": "historic_occupation",
+                "field": "occupation",
+                "op": "mean"
+              }
+            ],
+            "groupby": [
+              "month"
+            ]
+          },
+          {
+            "from": {
+              "data": {
+                "name": "data-575b4a128f529f137f6c0c1d1380da49"
+              },
+              "fields": [
+                "level1",
+                "level2",
+                "level3",
+                "value"
+              ],
+              "key": "month"
+            },
+            "lookup": "month"
+          },
+          {
+            "filter": {
+              "param": "param_7f80579a943b838d"
+            }
+          }
+        ]
+      }
+    ],
+    "params": [
+      {
+        "bind": {
+          "input": "select",
+          "name": "Month",
+          "options": [
+            "January",
+            "February",
+            "March"
+          ]
+        },
+        "name": "param_7f80579a943b838d",
+        "select": {
+          "fields": [
+            "month"
+          ],
+          "type": "point"
+        },
+        "value": "January",
+        "views": [
+          "view_36bb21dbcb0b0828_0"
+        ]
+      }
+    ],
+    "transform": [
+      {
+        "filter": {
+          "param": "param_7f80579a943b838d"
+        }
+      }
+    ]
+  },
+  "exam-priestley-aggregate": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v6.4.1.json",
+    "config": {
+      "view": {
+        "continuousHeight": 300,
+        "continuousWidth": 300
+      }
+    },
+    "data": {
+      "name": "data-ca94d29f44bba67f61b2d995f9d80f8a"
+    },
+    "datasets": {
+      "data-ca94d29f44bba67f61b2d995f9d80f8a": [
+        {
+          "Day": 1,
+          "Income": 1569,
+          "Month": "Jan",
+          "Year": 2024
+        },
+        {
+          "Day": 1,
+          "Income": 2149,
+          "Month": "Jan",
+          "Year": 2024
+        },
+        {
+          "Day": 1,
+          "Income": 1634,
+          "Month": "Feb",
+          "Year": 2024
+        },
+        {
+          "Day": 1,
+          "Income": 2308,
+          "Month": "Feb",
+          "Year": 2024
+        },
+        {
+          "Day": 1,
+          "Income": 1926,
+          "Month": "Mar",
+          "Year": 2024
+        },
+        {
+          "Day": 1,
+          "Income": 2191,
+          "Month": "Mar",
+          "Year": 2024
+        },
+        {
+          "Day": 1,
+          "Income": 2026,
+          "Month": "Apr",
+          "Year": 2024
+        },
+        {
+          "Day": 1,
+          "Income": 2214,
+          "Month": "Apr",
+          "Year": 2024
+        },
+        {
+          "Day": 1,
+          "Income": 1677,
+          "Month": "May",
+          "Year": 2024
+        },
+        {
+          "Day": 1,
+          "Income": 2355,
+          "Month": "May",
+          "Year": 2024
+        },
+        {
+          "Day": 1,
+          "Income": 1600,
+          "Month": "Jun",
+          "Year": 2024
+        },
+        {
+          "Day": 1,
+          "Income": 1676,
+          "Month": "Jun",
+          "Year": 2024
+        },
+        {
+          "Day": 1,
+          "Income": 1846,
+          "Month": "Jul",
+          "Year": 2024
+        },
+        {
+          "Day": 1,
+          "Income": 2420,
+          "Month": "Jul",
+          "Year": 2024
+        },
+        {
+          "Day": 1,
+          "Income": 2100,
+          "Month": "Aug",
+          "Year": 2024
+        },
+        {
+          "Day": 1,
+          "Income": 2242,
+          "Month": "Aug",
+          "Year": 2024
+        },
+        {
+          "Day": 1,
+          "Income": 1768,
+          "Month": "Sep",
+          "Year": 2024
+        },
+        {
+          "Day": 1,
+          "Income": 2467,
+          "Month": "Sep",
+          "Year": 2024
+        },
+        {
+          "Day": 1,
+          "Income": 1732,
+          "Month": "Oct",
+          "Year": 2024
+        },
+        {
+          "Day": 1,
+          "Income": 1784,
+          "Month": "Oct",
+          "Year": 2024
+        },
+        {
+          "Day": 1,
+          "Income": 2094,
+          "Month": "Nov",
+          "Year": 2024
+        },
+        {
+          "Day": 1,
+          "Income": 2117,
+          "Month": "Nov",
+          "Year": 2024
+        },
+        {
+          "Day": 1,
+          "Income": 1787,
+          "Month": "Dec",
+          "Year": 2024
+        },
+        {
+          "Day": 1,
+          "Income": 1940,
+          "Month": "Dec",
+          "Year": 2024
+        }
+      ]
+    },
+    "layer": [
+      {
+        "encoding": {
+          "color": {
+            "field": "Month",
+            "scale": {
+              "scheme": "category20"
+            },
+            "type": "nominal"
+          },
+          "x": {
+            "field": "Income",
+            "scale": {
+              "domain": [
+                1000,
+                2800
+              ]
+            },
+            "title": "Income",
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "Month",
+            "sort": [
+              "Jan",
+              "Feb",
+              "Mar",
+              "Apr",
+              "May",
+              "Jun",
+              "Jul",
+              "Aug",
+              "Sep",
+              "Oct",
+              "Nov",
+              "Dec"
+            ],
+            "type": "nominal"
+          }
+        },
+        "mark": {
+          "strokeWidth": 20,
+          "type": "line"
+        },
+        "title": "Priestley chart"
+      },
+      {
+        "encoding": {
+          "text": {
+            "field": "minIncome",
+            "type": "quantitative"
+          },
+          "x": {
+            "field": "minIncome",
+            "title": "",
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "Month",
+            "sort": [
+              "Jan",
+              "Feb",
+              "Mar",
+              "Apr",
+              "May",
+              "Jun",
+              "Jul",
+              "Aug",
+              "Sep",
+              "Oct",
+              "Nov",
+              "Dec"
+            ],
+            "type": "nominal"
+          }
+        },
+        "mark": {
+          "type": "text",
+          "xOffset": -20
+        },
+        "transform": [
+          {
+            "aggregate": [
+              {
+                "as": "minIncome",
+                "field": "Income",
+                "op": "min"
+              }
+            ],
+            "groupby": [
+              "Month"
+            ]
+          }
+        ]
+      },
+      {
+        "encoding": {
+          "text": {
+            "field": "maxIncome",
+            "type": "quantitative"
+          },
+          "x": {
+            "field": "maxIncome",
+            "title": "",
+            "type": "quantitative"
+          },
+          "y": {
+            "field": "Month",
+            "sort": [
+              "Jan",
+              "Feb",
+              "Mar",
+              "Apr",
+              "May",
+              "Jun",
+              "Jul",
+              "Aug",
+              "Sep",
+              "Oct",
+              "Nov",
+              "Dec"
+            ],
+            "type": "nominal"
+          }
+        },
+        "mark": {
+          "type": "text",
+          "xOffset": 20
+        },
+        "transform": [
+          {
+            "aggregate": [
+              {
+                "as": "maxIncome",
+                "field": "Income",
+                "op": "max"
+              }
+            ],
+            "groupby": [
+              "Month"
+            ]
+          }
+        ]
+      }
+    ]
   }
 }
